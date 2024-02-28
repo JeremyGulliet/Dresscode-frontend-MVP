@@ -28,6 +28,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="DressingScreen" component={DressingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

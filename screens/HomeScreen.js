@@ -1,9 +1,13 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Text>HOME SCREEN</Text>
+
+            <Button title="Got To Dressing"
+                onPress={() => navigation.navigate('DressingScreen')}
+            />
 
         </View>
     )
