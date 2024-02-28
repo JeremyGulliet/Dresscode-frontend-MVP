@@ -1,9 +1,12 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function SearchScreen() {
+export default function SearchScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Text>SEARCH SCREEN</Text>
+            <Button title="Got To Dressing"
+                onPress={() => navigation.navigate('DressingScreen')}
+            />
 
         </View>
     )

@@ -7,6 +7,9 @@ export default function SignInScreen({ navigation }) {
             <Button title="Connexion"
                 onPress={() => navigation.navigate('TabNavigator')}
             />
+            <Button title="Inscription"
+                onPress={() => navigation.navigate('SignUp')}
+            />
         </View>
     )
 }
