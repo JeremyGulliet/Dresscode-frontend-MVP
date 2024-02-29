@@ -5,8 +5,20 @@ export default function DressingScreen({ navigation }) {
         <View style={styles.container}>
             <Text>Dressing SCREEN</Text>
 
-            <Button title="Got To User Screen"
+            <Button title="Go To User Screen"
                 onPress={() => navigation.navigate('UserScreen')}
+            />
+
+            <Button title="Go To Search Screen"
+                onPress={() => navigation.navigate('SearchScreen')}
+            />
+
+            <Button title="Go to home"
+                onPress={() => navigation.navigate('Home')}
+            />
+
+            <Button title="Got To Add Article Screen"
+                onPress={() => navigation.navigate('AddArticleScreen')}
             />
 
         </View>

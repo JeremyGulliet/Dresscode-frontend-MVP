@@ -19,10 +19,10 @@ import ValidateImportScreen from './screens/ValidateImportScreen';
 
 
 
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TabNavigator = () => {
+/*const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -30,15 +30,16 @@ const TabNavigator = () => {
       <Tab.Screen name="Search" component={SearchScreen} />
     </Tab.Navigator>
   );
-}
+}*/
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="DressingScreen" component={DressingScreen} />
         <Stack.Screen name="AddArticleScreen" component={AddArticleScreen} />
         <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
