@@ -1,27 +1,70 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from "react-native";
 
-export default function AddArticleScreen({ navigation }) {
-    return (
-        <View style={styles.container}>
-            <Text>Add Article SCREEN</Text>
+import { StyleSheet, Text, View } from "react-native";
+import HeaderCompo from "../components/headerCompo.js";
+import FooterCompo from "../components/footerCompo.js";
 
-            <Button title="Got To Camera"
-                onPress={() => navigation.navigate('CameraScreen')}
-            />
-
-            <Button title="Got To Import"
-                onPress={() => navigation.navigate('ImportScreen')}
-            />
-
+export default function TemplateHeaderFooterScreen() {
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.notifBar}>
+        <View style={styles.headerContainer}>
+          <HeaderCompo />
         </View>
-    )
+      </View>
+
+      <View style={styles.contentContainer}>
+        <Text>Add Article SCREEN</Text>
+        <View style={styles.meteoFrame}></View>
+        <Button
+          title="Go To Camera"
+          onPress={() => navigation.navigate("CameraScreen")}
+        />
+
+        <Button
+          title="Go To Import"
+          onPress={() => navigation.navigate("ImportScreen")}
+        />
+      </View>
+
+      <FooterCompo />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notifBar: {
+    flex: 2,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    backgroundColor: "#0E0E6661",
+    // marginTop: 40,
+  },
+
+  headerContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
+
+  contentContainer: {
+    flex: 12,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+  },
+  footerContainer: {
+    flex: 1,
+    backgroundColor: "green",
+    width: "100%",
+  },
 });
