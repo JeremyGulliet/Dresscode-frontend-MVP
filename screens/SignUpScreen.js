@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { login } from '../reducers/user';
+import { useSelector } from 'react-redux';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -18,10 +20,11 @@ const SignUp = () => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch('URL_DU_BACKEND', {
+    fetch('http://192.168.1.41:3000/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,8 +45,12 @@ const SignUp = () => {
       .then((data) => {
         // Gestion de la réponse du backend
         console.log(data);
-        data.result && dispatch(login({ token: data.token, username, email }));
-        navigation.navigate('AddArticleScreen');
+        if (data.result) {
+          dispatch(login({ token: data.token, username, email }));
+          navigation.navigate('AddArticleScreen');
+        } else {
+          console.error("Erreur lors de l'inscription: ", data.error);
+        }
       })
       .catch((error) => {
         // Gestion des erreurs de requête
@@ -67,23 +74,23 @@ const SignUp = () => {
           style={styles.input}
           placeholder='Username'
           value={username}
-          onChangeText={setUsername}
+          onChangeText={(value) => setUsername(value)}
         />
         <TextInput
           style={styles.input}
           placeholder='Email'
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(value) => setEmail(value)}
         />
         <TextInput
           style={styles.input}
           placeholder='Password'
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(value) => setPassword(value)}
           secureTextEntry
         />
         {/* Bouton pour l'inscription */}
-        <TouchableOpacity style={styles.btn} onPress={handleRegister}>
+        <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
           <Text style={styles.btnText}>Register</Text>
         </TouchableOpacity>
         {/* Lien vers la page de connexion */}
