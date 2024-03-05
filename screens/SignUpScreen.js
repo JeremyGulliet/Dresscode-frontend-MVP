@@ -7,6 +7,8 @@ import {
   View,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -60,62 +62,64 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {/* Affichage du logo */}
-        <Image
-          source={require('../assets/logo.png')}
-          style={{ width: 250, height: 150 }}
-        ></Image>
-      </View>
-
-      <View>
-        {/* Champs de saisie pour l'inscription */}
-        <TextInput
-          style={styles.input}
-          placeholder='Username'
-          value={username}
-          onChangeText={(value) => setUsername(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-          secureTextEntry
-        />
-        {/* Bouton pour l'inscription */}
-        <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
-          <Text style={styles.btnText}>Register</Text>
-        </TouchableOpacity>
-        {/* Lien vers la page de connexion */}
-        <Text
-          style={styles.login}
-          onPress={() => navigation.navigate('SignIn')}
-        >
-          Déjà inscrit ? Connexion
-        </Text>
-        {/* Affichage des logos de connexion */}
-        <View style={styles.loginLogo}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View>
+          {/* Affichage du logo */}
           <Image
-            source={require('../assets/loginMicrosoft.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginGoogle.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginApple.png')}
-            style={{ width: 50, height: 50 }}
-          />
+            source={require('../assets/logo.png')}
+            style={{ width: 250, height: 150 }}
+          ></Image>
         </View>
-      </View>
+
+        <View>
+          {/* Champs de saisie pour l'inscription */}
+          <TextInput
+            style={styles.input}
+            placeholder='Username'
+            value={username}
+            onChangeText={(value) => setUsername(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Email'
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Password'
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry
+          />
+          {/* Bouton pour l'inscription */}
+          <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
+            <Text style={styles.btnText}>Register</Text>
+          </TouchableOpacity>
+          {/* Lien vers la page de connexion */}
+          <Text
+            style={styles.login}
+            onPress={() => navigation.navigate('SignIn')}
+          >
+            Déjà inscrit ? Connexion
+          </Text>
+          {/* Affichage des logos de connexion */}
+          <View style={styles.loginLogo}>
+            <Image
+              source={require('../assets/loginMicrosoft.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginGoogle.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginApple.png')}
+              style={{ width: 50, height: 50 }}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

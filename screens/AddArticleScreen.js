@@ -23,9 +23,8 @@ export default function AddArticleScreen({ navigation }) {
                 </View>
             </View>
 
-      <FooterCompo />
-    </View>
-  );
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

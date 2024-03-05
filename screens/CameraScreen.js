@@ -12,9 +12,11 @@ export default function CameraScreen({ navigation }) {
     const [hasPermission, setHasPermission] = useState(false);
     const [type, setType] = useState(CameraType.back);
     const [flashMode, setFlashMode] = useState(FlashMode.off);
+    const [urlPhoto, setUrlPhoto] = useState('');
 
     let cameraRef = useRef(null);
 
+    // Autorisation pour utiliser l'appareil photo
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
@@ -22,18 +24,41 @@ export default function CameraScreen({ navigation }) {
         })();
     }, []);
 
+    // Fonction pour la prise de photo et l'envoi sur Cloudinairy
     const takePicture = async () => {
         const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
         console.log(photo);
-    }
+        const uri = photo.uri;
 
+
+        const formData = new FormData();
+
+        formData.append('photoFromFront', {
+            uri: uri,
+            name: 'photo.jpg',
+            type: 'image/jpeg',
+        });
+
+        fetch('http://192.168.1.41:3000/upload', {
+            method: 'POST',
+            body: formData,
+        }).then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setUrlPhoto(data)
+            });
+
+    }
+    // Désactiver la caméra en arrière plan quand changement d'écran
     if (!hasPermission || !isFocused) {
         return <View />;
     }
 
 
     return (
+
         <Camera type={type} flashMode={flashMode} ref={(ref) => cameraRef = ref} style={styles.camera}>
+            {/* Boutons Flash et changement de camera */}
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                     onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
@@ -49,23 +74,19 @@ export default function CameraScreen({ navigation }) {
                     <FontAwesome name='flash' size={25} color={flashMode === FlashMode.off ? '#ffffff' : '#e8be4b'} />
                 </TouchableOpacity>
             </View>
-            <View style={styles.container}>
-                <Text>Camera SCREEN</Text>
+            {/* Boutons retour arrière et prise de photo*/}
+            <View style={styles.bottomContainer}>
+                <View style={styles.backContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate('AddArticleScreen')}>
+                        <FontAwesome name='arrow-circle-left' size={50} color='#ffffff' />
+                    </TouchableOpacity>
+                </View>
 
-                <Button title="Go To Add Article Screen"
-                    onPress={() => navigation.navigate('AddArticleScreen')}
-                />
-
-                <Button title="Go To ValidateCamera"
-                    onPress={() => navigation.navigate('ValidateCameraScreen')}
-                />
-
-            </View>
-
-            <View style={styles.snapContainer}>
-                <TouchableOpacity onPress={() => cameraRef && takePicture()}>
-                    <FontAwesome name='circle-thin' size={95} color='#ffffff' />
-                </TouchableOpacity>
+                <View style={styles.snapContainer}>
+                    <TouchableOpacity onPress={() => cameraRef && takePicture() && navigation.navigate('ValidateCameraScreen', { urlPhoto })}>
+                        <FontAwesome name='circle-thin' size={95} color='#ffffff' />
+                    </TouchableOpacity>
+                </View>
             </View>
         </Camera>
 
@@ -73,10 +94,43 @@ export default function CameraScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    camera: {
         flex: 1,
-        backgroundColor: '#fff',
+    },
+    buttonsContainer: {
+        flex: 0.1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        paddingTop: 50,
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    button: {
+        width: 44,
+        height: 44,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: 50,
     },
+    snapContainer: {
+        marginRight: 50,
+
+    },
+
+    backContainer: {
+        marginRight: 100,
+
+    },
+
+    bottomContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-evenly',
+        marginRight: 100,
+        marginBottom: 50,
+
+    }
 });
