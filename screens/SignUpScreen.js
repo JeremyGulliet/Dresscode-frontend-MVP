@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,16 +9,16 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { login } from '../reducers/user';
-import { useSelector } from 'react-redux';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
+import { useSelector } from "react-redux";
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -26,10 +26,10 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch('http://192.168.1.41:3000/users/signup', {
-      method: 'POST',
+    fetch("http://192.168.1.138:3000/users/signup", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: username,
@@ -40,7 +40,7 @@ const SignUp = () => {
       .then((response) => {
         // Vérification de la réponse du backend
         if (!response.ok) {
-          throw new Error('Erreur lors de la requête');
+          throw new Error("Erreur lors de la requête");
         }
         return response.json();
       })
@@ -49,7 +49,7 @@ const SignUp = () => {
         console.log(data);
         if (data.result) {
           dispatch(login({ token: data.token, username, email }));
-          navigation.navigate('AddArticleScreen');
+          navigation.navigate("AddArticleScreen");
         } else {
           console.error("Erreur lors de l'inscription: ", data.error);
         }
@@ -66,7 +66,7 @@ const SignUp = () => {
         <View>
           {/* Affichage du logo */}
           <Image
-            source={require('../assets/logo.png')}
+            source={require("../assets/logo.png")}
             style={{ width: 250, height: 150 }}
           ></Image>
         </View>
@@ -75,19 +75,19 @@ const SignUp = () => {
           {/* Champs de saisie pour l'inscription */}
           <TextInput
             style={styles.input}
-            placeholder='Username'
+            placeholder="Username"
             value={username}
             onChangeText={(value) => setUsername(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder='Email'
+            placeholder="Email"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder='Password'
+            placeholder="Password"
             value={password}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry
@@ -99,22 +99,22 @@ const SignUp = () => {
           {/* Lien vers la page de connexion */}
           <Text
             style={styles.login}
-            onPress={() => navigation.navigate('SignIn')}
+            onPress={() => navigation.navigate("SignIn")}
           >
             Déjà inscrit ? Connexion
           </Text>
           {/* Affichage des logos de connexion */}
           <View style={styles.loginLogo}>
             <Image
-              source={require('../assets/loginMicrosoft.png')}
+              source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require('../assets/loginGoogle.png')}
+              source={require("../assets/loginGoogle.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require('../assets/loginApple.png')}
+              source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
           </View>
@@ -127,20 +127,20 @@ const SignUp = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   input: {
     // Style des champs de saisie
     height: 60,
     width: 350,
-    backgroundColor: '#e5e6e6',
-    color: 'black',
+    backgroundColor: "#e5e6e6",
+    color: "black",
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
@@ -150,30 +150,30 @@ const styles = StyleSheet.create({
     // Style du bouton d'inscription
     paddingVertical: 18,
     marginVertical: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 8,
-    backgroundColor: '#0E0E66',
+    backgroundColor: "#0E0E66",
   },
   btnText: {
     // Style du texte du bouton d'inscription
     fontSize: 16,
-    color: 'white',
+    color: "white",
   },
   login: {
     // Style du lien vers la page de connexion
     marginBottom: 30,
-    color: 'gray',
-    justifyContent: 'center',
-    alignItems: 'center',
+    color: "gray",
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 16,
   },
   loginLogo: {
     // Style de la section des logos de connexion
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
