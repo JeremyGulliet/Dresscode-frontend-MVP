@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { UseDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
