@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import SvgUri from "react-native-svg-uri";
 import DefaultUserPic from "../assets/defaultUserPic.svg";
+import { useSelector } from "react-redux";
 
 function UserCompo() {
+  const user = useSelector((state) => state.user.value);
   return (
     <View style={styles.userPicContainer}>
       <SvgUri
@@ -12,7 +14,7 @@ function UserCompo() {
         width={35}
         height={35}
       />
-      <Text style={styles.userNameText}>Username</Text>
+      <Text style={styles.userNameText}>{user.username}</Text>
     </View>
   );
 }

@@ -27,7 +27,7 @@ export default function CameraScreen({ navigation }) {
     // Fonction pour la prise de photo et l'envoi sur Cloudinairy
     const takePicture = async () => {
         const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-        console.log(photo);
+        //console.log(photo);
         const uri = photo.uri;
 
 
@@ -39,13 +39,14 @@ export default function CameraScreen({ navigation }) {
             type: 'image/jpeg',
         });
 
-        fetch('http://192.168.1.41:3000/upload', {
+        fetch('http://192.168.1.41:3000/articles/upload', {
             method: 'POST',
             body: formData,
         }).then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setUrlPhoto(data)
+                setUrlPhoto(data.url)
+                navigation.navigate('ValidateCameraScreen', { url: data.url });
             });
 
     }
@@ -77,13 +78,13 @@ export default function CameraScreen({ navigation }) {
             {/* Boutons retour arrière et prise de photo*/}
             <View style={styles.bottomContainer}>
                 <View style={styles.backContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('AddArticleScreen')}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <FontAwesome name='arrow-circle-left' size={50} color='#ffffff' />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.snapContainer}>
-                    <TouchableOpacity onPress={() => cameraRef && takePicture() && navigation.navigate('ValidateCameraScreen', { urlPhoto })}>
+                    <TouchableOpacity onPress={() => cameraRef && takePicture()}>
                         <FontAwesome name='circle-thin' size={95} color='#ffffff' />
                     </TouchableOpacity>
                 </View>

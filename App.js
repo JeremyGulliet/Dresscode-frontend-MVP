@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';

@@ -1,9 +1,14 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React, { useState } from 'react';
 
-export default function ValidateCameraScreen({ navigation }) {
+export default function ValidateCameraScreen({ navigation, route }) {
+    const { url } = route.params;
+
+
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.notifBar}>
@@ -14,8 +19,9 @@ export default function ValidateCameraScreen({ navigation }) {
 
             <View style={styles.contentContainer}>
                 <View style={styles.imageContainer}>
-                    <Text>IMAGE</Text>
+                    <Image source={{ uri: url }} style={styles.image} />
                 </View>
+
                 <View style={styles.descriptionContainer}>
                     <Button title="Go To Camera"
                         onPress={() => navigation.navigate('CameraScreen')}
@@ -24,17 +30,13 @@ export default function ValidateCameraScreen({ navigation }) {
                     <Button title="Go To Dressing"
                         onPress={() => navigation.navigate('DressingScreen')}
                     />
+
+
                 </View>
 
             </View>
 
-
-            <View style={styles.backContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddArticleScreen')}>
-                    <FontAwesome name='arrow-circle-left' size={50} color='#ffffff' />
-                </TouchableOpacity>
-            </View>
-
+            <FooterCompo navigation={navigation} />
         </View>
     )
 }
@@ -69,22 +71,29 @@ const styles = StyleSheet.create({
         backgroundColor: "whitesmoke",
         width: "100%",
     },
-    footerContainer: {
-        flex: 1,
-        backgroundColor: "green",
-        width: "100%",
-    },
+
 
     imageContainer: {
-        flex: 2,
-        backgroundColor: 'blue',
-        width: "100%",
+        flex: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "80%",
+        height: '80%',
+
     },
 
     descriptionContainer: {
-        flex: 5,
-        backgroundColor: 'red',
+        flex: 4,
+        borderTopWidth: 2,
         width: "100%"
+    },
+
+    image: {
+        width: '80%',
+        height: '80%',
+        borderRadius: 10,
+
+
     }
 
 });

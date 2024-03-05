@@ -7,6 +7,8 @@ import {
   View,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import du hook useNavigation pour la navigation
 import { useDispatch } from 'react-redux'; // Import de useDispatch pour envoyer des actions Redux
@@ -46,6 +48,8 @@ const SignInScreen = () => {
             login({ token: data.token, username: data.username, email: email })
           ); // Dispatch de l'action login avec le token, le nom d'utilisateur et l'email
           navigation.navigate('Home'); // Navigation vers l'écran d'accueil
+          setEmail('');
+          setPassword('');
         } else {
           console.error('Erreur lors de la connexion: ', data.error); // Affichage de l'erreur dans la console
         }
@@ -57,52 +61,54 @@ const SignInScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Image
-          source={require('../assets/logo.png')}
-          style={{ width: 250, height: 150 }}
-        />
-      </View>
-
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-          secureTextEntry // Pour masquer le texte saisi
-        />
-        <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
-          <Text style={styles.btnText}>Connexion</Text>
-        </TouchableOpacity>
-        <Text
-          style={styles.register}
-          onPress={() => navigation.navigate('SignUp')}
-        >
-          Pas encore inscrit ? S'inscrire
-        </Text>
-        <View style={styles.loginLogo}>
-          {/* Images des logos de connexion */}
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View>
           <Image
-            source={require('../assets/loginMicrosoft.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginGoogle.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginApple.png')}
-            style={{ width: 50, height: 50 }}
+            source={require('../assets/logo.png')}
+            style={{ width: 250, height: 150 }}
           />
         </View>
-      </View>
+
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder='Email'
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Password'
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry // Pour masquer le texte saisi
+          />
+          <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
+            <Text style={styles.btnText}>Connexion</Text>
+          </TouchableOpacity>
+          <Text
+            style={styles.register}
+            onPress={() => navigation.navigate('SignUp')}
+          >
+            Pas encore inscrit ? S'inscrire
+          </Text>
+          <View style={styles.loginLogo}>
+            {/* Images des logos de connexion */}
+            <Image
+              source={require('../assets/loginMicrosoft.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginGoogle.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginApple.png')}
+              style={{ width: 50, height: 50 }}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

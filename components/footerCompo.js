@@ -1,8 +1,15 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-function footerCompo() {
-  return <View style={styles.container}></View>;
+function footerCompo({ navigation }) {
+  return <View style={styles.container}>
+    <View style={styles.backContainer}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <FontAwesome name='arrow-circle-left' size={40} color='#ffffff' />
+      </TouchableOpacity>
+    </View>
+  </View>;
 }
 
 const styles = StyleSheet.create({
@@ -14,6 +21,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0E0E66",
   },
+
+  backContainer: {
+    marginLeft: 40,
+
+  },
+
 });
 
 export default footerCompo;
