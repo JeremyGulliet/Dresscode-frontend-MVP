@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, useRef } from "react";
+import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Camera, CameraType, FlashMode } from "expo-camera";
+import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function CameraScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export default function CameraScreen({ navigation }) {
     const [hasPermission, setHasPermission] = useState(false);
     const [type, setType] = useState(CameraType.back);
     const [flashMode, setFlashMode] = useState(FlashMode.off);
-    const [urlPhoto, setUrlPhoto] = useState('');
+    const [urlPhoto, setUrlPhoto] = useState("");
 
     let cameraRef = useRef(null);
 
@@ -20,7 +20,7 @@ export default function CameraScreen({ navigation }) {
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted');
+            setHasPermission(status === "granted");
         })();
     }, []);
 
@@ -33,10 +33,10 @@ export default function CameraScreen({ navigation }) {
 
         const formData = new FormData();
 
-        formData.append('photoFromFront', {
+        formData.append("photoFromFront", {
             uri: uri,
-            name: 'photo.jpg',
-            type: 'image/jpeg',
+            name: "photo.jpg",
+            type: "image/jpeg",
         });
 
         fetch('http://192.168.1.41:3000/articles/upload', {
@@ -57,15 +57,23 @@ export default function CameraScreen({ navigation }) {
 
 
     return (
-
-        <Camera type={type} flashMode={flashMode} ref={(ref) => cameraRef = ref} style={styles.camera}>
+        <Camera
+            type={type}
+            flashMode={flashMode}
+            ref={(ref) => (cameraRef = ref)}
+            style={styles.camera}
+        >
             {/* Boutons Flash et changement de camera */}
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                    onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
+                    onPress={() =>
+                        setType(
+                            type === CameraType.back ? CameraType.front : CameraType.back
+                        )
+                    }
                     style={styles.button}
                 >
-                    <FontAwesome name='rotate-right' size={25} color='#ffffff' />
+                    <FontAwesome name="rotate-right" size={25} color="#ffffff" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -100,9 +108,9 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flex: 0.1,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "space-between",
         paddingTop: 50,
         paddingLeft: 20,
         paddingRight: 20,
@@ -110,28 +118,25 @@ const styles = StyleSheet.create({
     button: {
         width: 44,
         height: 44,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.2)",
         borderRadius: 50,
     },
     snapContainer: {
         marginRight: 50,
-
     },
 
     backContainer: {
         marginRight: 100,
-
     },
 
     bottomContainer: {
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'space-evenly',
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "space-evenly",
         marginRight: 100,
         marginBottom: 50,
-
-    }
+    },
 });
