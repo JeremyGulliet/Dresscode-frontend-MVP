@@ -3,11 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 
 import HomeScreen from './screens/HomeScreen';
 import SignInScreen from './screens/SignInScreen';
@@ -22,13 +20,11 @@ import UserScreen from './screens/UserScreen';
 import ValidateCameraScreen from './screens/ValidateCameraScreen';
 import ValidateImportScreen from './screens/ValidateImportScreen';
 
-import user from './reducers/user'
+import user from './reducers/user';
 
 const store = configureStore({
   reducer: { user },
 });
-
-
 
 const Stack = createNativeStackNavigator();
 //const Tab = createBottomTabNavigator();
@@ -46,19 +42,28 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} />
-          <Stack.Screen name="DressingScreen" component={DressingScreen} />
-          <Stack.Screen name="AddArticleScreen" component={AddArticleScreen} />
-          <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
-          <Stack.Screen name="CameraScreen" component={CameraScreen} />
-          <Stack.Screen name="ImportScreen" component={ImportScreen} />
-          <Stack.Screen name="UserScreen" component={UserScreen} />
-          <Stack.Screen name="ValidateCameraScreen" component={ValidateCameraScreen} />
-          <Stack.Screen name="ValidateImportScreen" component={ValidateImportScreen} />
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName='Home'
+        >
+          <Stack.Screen name='SignIn' component={SignInScreen} />
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='SignUp' component={SignUpScreen} />
+          <Stack.Screen name='SearchScreen' component={SearchScreen} />
+          <Stack.Screen name='DressingScreen' component={DressingScreen} />
+          <Stack.Screen name='AddArticleScreen' component={AddArticleScreen} />
+          <Stack.Screen name='ArticleScreen' component={ArticleScreen} />
+          <Stack.Screen name='CameraScreen' component={CameraScreen} />
+          <Stack.Screen name='ImportScreen' component={ImportScreen} />
+          <Stack.Screen name='UserScreen' component={UserScreen} />
+          <Stack.Screen
+            name='ValidateCameraScreen'
+            component={ValidateCameraScreen}
+          />
+          <Stack.Screen
+            name='ValidateImportScreen'
+            component={ValidateImportScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
