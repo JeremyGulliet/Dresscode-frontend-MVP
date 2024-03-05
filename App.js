@@ -34,10 +34,8 @@ const store = configureStore({
 // const persistor = persistStore(store); //persist Store React native à activer à la fin
 
 const store = configureStore({
-  reducer: {},
+  reducer: { user },
 });
-
-
 
 const Stack = createNativeStackNavigator();
 //const Tab = createBottomTabNavigator();
@@ -58,18 +56,24 @@ export default function App() {
 
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} />
-          <Stack.Screen name="DressingScreen" component={DressingScreen} />
-          <Stack.Screen name="AddArticleScreen" component={AddArticleScreen} />
-          <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
-          <Stack.Screen name="CameraScreen" component={CameraScreen} />
-          <Stack.Screen name="ImportScreen" component={ImportScreen} />
-          <Stack.Screen name="UserScreen" component={UserScreen} />
-          <Stack.Screen name="ValidateCameraScreen" component={ValidateCameraScreen} />
-          <Stack.Screen name="ValidateImportScreen" component={ValidateImportScreen} />
+          <Stack.Screen name='SignIn' component={SignInScreen} />
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='SignUp' component={SignUpScreen} />
+          <Stack.Screen name='SearchScreen' component={SearchScreen} />
+          <Stack.Screen name='DressingScreen' component={DressingScreen} />
+          <Stack.Screen name='AddArticleScreen' component={AddArticleScreen} />
+          <Stack.Screen name='ArticleScreen' component={ArticleScreen} />
+          <Stack.Screen name='CameraScreen' component={CameraScreen} />
+          <Stack.Screen name='ImportScreen' component={ImportScreen} />
+          <Stack.Screen name='UserScreen' component={UserScreen} />
+          <Stack.Screen
+            name='ValidateCameraScreen'
+            component={ValidateCameraScreen}
+          />
+          <Stack.Screen
+            name='ValidateImportScreen'
+            component={ValidateImportScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
 
@@ -77,4 +81,3 @@ export default function App() {
     </Provider>
   );
 }
-
