@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -11,7 +12,27 @@ import {
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import React, { useState } from "react";
+
+import RNPickerSelect from "react-native-picker-select";
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    width: "50%",
+  },
+  inputAndroid: {
+    fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    width: "50%",
+  },
+});
 
 export default function ValidateCameraScreen({ navigation, route }) {
   const { url } = route.params;
@@ -66,10 +87,18 @@ export default function ValidateCameraScreen({ navigation, route }) {
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Catégorie : </Text>
-              <TextInput
-                style={[styles.input, styles.category]}
-                placeholder="Haut, bas, ..."
-                onChangeText={(text) => handleInputChange("category", text)}
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                onValueChange={(value) => handleInputChange("category", value)}
+                items={[
+                  { label: "Haut", value: "Haut" },
+                  { label: "Bas", value: "Bas" },
+                  { label: "Accessoire", value: "Accessoire" },
+                ]}
+                placeholder={{
+                  label: "Sélectionnez une catégorie...",
+                  value: null,
+                }}
                 value={category}
               />
             </View>
