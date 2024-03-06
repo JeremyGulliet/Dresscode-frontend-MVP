@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     resizeMode: "cover",
+    marginRight: 10,
     // borderRadius: 10,
     // borderWidth: 2,
     // borderColor: "red",
