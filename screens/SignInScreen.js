@@ -60,21 +60,12 @@ const SignInScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
       <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View>
           <Image
             source={require("../assets/logo.png")}
             style={{ width: 250, height: 150 }}
           />
-=======
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.logoContainer}>
-          <Image source={require('../assets/logo.png')} style={styles.logo} />
->>>>>>> 181d0690e68ab577b4e9772024b7f94b73235b1c
         </View>
 
         <View>
@@ -116,11 +107,7 @@ const SignInScreen = () => {
             />
           </View>
         </View>
-<<<<<<< HEAD
       </KeyboardAwareScrollView>
-=======
-      </ScrollView>
->>>>>>> 181d0690e68ab577b4e9772024b7f94b73235b1c
     </SafeAreaView>
   );
 };

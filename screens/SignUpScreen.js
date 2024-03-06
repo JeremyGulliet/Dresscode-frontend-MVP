@@ -6,7 +6,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-<<<<<<< HEAD
   Platform,
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -15,14 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
 import { useSelector } from "react-redux";
-=======
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { login } from '../reducers/user';
-import { useSelector } from 'react-redux';
-import { SafeAreaView, ScrollView } from 'react-native';
->>>>>>> 181d0690e68ab577b4e9772024b7f94b73235b1c
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -74,16 +65,8 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
       <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View>
-=======
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.logoContainer}>
->>>>>>> 181d0690e68ab577b4e9772024b7f94b73235b1c
           {/* Affichage du logo */}
           <Image
             source={require('../assets/logo.png')}
@@ -139,11 +122,7 @@ const SignUp = () => {
             />
           </View>
         </View>
-<<<<<<< HEAD
       </KeyboardAwareScrollView>
-=======
-      </ScrollView>
->>>>>>> 181d0690e68ab577b4e9772024b7f94b73235b1c
     </SafeAreaView>
   );
 };
