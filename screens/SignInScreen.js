@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  SafeAreaView,
   View,
   Image,
   TouchableOpacity,
@@ -61,27 +60,24 @@ const SignInScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
       >
-        <View>
-          <Image
-            source={require("../assets/logo.png")}
-            style={{ width: 250, height: 150 }}
-          />
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/logo.png')} style={styles.logo} />
         </View>
 
         <View>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder='Email'
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder='Password'
             value={password}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry // Pour masquer le texte saisi
@@ -91,39 +87,47 @@ const SignInScreen = () => {
           </TouchableOpacity>
           <Text
             style={styles.register}
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate('SignUp')}
           >
             Pas encore inscrit ? S'inscrire
           </Text>
           <View style={styles.loginLogo}>
             {/* Images des logos de connexion */}
             <Image
-              source={require("../assets/loginMicrosoft.png")}
+              source={require('../assets/loginMicrosoft.png')}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require("../assets/loginGoogle.png")}
+              source={require('../assets/loginGoogle.png')}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require("../assets/loginApple.png")}
+              source={require('../assets/loginApple.png')}
               style={{ width: 50, height: 50 }}
             />
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
+export default SignInScreen;
 
 // Styles CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  scrollView: {
+    flex: 1,
+  },
+
+  logoContainer: { justifyContent: 'center', alignItems: 'center' },
+  logo: { width: 250, height: 250, resizeMode: 'contain' },
   input: {
     height: 60,
     width: 350,
@@ -154,11 +158,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 30,
+    resizeMode: 'contain',
   },
 });
-
-export default SignInScreen;
