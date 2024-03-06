@@ -51,7 +51,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName='Home'
         >
           <Stack.Screen name='SignIn' component={SignInScreen} />
           <Stack.Screen name='Home' component={HomeScreen} />
@@ -64,18 +63,18 @@ export default function App() {
           <Stack.Screen name='ImportScreen' component={ImportScreen} />
           <Stack.Screen name='UserScreen' component={UserScreen} />
           <Stack.Screen
-           
+
             name='ValidateCameraScreen'
-           
+
             component={ValidateCameraScreen}
-         
+
           />
           <Stack.Screen
-           
+
             name='ValidateImportScreen'
-           
+
             component={ValidateImportScreen}
-         
+
           />
         </Stack.Navigator>
       </NavigationContainer>

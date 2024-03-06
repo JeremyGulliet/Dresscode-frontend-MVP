@@ -6,7 +6,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Platform
+  Platform,
+  SafeAreaView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from '@react-navigation/native'; // Import du hook useNavigation pour la navigation
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   scrollView: {

@@ -26,17 +26,19 @@ const HomeScreen = () => {
   }, []);
 
   const fetchRandomOutfit = () => {
-    fetch('http://192.168.1.41:3000/random/tops')
+    fetch('http://192.168.1.41:3000/articles/random/tops')
       .then((response) => response.json())
       .then((data) => {
-        setTopImage(data.url_image);
+        console.log(data)
+        setTopImage(data.imageUrl);
       })
       .catch((error) => console.error(error));
 
-    fetch('http://192.168.1.41:3000/random/bottoms')
+    fetch('http://192.168.1.41:3000/articles/random/bottoms')
       .then((response) => response.json())
       .then((data) => {
-        setBottomImage(data.url_image);
+        console.log(data)
+        setBottomImage(data.imageUrl);
       })
       .catch((error) => console.error(error));
   };

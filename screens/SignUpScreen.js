@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from "@react-navigation/native";
