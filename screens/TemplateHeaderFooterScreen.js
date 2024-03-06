@@ -1,14 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+} from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 
 export default function TemplateHeaderFooterScreen() {
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.notifBar}>
-        <View style={styles.headerContainer}>
-          <HeaderCompo />
-        </View>
+    <SafeAreaView style={styles.safeAreaView}>
+      <View style={styles.headerContainer}>
+        <HeaderCompo />
       </View>
 
       <View style={styles.contentContainer}>
@@ -16,30 +21,31 @@ export default function TemplateHeaderFooterScreen() {
       </View>
 
       <FooterCompo />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  safeAreaView: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#0E0E66",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  notifBar: {
-    flex: 2,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    backgroundColor: "#0E0E6661",
-    // marginTop: 40,
-  },
+  // notifBar: {
+  //   flex: 2,
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "flex-end",
+  //   backgroundColor: "#0E0E6661",
+  //   // marginTop: 40,
+  // },
 
   headerContainer: {
     flex: 1,
-    marginTop: 40,
+    // marginTop: 40,
   },
 
   contentContainer: {

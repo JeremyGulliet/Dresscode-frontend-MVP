@@ -11,6 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
 import { useSelector } from "react-redux";
@@ -26,7 +27,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch("http://192.168.1.41:3000/users/signup", {
+    fetch("http://192.168.1.138:3000/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,9 +51,9 @@ const SignUp = () => {
         if (data.result) {
           dispatch(login({ token: data.token, username, email }));
           navigation.navigate("AddArticleScreen");
-          setEmail('');
-          setPassword('');
-          setUsername('');
+          setEmail("");
+          setPassword("");
+          setUsername("");
         } else {
           console.error("Erreur lors de l'inscription: ", data.error);
         }
@@ -65,7 +66,10 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View>
           {/* Affichage du logo */}
           <Image
