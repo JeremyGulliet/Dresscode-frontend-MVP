@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  SafeAreaView,
   View,
   Image,
   TouchableOpacity,
@@ -12,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
 import { useSelector } from 'react-redux';
+import { SafeAreaView, ScrollView } from 'react-native';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -60,73 +60,86 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {/* Affichage du logo */}
-        <Image
-          source={require('../assets/logo.png')}
-          style={{ width: 250, height: 150 }}
-        ></Image>
-      </View>
-
-      <View>
-        {/* Champs de saisie pour l'inscription */}
-        <TextInput
-          style={styles.input}
-          placeholder='Username'
-          value={username}
-          onChangeText={(value) => setUsername(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-          secureTextEntry
-        />
-        {/* Bouton pour l'inscription */}
-        <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
-          <Text style={styles.btnText}>Register</Text>
-        </TouchableOpacity>
-        {/* Lien vers la page de connexion */}
-        <Text
-          style={styles.login}
-          onPress={() => navigation.navigate('SignIn')}
-        >
-          Déjà inscrit ? Connexion
-        </Text>
-        {/* Affichage des logos de connexion */}
-        <View style={styles.loginLogo}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.logoContainer}>
+          {/* Affichage du logo */}
           <Image
-            source={require('../assets/loginMicrosoft.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginGoogle.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginApple.png')}
-            style={{ width: 50, height: 50 }}
-          />
+            source={require('../assets/logo.png')}
+            style={styles.logo}
+          ></Image>
         </View>
-      </View>
+
+        <View>
+          {/* Champs de saisie pour l'inscription */}
+          <TextInput
+            style={styles.input}
+            placeholder='Username'
+            value={username}
+            onChangeText={(value) => setUsername(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Email'
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Password'
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry
+          />
+          {/* Bouton pour l'inscription */}
+          <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
+            <Text style={styles.btnText}>Register</Text>
+          </TouchableOpacity>
+          {/* Lien vers la page de connexion */}
+          <Text
+            style={styles.login}
+            onPress={() => navigation.navigate('SignIn')}
+          >
+            Déjà inscrit ? Connexion
+          </Text>
+          {/* Affichage des logos de connexion */}
+          <View style={styles.loginLogo}>
+            <Image
+              source={require('../assets/loginMicrosoft.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginGoogle.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginApple.png')}
+              style={{ width: 50, height: 50 }}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
+export default SignUp;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  scrollView: {
+    flex: 1,
+  },
+
+  logoContainer: { justifyContent: 'center', alignItems: 'center' },
+  logo: { width: 250, height: 250, resizeMode: 'contain' },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -165,12 +178,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
-    // Style de la section des logos de connexion
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom: 30,
+    resizeMode: 'contain',
   },
 });
-
-export default SignUp;

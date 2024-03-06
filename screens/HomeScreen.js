@@ -1,48 +1,105 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import TemplateHeaderFooterScreen from './TemplateHeaderFooterScreen';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import HeaderCompo from '../components/headerCompo';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+  const [topImage, setTopImage] = useState(null);
+  const [bottomImage, setBottomImage] = useState(null);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  useEffect(() => {
+    // Fetch random top and bottom images for the first time
+    if (firstLoad) {
+      fetchRandomOutfit();
+      setFirstLoad(false);
+    }
+  }, []);
+
+  const fetchRandomOutfit = () => {
+    fetch('http://192.168.1.41:3000/random/tops')
+      .then((response) => response.json())
+      .then((data) => {
+        setTopImage(data.url_image);
+      })
+      .catch((error) => console.error(error));
+
+    fetch('http://192.168.1.41:3000/random/bottoms')
+      .then((response) => response.json())
+      .then((data) => {
+        setBottomImage(data.url_image);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const reloadOutfit = () => {
+    fetchRandomOutfit();
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TemplateHeaderFooterScreen></TemplateHeaderFooterScreen>
-      </View>
-      <View style={styles.weatherContainer}>
-        <Text style={styles.sunIcon}>☀️</Text>
-        <Text style={styles.temperatureText}>Aujourd'hui 18-25°C</Text>
-      </View>
-      <View style={styles.clothingContainer}>
-        <Image
-          source={require('../assets/home/vet-haut.png')}
-          style={styles.clothingImage}
-        />
-        <Image
-          source={require('../assets/home/vet-bas.png')}
-          style={styles.clothingImage}
-        />
-        <Image
-          source={require('../assets/home/vet-chauss.png')}
-          style={styles.clothingImage}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button1}>
-          <Text style={styles.buttonText}>Dressing</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
-          <Text style={styles.buttonText}>Valider proposition</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.headerContainer}>
+          {/* ici le header */}
+          <HeaderCompo />
+        </View>
+
+        <View style={styles.weatherContainer}>
+          <Image
+            style={styles.weatherImage}
+            source={require('../assets/home/soleil-1.png')}
+          ></Image>
+          <Text style={styles.temperatureText}>Aujourd'hui 25°C</Text>
+        </View>
+        <View style={styles.clothingContainer}>
+          <Image source={{ uri: topImage }} style={styles.clothingImage} />
+          <Image source={{ uri: bottomImage }} style={styles.clothingImage} />
+          {/* <Image
+            source={require('../assets/home/vet-chauss.png')}
+            style={styles.clothingImage}
+          /> */}
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={reloadOutfit}>
+            <Image
+              style={styles.reload}
+              source={require('../assets/home/chargement.png')}
+            ></Image>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button1}
+            onPress={() => navigation.navigate('DressingScreen')}
+          >
+            <Text style={styles.buttonText}>Dressing</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.button2}>
+            <Text style={styles.buttonText}>Valider proposition</Text>
+          </TouchableOpacity> */}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
     padding: 20,
@@ -58,12 +115,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: 'white',
+    justifyContent: 'space-around',
   },
-  sunIcon: {
-    fontSize: 30,
+  weatherImage: {
+    height: 100,
+    width: 100,
+    resizeMode: 'contain',
+    marginBottom: 20,
   },
   temperatureText: {
     fontSize: 20,
+    marginBottom: 20,
     color: 'black',
   },
   clothingContainer: {
@@ -72,8 +134,12 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   clothingImage: {
-    height: 120,
-    width: 195,
+    height: 150,
+    width: 200,
+    resizeMode: 'contain',
+    borderWidth: 3,
+    borderColor: '#000000',
+    borderRadius: 8,
   },
   buttonContainer: {
     justifyContent: 'space-around',
@@ -86,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCA311',
     padding: 15,
     borderRadius: 8,
-    width: '90%',
+    width: '85%',
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
@@ -95,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF4B8C',
     padding: 15,
     borderRadius: 8,
-    width: '90%',
+    width: '85%',
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
@@ -105,6 +171,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
+  headerContainer: {
+    height: 100,
+  },
 });
-
-export default HomeScreen;

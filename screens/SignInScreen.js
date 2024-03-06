@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  SafeAreaView,
   View,
   Image,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 import { useNavigation } from '@react-navigation/native'; // Import du hook useNavigation pour la navigation
 import { useDispatch } from 'react-redux'; // Import de useDispatch pour envoyer des actions Redux
 import { login } from '../reducers/user'; // Import de l'action login depuis le reducer user
+import { SafeAreaView, ScrollView } from 'react-native';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(''); // État local pour stocker l'email
@@ -57,64 +57,74 @@ const SignInScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Image
-          source={require('../assets/logo.png')}
-          style={{ width: 250, height: 150 }}
-        />
-      </View>
-
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          value={password}
-          onChangeText={(value) => setPassword(value)}
-          secureTextEntry // Pour masquer le texte saisi
-        />
-        <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
-          <Text style={styles.btnText}>Connexion</Text>
-        </TouchableOpacity>
-        <Text
-          style={styles.register}
-          onPress={() => navigation.navigate('SignUp')}
-        >
-          Pas encore inscrit ? S'inscrire
-        </Text>
-        <View style={styles.loginLogo}>
-          {/* Images des logos de connexion */}
-          <Image
-            source={require('../assets/loginMicrosoft.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginGoogle.png')}
-            style={{ width: 50, height: 50 }}
-          />
-          <Image
-            source={require('../assets/loginApple.png')}
-            style={{ width: 50, height: 50 }}
-          />
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/logo.png')} style={styles.logo} />
         </View>
-      </View>
+
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder='Email'
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Password'
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry // Pour masquer le texte saisi
+          />
+          <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
+            <Text style={styles.btnText}>Connexion</Text>
+          </TouchableOpacity>
+          <Text
+            style={styles.register}
+            onPress={() => navigation.navigate('SignUp')}
+          >
+            Pas encore inscrit ? S'inscrire
+          </Text>
+          <View style={styles.loginLogo}>
+            {/* Images des logos de connexion */}
+            <Image
+              source={require('../assets/loginMicrosoft.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginGoogle.png')}
+              style={{ width: 50, height: 50 }}
+            />
+            <Image
+              source={require('../assets/loginApple.png')}
+              style={{ width: 50, height: 50 }}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
+export default SignInScreen;
 
 // Styles CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  scrollView: {
+    flex: 1,
+  },
+
+  logoContainer: { justifyContent: 'center', alignItems: 'center' },
+  logo: { width: 250, height: 250, resizeMode: 'contain' },
   input: {
     height: 60,
     width: 350,
@@ -149,7 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom: 30,
+    resizeMode: 'contain',
   },
 });
-
-export default SignInScreen;
