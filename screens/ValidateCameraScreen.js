@@ -6,6 +6,7 @@ import {
     SafeAreaView,
     View,
     TouchableOpacity,
+    Platform,
     Image,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
@@ -13,6 +14,7 @@ import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function ValidateCameraScreen({ navigation, route }) {
     const { url } = route.params;
@@ -29,6 +31,28 @@ export default function ValidateCameraScreen({ navigation, route }) {
     const [brand, setBrand] = useState('');
     const [favorite, setFavorite] = useState(false);
 
+    const handleInputChange = (fieldName, text) => {
+        if (fieldName === "category") {
+            setCategory(text);
+        } else if (fieldName === "type") {
+            setType(text);
+        } else if (fieldName === "colors") {
+            setColors(text);
+        } else if (fieldName === "size") {
+            setSize(text);
+        } else if (fieldName === "weatherType") {
+            setWeatherType(text);
+        } else if (fieldName === "tempMin") {
+            setTempMin(text);
+        } else if (fieldName === "tempMax") {
+            setTempMax(text);
+        } else if (fieldName === "event") {
+            setEvent(text);
+        } else if (fieldName === "brand") {
+            setBrand(text);
+        }
+    };
+
 
     const handleSubmit = () => {
         fetch('http://192.168.1.41:3000/weathers', {
@@ -36,13 +60,14 @@ export default function ValidateCameraScreen({ navigation, route }) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                weather: weatherType,
+                type: weatherType,
                 temp_min: tempMin,
                 temp_max: tempMax,
             })
         })
             .then(response => response.json())
             .then(weatherData => {
+                //console.log("Mon ID:", weatherData.newWeather._id)
                 //requête POST pour créer une entrée dans la collection "descriptions"
                 fetch('http://192.168.1.41:3000/descriptions', {
                     method: 'POST',
@@ -57,6 +82,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 })
                     .then(response => response.json())
                     .then(descriptionData => {
+                        //console.log(descriptionData)
                         //requête POST pour créer une entrée dans la collection "brands"
                         fetch('http://192.168.1.41:3000/brands', {
                             method: 'POST',
@@ -67,21 +93,22 @@ export default function ValidateCameraScreen({ navigation, route }) {
                         })
                             .then(response => response.json())
                             .then(brandData => {
+                                //console.log(brandData)
                                 //requêtePOST pour créer le nouvel article dans la collection "articles"
                                 fetch('http://192.168.1.41:3000/articles', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        weather: weatherData,
+                                        weather: weatherData.newWeather._id,
                                         useDate: new Date(),
                                         favorite: favorite,
                                         url_image: url,
-                                        description: descriptionData,
-                                        brand: brandData,
+                                        description: descriptionData.newDescription._id,
+                                        brand: brandData.newBrand._id,
                                     })
                                 })
                                     .then(data => {
-                                        console.log(data);
+                                        //console.log(data);
                                         navigation.navigate("DressingScreen");
                                     })
                                     .catch(error => {
@@ -107,33 +134,15 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
 
 
-    const handleInputChange = (fieldName, text) => {
-        if (fieldName === "category") {
-            setCategory(text);
-        } else if (fieldName === "type") {
-            setType(text);
-        } else if (fieldName === "colors") {
-            setColors(text);
-        } else if (fieldName === "size") {
-            setSize(text);
-        } else if (fieldName === "weatherType") {
-            setWeatherType(text);
-        } else if (fieldName === "tempMin") {
-            setTempMin(text);
-        } else if (fieldName === "tempMax") {
-            setTempMax(text);
-        } else if (fieldName === "event") {
-            setEvent(text);
-        } else if (fieldName === "brand") {
-            setBrand(text);
-        }
-    };
+
 
     return (
         <SafeAreaView style={styles.SafeAreaView}>
+
             <View style={styles.headerContainer}>
                 <HeaderCompo />
             </View>
+
 
             <View style={styles.contentContainer}>
                 {/* -------- IMAGE -------- */}
@@ -144,89 +153,91 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
                 {/* -------- INPUTS -------- */}
                 <View style={styles.descriptionContainer}>
-                    <View style={styles.inputsContainer}>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Catégorie : </Text>
-                            <TextInput
-                                style={[styles.input, styles.category]}
-                                placeholder="Haut, bas, ..."
-                                onChangeText={(text) => handleInputChange("category", text)}
-                                value={category}
-                            />
+                    <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                        <View style={styles.inputsContainer}>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Catégorie : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.category]}
+                                    placeholder="Haut, bas, ..."
+                                    onChangeText={(text) => handleInputChange("category", text)}
+                                    value={category}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Type : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.type]}
+                                    placeholder="T-shirt, jean, ..."
+                                    onChangeText={(text) => handleInputChange("type", text)}
+                                    value={type}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Colors : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.colors]}
+                                    placeholder="black, red, ..."
+                                    onChangeText={(text) => handleInputChange("colors", text)}
+                                    value={colors}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Size : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.size]}
+                                    placeholder="M, 42, ..."
+                                    onChangeText={(text) => handleInputChange("size", text)}
+                                    value={size}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Weather type : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.weatherType]}
+                                    placeholder="Soleil, Pluie, ..."
+                                    onChangeText={(text) => handleInputChange("weatherType", text)}
+                                    value={weatherType}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>TempMin : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.tempMin]}
+                                    placeholder="5, 12, ..."
+                                    onChangeText={(text) => handleInputChange("tempMin", text)}
+                                    value={tempMin}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>TempMax : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.tempMax]}
+                                    placeholder="20, 35, ..."
+                                    onChangeText={(text) => handleInputChange("tempMax", text)}
+                                    value={tempMax}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Event : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.event]}
+                                    placeholder="Travail, Soirée, ..."
+                                    onChangeText={(text) => handleInputChange("event", text)}
+                                    value={event}
+                                />
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Brand : </Text>
+                                <TextInput
+                                    style={[styles.input, styles.brand]}
+                                    placeholder="Adidas, Devred, ..."
+                                    onChangeText={(text) => handleInputChange("brand", text)}
+                                    value={brand}
+                                />
+                            </View>
                         </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Type : </Text>
-                            <TextInput
-                                style={[styles.input, styles.type]}
-                                placeholder="T-shirt, jean, ..."
-                                onChangeText={(text) => handleInputChange("type", text)}
-                                value={type}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Colors : </Text>
-                            <TextInput
-                                style={[styles.input, styles.colors]}
-                                placeholder="black, red, ..."
-                                onChangeText={(text) => handleInputChange("colors", text)}
-                                value={colors}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Size : </Text>
-                            <TextInput
-                                style={[styles.input, styles.size]}
-                                placeholder="M, 42, ..."
-                                onChangeText={(text) => handleInputChange("size", text)}
-                                value={size}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Weather type : </Text>
-                            <TextInput
-                                style={[styles.input, styles.weatherType]}
-                                placeholder="Soleil, Pluie, ..."
-                                onChangeText={(text) => handleInputChange("weatherType", text)}
-                                value={weatherType}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>TempMin : </Text>
-                            <TextInput
-                                style={[styles.input, styles.tempMin]}
-                                placeholder="5, 12, ..."
-                                onChangeText={(text) => handleInputChange("tempMin", text)}
-                                value={tempMin}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>TempMax : </Text>
-                            <TextInput
-                                style={[styles.input, styles.tempMax]}
-                                placeholder="20, 35, ..."
-                                onChangeText={(text) => handleInputChange("tempMax", text)}
-                                value={tempMax}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Event : </Text>
-                            <TextInput
-                                style={[styles.input, styles.event]}
-                                placeholder="Travail, Soirée, ..."
-                                onChangeText={(text) => handleInputChange("event", text)}
-                                value={event}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Brand : </Text>
-                            <TextInput
-                                style={[styles.input, styles.brand]}
-                                placeholder="Adidas, Devred, ..."
-                                onChangeText={(text) => handleInputChange("brand", text)}
-                                value={brand}
-                            />
-                        </View>
-                    </View>
+                    </KeyboardAwareScrollView>
                 </View>
 
                 {/* -------- BUTTONS -------- */}
@@ -238,12 +249,14 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
                     <Button
                         title="Go To Dressing"
-                        onPress={() => navigation.navigate("DressingScreen")}
+                        onPress={() => handleSubmit()}
                     />
                 </View>
             </View>
 
+
             <FooterCompo style={styles.footer} navigation={navigation} />
+
         </SafeAreaView>
     );
 }

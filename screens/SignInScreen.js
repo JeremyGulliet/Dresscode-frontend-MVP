@@ -24,7 +24,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-    fetch("http://192.168.1.138:3000/users/signin", {
+    fetch("http://192.168.1.41:3000/users/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
