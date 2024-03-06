@@ -62,7 +62,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
         <View style={styles.separation}></View>
 
         {/* -------- INPUTS -------- */}
-        <View style={styles.handleInputs}>
+        <View style={styles.descriptionContainer}>
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Catégorie : </Text>
@@ -147,8 +147,9 @@ export default function ValidateCameraScreen({ navigation, route }) {
             </View>
           </View>
         </View>
-        <View style={styles.descriptionContainer}>
-          {/* -------- BUTTONS -------- */}
+
+        {/* -------- BUTTONS -------- */}
+        <View style={styles.buttons}>
           <Button
             title="Go To Camera"
             onPress={() => navigation.navigate("CameraScreen")}
@@ -183,30 +184,36 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 12,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "whitesmoke",
     width: "100%",
+    // borderWidth: 2,
+    // borderColor: "red",
   },
 
   imageContainer: {
-    flex: 3,
+    flex: 4,
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
-    height: "80%",
+    width: "100%",
+    height: "100%",
+    // borderWidth: 2,
+    // borderColor: "green",
   },
   separation: {
     width: "100%",
     height: 1,
     backgroundColor: "gray",
   },
-  handleInputs: {
+  descriptionContainer: {
     width: "100%",
+    flex: 6,
     flexDirection: "row",
     justifyContent: "flex-start",
-    borderWidth: 2,
-    borderColor: "yellow",
+    marginTop: 10,
+    // borderWidth: 2,
+    // borderColor: "yellow",
   },
   inputsContainer: {
     flexDirection: "column",
@@ -214,8 +221,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: "80%",
     marginLeft: 40,
-    borderWidth: 2,
-    borderColor: "red",
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   inputContainer: {
     flexDirection: "row",
@@ -224,25 +231,31 @@ const styles = StyleSheet.create({
     // marginLeft: 40,
     width: "100%",
     height: 40,
-    borderWidth: 2,
-    borderColor: "green",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "gray",
     padding: 0,
     width: "50%",
+    fontSize: 18,
   },
 
-  descriptionContainer: {
-    flex: 4,
-    borderTopWidth: 2,
+  buttons: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     width: "100%",
   },
-
   image: {
-    width: "80%",
-    height: "80%",
+    width: "90%",
+    height: "90%",
     borderRadius: 10,
   },
   footer: {
