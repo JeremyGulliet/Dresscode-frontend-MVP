@@ -3,13 +3,13 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  SafeAreaView,
   View,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
 } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from "@react-navigation/native";
 
 import { useDispatch } from "react-redux";
@@ -27,7 +27,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch("http://192.168.1.138:3000/users/signup", {
+    fetch("http://192.168.1.41:3000/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,15 +66,12 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+      <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View>
           {/* Affichage du logo */}
           <Image
-            source={require("../assets/logo.png")}
-            style={{ width: 250, height: 150 }}
+            source={require('../assets/logo.png')}
+            style={styles.logo}
           ></Image>
         </View>
 
@@ -82,19 +79,19 @@ const SignUp = () => {
           {/* Champs de saisie pour l'inscription */}
           <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder='Username'
             value={username}
             onChangeText={(value) => setUsername(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder='Email'
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder='Password'
             value={password}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry
@@ -106,38 +103,46 @@ const SignUp = () => {
           {/* Lien vers la page de connexion */}
           <Text
             style={styles.login}
-            onPress={() => navigation.navigate("SignIn")}
+            onPress={() => navigation.navigate('SignIn')}
           >
             Déjà inscrit ? Connexion
           </Text>
           {/* Affichage des logos de connexion */}
           <View style={styles.loginLogo}>
             <Image
-              source={require("../assets/loginMicrosoft.png")}
+              source={require('../assets/loginMicrosoft.png')}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require("../assets/loginGoogle.png")}
+              source={require('../assets/loginGoogle.png')}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require("../assets/loginApple.png")}
+              source={require('../assets/loginApple.png')}
               style={{ width: 50, height: 50 }}
             />
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
 
+export default SignUp;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  scrollView: {
+    flex: 1,
+  },
+
+  logoContainer: { justifyContent: 'center', alignItems: 'center' },
+  logo: { width: 250, height: 250, resizeMode: 'contain' },
   title: {
     fontSize: 20,
     fontWeight: "bold",
@@ -176,12 +181,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
-    // Style de la section des logos de connexion
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 30,
+    resizeMode: 'contain',
   },
 });
-
-export default SignUp;

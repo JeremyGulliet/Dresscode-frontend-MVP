@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Camera, CameraType, FlashMode } from "expo-camera";
+import { Camera, CameraType, FlashMode, AutoFocus } from "expo-camera";
 import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -12,7 +12,7 @@ export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(false);
   const [type, setType] = useState(CameraType.back);
   const [flashMode, setFlashMode] = useState(FlashMode.off);
-  const [urlPhoto, setUrlPhoto] = useState("");
+  //const [urlPhoto, setUrlPhoto] = useState("");
 
   let cameraRef = useRef(null);
 
@@ -38,17 +38,17 @@ export default function CameraScreen({ navigation }) {
       type: "image/jpeg",
     });
 
-    fetch("http://192.168.1.138:3000/articles/upload", {
-      method: "POST",
+    fetch('http://192.168.1.41:3000/articles/upload', {
+      method: 'POST',
       body: formData,
-    })
-      .then((response) => response.json())
+    }).then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setUrlPhoto(data.url);
-        navigation.navigate("ValidateCameraScreen", { url: data.url });
+        //setUrlPhoto(data.url)
+        navigation.navigate('ValidateCameraScreen', { url: data.url });
       });
-  };
+
+  }
   // Désactiver la caméra en arrière plan quand changement d'écran
   if (!hasPermission || !isFocused) {
     return <View />;
@@ -60,6 +60,7 @@ export default function CameraScreen({ navigation }) {
       flashMode={flashMode}
       ref={(ref) => (cameraRef = ref)}
       style={styles.camera}
+      autoFocus={AutoFocus.auto}
     >
       {/* Boutons Flash et changement de camera */}
       <View style={styles.buttonsContainer}>

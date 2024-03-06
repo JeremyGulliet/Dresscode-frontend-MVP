@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
-    backgroundColor: "#0E0E6661",
+    backgroundColor: "#0E0E66",
     // marginTop: 40,
   },
 

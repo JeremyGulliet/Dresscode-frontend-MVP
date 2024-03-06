@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   View,
   TouchableOpacity,
+  Platform,
   Image,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
@@ -33,9 +34,12 @@ const pickerSelectStyles = StyleSheet.create({
     width: "50%",
   },
 });
+import { useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ValidateCameraScreen({ navigation, route }) {
   const { url } = route.params;
+  const user = useSelector((state) => state.user.value);
 
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
@@ -46,6 +50,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const [tempMax, setTempMax] = useState("");
   const [event, setEvent] = useState("");
   const [brand, setBrand] = useState("");
+  const [favorite, setFavorite] = useState(false);
 
   const handleInputChange = (fieldName, text) => {
     if (fieldName === "category") {
@@ -67,6 +72,93 @@ export default function ValidateCameraScreen({ navigation, route }) {
     } else if (fieldName === "brand") {
       setBrand(text);
     }
+  };
+
+  const handleSubmit = () => {
+    fetch("http://192.168.1.41:3000/weathers", {
+      // requête POST pour créer une entrée dans la collection "weathers"
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: weatherType,
+        temp_min: tempMin,
+        temp_max: tempMax,
+      }),
+    })
+      .then((response) => response.json())
+      .then((weatherData) => {
+        //console.log("Mon ID:", weatherData.newWeather._id)
+        //requête POST pour créer une entrée dans la collection "descriptions"
+        fetch("http://192.168.1.41:3000/descriptions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: type,
+            category: category,
+            size: size,
+            color: colors,
+            event: event,
+          }),
+        })
+          .then((response) => response.json())
+          .then((descriptionData) => {
+            //console.log(descriptionData)
+            //requête POST pour créer une entrée dans la collection "brands"
+            fetch("http://192.168.1.41:3000/brands", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: brand,
+              }),
+            })
+              .then((response) => response.json())
+              .then((brandData) => {
+                //console.log(brandData)
+                //requêtePOST pour créer le nouvel article dans la collection "articles"
+                fetch("http://192.168.1.41:3000/articles", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    weather: weatherData.newWeather._id,
+                    useDate: new Date(),
+                    favorite: favorite,
+                    url_image: url,
+                    description: descriptionData.newDescription._id,
+                    brand: brandData.newBrand._id,
+                  }),
+                })
+                  .then((data) => {
+                    //console.log(data);
+                    navigation.navigate("DressingScreen");
+                  })
+                  .catch((error) => {
+                    // Gérer les erreurs de requête
+                    console.error(
+                      "Erreur lors de l'envoi de l'article:",
+                      error
+                    );
+                  });
+              })
+              .catch((error) => {
+                // Gérer les erreurs de requête pour la création de la marque
+                console.error(
+                  "Erreur lors de la création de la marque:",
+                  error
+                );
+              });
+          })
+          .catch((error) => {
+            // Gérer les erreurs de requête pour la création de la description
+            console.error(
+              "Erreur lors de la création de la description:",
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        // Gérer les erreurs de requête pour la création de la météo
+        console.error("Erreur lors de la création de la météo:", error);
+      });
   };
 
   return (
@@ -184,10 +276,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
             onPress={() => navigation.navigate("CameraScreen")}
           />
 
-          <Button
-            title="Go To Dressing"
-            onPress={() => navigation.navigate("DressingScreen")}
-          />
+          <Button title="Go To Dressing" onPress={() => handleSubmit()} />
         </View>
       </View>
 
