@@ -7,9 +7,9 @@ import {
   View,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
@@ -65,7 +65,7 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View>
           {/* Affichage du logo */}
           <Image
@@ -122,7 +122,7 @@ const SignUp = () => {
             />
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

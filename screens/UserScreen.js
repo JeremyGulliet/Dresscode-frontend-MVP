@@ -11,12 +11,10 @@ export default function UserScreen({ navigation }) {
     // Redirection pour SignIn si pas connecté
     const handleLogout = () => {
         dispatch(logout());
-        console.log("utilisateur decconecté")
+        console.log("utilisateur deconnecté")
         navigation.navigate('SignIn');
     };
 
-    /*if (user.token) {
-        */
 
     return (
         <View style={styles.container}>

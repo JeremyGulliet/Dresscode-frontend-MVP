@@ -3,9 +3,98 @@ import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function ValidateCameraScreen({ navigation, route }) {
     const { url } = route.params;
+    const user = useSelector((state) => state.user.value);
+
+    const [category, setCategory] = useState('');
+    const [type, setType] = useState('');
+    const [colors, setColors] = useState('');
+    const [size, setSize] = useState('');
+    const [weatherType, setWeatherType] = useState('');
+    const [tempMin, setTempMin] = useState(0);
+    const [tempMax, setTempMax] = useState(0);
+    const [event, setEvent] = useState('');
+    const [brand, setbrand] = useState('');
+    const [favorite, setFavorite] = useState(false);
+
+
+    const handleSubmit = () => {
+        fetch('http://192.168.1.41:3000/weathers', {
+            // requête POST pour créer une entrée dans la collection "weathers"
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                weather: weatherType,
+                temp_min: tempMin,
+                temp_max: tempMax,
+            })
+        })
+            .then(response => response.json())
+            .then(weatherData => {
+                //requête POST pour créer une entrée dans la collection "descriptions"
+                fetch('http://192.168.1.41:3000/descriptions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: type,
+                        category: category,
+                        size: size,
+                        color: colors,
+                        event: event,
+                    })
+                })
+                    .then(response => response.json())
+                    .then(descriptionData => {
+                        //requête POST pour créer une entrée dans la collection "brands"
+                        fetch('http://192.168.1.41:3000/brands', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: brand,
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(brandData => {
+                                //requêtePOST pour créer le nouvel article dans la collection "articles"
+                                fetch('http://192.168.1.41:3000/articles', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        weather: weatherData,
+                                        useDate: new Date(),
+                                        favorite: favorite,
+                                        url_image: url,
+                                        description: descriptionData,
+                                        brand: brandData,
+                                    })
+                                })
+                                    .then(data => {
+                                        console.log(data);
+                                        navigation.navigate("DressingScreen");
+                                    })
+                                    .catch(error => {
+                                        // Gérer les erreurs de requête
+                                        console.error("Erreur lors de l'envoi de l'article:", error);
+                                    });
+                            })
+                            .catch(error => {
+                                // Gérer les erreurs de requête pour la création de la marque
+                                console.error("Erreur lors de la création de la marque:", error);
+                            });
+                    })
+                    .catch(error => {
+                        // Gérer les erreurs de requête pour la création de la description
+                        console.error("Erreur lors de la création de la description:", error);
+                    });
+            })
+            .catch(error => {
+                // Gérer les erreurs de requête pour la création de la météo
+                console.error("Erreur lors de la création de la météo:", error);
+            });
+    };
 
 
 
@@ -28,7 +117,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     />
 
                     <Button title="Go To Dressing"
-                        onPress={() => navigation.navigate('DressingScreen')}
+                        onPress={() => handleSubmit()}
                     />
 
 

@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-function footerCompo({ navigation }) {
+function FooterCompo({ navigation }) {
   return <View style={styles.container}>
     <View style={styles.backContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default footerCompo;
+export default FooterCompo;

@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import UserCompo from "./userCompo";
 import AppTitleCompo from "./appTitleCompo";
 
-function headerCompo() {
+function HeaderCompo() {
   return (
     <View style={styles.container}>
       <AppTitleCompo />
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default headerCompo;
+export default HeaderCompo;
