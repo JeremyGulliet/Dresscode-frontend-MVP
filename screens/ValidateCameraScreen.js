@@ -14,26 +14,8 @@ import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import RNPickerSelect from "react-native-picker-select";
+import DropDownPicker from "react-native-dropdown-picker";
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: "gray",
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    width: "50%",
-  },
-  inputAndroid: {
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: "gray",
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    width: "50%",
-  },
-});
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -41,7 +23,13 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const { url } = route.params;
   const user = useSelector((state) => state.user.value);
 
-  const [category, setCategory] = useState("Choisir une catégorie");
+  const [category, setCategory] = useState(null);
+  const [openCategory, setOpenCategory] = useState(false);
+  const [categoryItems, setCategoryItems] = useState([
+    { label: "Haut", value: "Haut" },
+    { label: "Bas", value: "Bas" },
+    { label: "Accessoire", value: "Accessoire" },
+  ]);
   const [type, setType] = useState("");
   const [colors, setColors] = useState("");
   const [size, setSize] = useState("");
@@ -50,33 +38,63 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const [tempMax, setTempMax] = useState("");
   const [event, setEvent] = useState("");
   const [brand, setBrand] = useState("");
-  const [favorite, setFavorite] = useState(false);
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-  const handleInputChange = (fieldName, text, isOpen) => {
-    if (fieldName === "category") {
-      setCategory(text);
-      setIsPickerOpen(isOpen);
-    } else if (fieldName === "type") {
-      setType(text);
-    } else if (fieldName === "colors") {
-      setColors(text);
-    } else if (fieldName === "size") {
-      setSize(text);
-    } else if (fieldName === "weatherType") {
-      setWeatherType(text);
-    } else if (fieldName === "tempMin") {
-      setTempMin(text);
-    } else if (fieldName === "tempMax") {
-      setTempMax(text);
-    } else if (fieldName === "event") {
-      setEvent(text);
-    } else if (fieldName === "brand") {
-      setBrand(text);
+  const handleInputChange = (fieldName, text, selectedValue) => {
+    switch (fieldName) {
+      case "category":
+        setCategory(selectedValue);
+        break;
+      case "type":
+        setType(text);
+        break;
+      case "colors":
+        setColors(text);
+        break;
+      case "size":
+        setSize(text);
+        break;
+      case "weatherType":
+        setWeatherType(text);
+        break;
+      case "tempMin":
+        setTempMin(text);
+        break;
+      case "tempMax":
+        setTempMax(text);
+        break;
+      case "event":
+        setEvent(text);
+        break;
+      case "brand":
+        setBrand(text);
+        break;
+
+      default:
+        break;
     }
+  };
+  const handleOpenPicker = () => {
+    setOpenCategory(true);
+    console.log("Picker opened");
+  };
+
+  const handleClosePicker = () => {
+    setOpenCategory(false);
+    console.log("Picker closed");
   };
 
   const handleSubmit = () => {
+    console.log(
+      category,
+      type,
+      colors,
+      size,
+      weatherType,
+      tempMin,
+      tempMax,
+      event,
+      brand
+    );
     fetch("http://192.168.1.138:3000/weathers", {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
@@ -181,30 +199,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Catégorie : </Text>
-              <View style={styles.dropdownContainer}>
-                <RNPickerSelect
-                  style={pickerSelectStyles}
-                  onValueChange={(value) =>
-                    handleInputChange("category", value, false)
-                  }
-                  onOpen={() => setIsPickerOpen(true)}
-                  onClose={() => setIsPickerOpen(false)}
-                  items={[
-                    { label: "Haut", value: "Haut" },
-                    { label: "Bas", value: "Bas" },
-                    { label: "Accessoire", value: "Accessoire" },
-                  ]}
-                  placeholder={{
-                    label: "Sélectionnez une catégorie...",
-                    value: category,
-                  }}
-                  value={category}
-                  open={isPickerOpen}
-                />
-                {category && (
-                  <Text style={styles.selectedValue}>{category}</Text>
-                )}
-              </View>
+
+              <DropDownPicker
+                open={openCategory}
+                value={category}
+                items={categoryItems}
+                setOpen={setOpenCategory}
+                setValue={(selectedValue) =>
+                  handleInputChange("category", null, selectedValue)
+                }
+                setItems={setCategoryItems}
+                placeholder="Sélectionnez une catégorie..."
+                containerStyle={{ height: 40, width: "75%" }}
+                style={{ backgroundColor: "#fafafa" }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Type : </Text>
