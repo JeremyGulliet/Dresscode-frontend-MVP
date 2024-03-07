@@ -300,9 +300,9 @@ export default function ValidateCameraScreen({ navigation, route }) {
         {/* ----------------------------------------------------------------------DROPDOWNS & INPUTS -------- */}
         <View style={styles.descriptionContainer}>
           <View style={styles.inputsContainer}>
+            {/* ------------------- @DROPDOWN - CATEGORY  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Catégorie : </Text>
-
               <DropDownPicker
                 open={openCategory}
                 value={category}
@@ -336,6 +336,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
+            {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Type : </Text>
               <DropDownPicker
@@ -385,6 +386,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 // }}
               />
             </View>
+            {/* ------------------- @DROPDOWN - COLORS  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Couleurs : </Text>
               <DropDownPicker
@@ -426,6 +428,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
+            {/* ------------------- @INPUT - SIZE  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Size : </Text>
               <TextInput
@@ -435,6 +438,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 value={size}
               />
             </View>
+            {/* ------------------- @DROPDOWN - WEATHER  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Type de météo : </Text>
               <DropDownPicker
@@ -446,7 +450,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   handleInputChange("weatherType", null, selectedValue)
                 }
                 setItems={setWeatherTypeItems}
-                placeholder="Sélectionnez une type de météo..."
+                placeholder="Sélectionnez un type de météo..."
                 maxHeight={200}
                 containerStyle={{
                   height: 34,
@@ -470,6 +474,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
+            {/* ------------------- @INPUT - TEMPMIN  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>TempMin : </Text>
               <TextInput
@@ -480,6 +485,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 value={tempMin}
               />
             </View>
+            {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>TempMax : </Text>
               <TextInput
@@ -490,6 +496,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 value={tempMax}
               />
             </View>
+            {/* ------------------- @DROPDOWN - EVENT  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Évènement : </Text>
               <DropDownPicker
@@ -525,6 +532,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
+            {/* ------------------- @DROPDOWN - BRAND  ------------------- */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Marque : </Text>
               <DropDownPicker
@@ -540,9 +548,9 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   handleInputChange("brand", null, selectedValue)
                 }
                 setItems={setBrandItems}
-                placeholder="Sélectionnez un type..."
+                placeholder="Sélectionnez une marque..."
                 searchable={true} // Permet la recherche
-                searchablePlaceholder="Rechercher un type"
+                searchablePlaceholder="Rechercher une marque"
                 searchableError={() => <Text fontSize={16}>Not found</Text>}
                 maxHeight={230}
                 containerStyle={{
@@ -577,7 +585,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* -------- BUTTONS -------- */}
+        {/* -------- @BUTTONS -------- */}
         <View style={styles.buttons}>
           <Button
             title="Go To Camera"
