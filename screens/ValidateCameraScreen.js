@@ -41,7 +41,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const { url } = route.params;
   const user = useSelector((state) => state.user.value);
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Choisir une catégorie");
   const [type, setType] = useState("");
   const [colors, setColors] = useState("");
   const [size, setSize] = useState("");
@@ -51,10 +51,12 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const [event, setEvent] = useState("");
   const [brand, setBrand] = useState("");
   const [favorite, setFavorite] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-  const handleInputChange = (fieldName, text) => {
+  const handleInputChange = (fieldName, text, isOpen) => {
     if (fieldName === "category") {
       setCategory(text);
+      setIsPickerOpen(isOpen);
     } else if (fieldName === "type") {
       setType(text);
     } else if (fieldName === "colors") {
@@ -75,7 +77,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
   };
 
   const handleSubmit = () => {
-    fetch("http://192.168.1.41:3000/weathers", {
+    fetch("http://192.168.1.138:3000/weathers", {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -89,7 +91,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       .then((weatherData) => {
         //console.log("Mon ID:", weatherData.newWeather._id)
         //requête POST pour créer une entrée dans la collection "descriptions"
-        fetch("http://192.168.1.41:3000/descriptions", {
+        fetch("http://192.168.1.138:3000/descriptions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -104,7 +106,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           .then((descriptionData) => {
             //console.log(descriptionData)
             //requête POST pour créer une entrée dans la collection "brands"
-            fetch("http://192.168.1.41:3000/brands", {
+            fetch("http://192.168.1.138:3000/brands", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -115,7 +117,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
               .then((brandData) => {
                 //console.log(brandData)
                 //requêtePOST pour créer le nouvel article dans la collection "articles"
-                fetch("http://192.168.1.41:3000/articles", {
+                fetch("http://192.168.1.138:3000/articles", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
@@ -179,20 +181,30 @@ export default function ValidateCameraScreen({ navigation, route }) {
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Catégorie : </Text>
-              <RNPickerSelect
-                style={pickerSelectStyles}
-                onValueChange={(value) => handleInputChange("category", value)}
-                items={[
-                  { label: "Haut", value: "Haut" },
-                  { label: "Bas", value: "Bas" },
-                  { label: "Accessoire", value: "Accessoire" },
-                ]}
-                placeholder={{
-                  label: "Sélectionnez une catégorie...",
-                  value: null,
-                }}
-                value={category}
-              />
+              <View style={styles.dropdownContainer}>
+                <RNPickerSelect
+                  style={pickerSelectStyles}
+                  onValueChange={(value) =>
+                    handleInputChange("category", value, false)
+                  }
+                  onOpen={() => setIsPickerOpen(true)}
+                  onClose={() => setIsPickerOpen(false)}
+                  items={[
+                    { label: "Haut", value: "Haut" },
+                    { label: "Bas", value: "Bas" },
+                    { label: "Accessoire", value: "Accessoire" },
+                  ]}
+                  placeholder={{
+                    label: "Sélectionnez une catégorie...",
+                    value: category,
+                  }}
+                  value={category}
+                  open={isPickerOpen}
+                />
+                {category && (
+                  <Text style={styles.selectedValue}>{category}</Text>
+                )}
+              </View>
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Type : </Text>
@@ -362,6 +374,20 @@ const styles = StyleSheet.create({
     padding: 0,
     width: "50%",
     fontSize: 18,
+  },
+  dropdownContainer: {
+    width: "75%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginLeft: 10,
+    borderWidth: 2,
+    borderColor: "green",
+  },
+
+  selectedValue: {
+    fontSize: 18,
+    marginLeft: 10,
   },
 
   buttons: {

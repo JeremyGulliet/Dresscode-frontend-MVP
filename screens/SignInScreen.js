@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   Platform,
   SafeAreaView,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useNavigation } from '@react-navigation/native'; // Import du hook useNavigation pour la navigation
-import { useDispatch } from 'react-redux'; // Import de useDispatch pour envoyer des actions Redux
-import { login } from '../reducers/user'; // Import de l'action login depuis le reducer user
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
+import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
+import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(""); // État local pour stocker l'email
@@ -24,7 +24,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-    fetch("http://192.168.1.41:3000/users/signin", {
+    fetch("http://192.168.1.138:3000/users/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,10 @@ const SignInScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View>
           <Image
             source={require("../assets/logo.png")}
@@ -72,13 +75,13 @@ const SignInScreen = () => {
         <View>
           <TextInput
             style={styles.input}
-            placeholder='Email'
+            placeholder="Email"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder='Password'
+            placeholder="Password"
             value={password}
             onChangeText={(value) => setPassword(value)}
             secureTextEntry // Pour masquer le texte saisi
@@ -88,22 +91,22 @@ const SignInScreen = () => {
           </TouchableOpacity>
           <Text
             style={styles.register}
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => navigation.navigate("SignUp")}
           >
             Pas encore inscrit ? S'inscrire
           </Text>
           <View style={styles.loginLogo}>
             {/* Images des logos de connexion */}
             <Image
-              source={require('../assets/loginMicrosoft.png')}
+              source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require('../assets/loginGoogle.png')}
+              source={require("../assets/loginGoogle.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require('../assets/loginApple.png')}
+              source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
           </View>
@@ -119,16 +122,16 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    backgroundColor: "white",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   scrollView: {
     flex: 1,
   },
 
-  logoContainer: { justifyContent: 'center', alignItems: 'center' },
-  logo: { width: 250, height: 250, resizeMode: 'contain' },
+  logoContainer: { justifyContent: "center", alignItems: "center" },
+  logo: { width: 250, height: 250, resizeMode: "contain" },
   input: {
     height: 60,
     width: 350,
@@ -159,11 +162,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingBottom: 30,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
 });
