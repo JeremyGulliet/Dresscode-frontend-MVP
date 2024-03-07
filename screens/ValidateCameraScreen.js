@@ -15,6 +15,7 @@ import FooterCompo from "../components/footerCompo.js";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import DropDownPicker from "react-native-dropdown-picker";
+// DropDownPicker.setListMode("SCROLLVIEW");
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -22,7 +23,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function ValidateCameraScreen({ navigation, route }) {
   const { url } = route.params;
   const user = useSelector((state) => state.user.value);
-
+  /* --- États dropdown "category" --- */
   const [category, setCategory] = useState(null);
   const [openCategory, setOpenCategory] = useState(false);
   const [categoryItems, setCategoryItems] = useState([
@@ -30,14 +31,125 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Bas", value: "Bas" },
     { label: "Accessoire", value: "Accessoire" },
   ]);
-  const [type, setType] = useState("");
-  const [colors, setColors] = useState("");
+
+  /* --- États dropdown "type" --- */
+  const [type, setType] = useState(null);
+  const [openType, setOpenType] = useState(false);
+  const [typeItems, setTypeItems] = useState([
+    { label: "Blouse", value: "Blouse" },
+    { label: "Chemise", value: "Chemise" },
+    { label: "Jean", value: "Jean" },
+    { label: "Jupe", value: "Jupe" },
+    { label: "Manteau", value: "Manteau" },
+    { label: "Pantalon", value: "Pantalon" },
+    { label: "Pull", value: "Pull" },
+    { label: "Robe", value: "Robe" },
+    { label: "Short", value: "Short" },
+    { label: "Sweatshirt", value: "Sweatshirt" },
+    { label: "T-shirt", value: "T-shirt" },
+    { label: "Veste", value: "Veste" },
+  ]);
+
+  /* --- États dropdown "colors" --- */
+  const [colors, setColors] = useState(null);
+  const [openColors, setOpenColors] = useState(false);
+  const [colorsItems, setColorsItems] = useState([
+    { label: "Abricot", value: "Abricot" },
+    { label: "Argenté", value: "Argenté" },
+    { label: "Beige", value: "Beige" },
+    { label: "Blanc", value: "Blanc" },
+    { label: "Bleu", value: "Bleu" },
+    { label: "Bleu clair", value: "Bleu clair" },
+    { label: "Bleu marine", value: "Bleu marine" },
+    { label: "Bordeaux", value: "Bordeaux" },
+    { label: "Corail", value: "Corail" },
+    { label: "Crème", value: "Crème" },
+    { label: "Doré", value: "Doré" },
+    { label: "Gris", value: "Gris" },
+    { label: "Jaune", value: "Jaune" },
+    { label: "Jaune moutarde", value: "Jaune moutarde" },
+    { label: "Kaki", value: "Kaki" },
+    { label: "Lila", value: "Lila" },
+    { label: "Marron", value: "Marron" },
+    { label: "Multicolore", value: "Multicolore" },
+    { label: "Noir", value: "Noir" },
+    { label: "Orange", value: "Orange" },
+    { label: "Rose", value: "Rose" },
+    { label: "Rouge", value: "Rouge" },
+    { label: "Turquoise", value: "Turquoise" },
+    { label: "Vert", value: "Vert" },
+    { label: "Vert foncé", value: "Vert foncé" },
+    { label: "Vert menthe", value: "Vert menthe" },
+    { label: "Violet", value: "Violet" },
+  ]);
+
   const [size, setSize] = useState("");
+
+  /* --- États dropdown "colors" --- */
   const [weatherType, setWeatherType] = useState("");
+  const [openWeatherType, setOpenWeatherType] = useState(false);
+  const [weatherTypeItems, setWeatherTypeItems] = useState([
+    { label: "Neige", value: "Neige" },
+    { label: "Nuages", value: "Nuages" },
+    { label: "Pluie", value: "Pluie" },
+    { label: "Soleil", value: "Soleil" },
+  ]);
+
   const [tempMin, setTempMin] = useState("");
   const [tempMax, setTempMax] = useState("");
+
   const [event, setEvent] = useState("");
+  const [openEvent, setOpenEvent] = useState(false);
+  const [eventItems, setEventItems] = useState([
+    { label: "Cérémonie", value: "Cérémonie" },
+    { label: "Détente", value: "Détente" },
+    { label: "Fête", value: "Fête" },
+    { label: "Mariage", value: "Mariage" },
+    { label: "Soirée", value: "Soirée" },
+    { label: "Sport", value: "Sport" },
+    { label: "Travail", value: "Travail" },
+    { label: "Voyage", value: "Voyage" },
+  ]);
+
   const [brand, setBrand] = useState("");
+  const [openBrand, setOpenBrand] = useState(false);
+  const [brandItems, setBrandItems] = useState([
+    { label: "Adidas", value: "Adidas" },
+    { label: "Balenciaga", value: "Balenciaga" },
+    { label: "Calvin Klein", value: "Calvin Klein" },
+    { label: "Chanel", value: "Chanel" },
+    { label: "Christian Dior", value: "Christian Dior" },
+    { label: "Converse", value: "Converse" },
+    { label: "Dolce & Gabbana", value: "Dolce & Gabbana" },
+    { label: "Fendi", value: "Fendi" },
+    { label: "Gucci", value: "Gucci" },
+    { label: "H&M", value: "H&M" },
+    { label: "Hermès", value: "Hermès" },
+    { label: "Hugo Boss", value: "Hugo Boss" },
+    { label: "Kenzo", value: "Kenzo" },
+    { label: "Lacoste", value: "Lacoste" },
+    { label: "Levi's", value: "Levi's" },
+    { label: "Louis Vuitton", value: "Louis Vuitton" },
+    { label: "Mango", value: "Mango" },
+    { label: "Michael Kors", value: "Michael Kors" },
+    { label: "New Balance", value: "New Balance" },
+    { label: "Nike", value: "Nike" },
+    { label: "Puma", value: "Puma" },
+    { label: "Ralph Lauren", value: "Ralph Lauren" },
+    { label: "Reebok", value: "Reebok" },
+    { label: "Saint Laurent", value: "Saint Laurent" },
+    { label: "Salomon", value: "Salomon" },
+    { label: "Supreme", value: "Supreme" },
+    { label: "The North Face", value: "The North Face" },
+    { label: "Tommy Hilfiger", value: "Tommy Hilfiger" },
+    { label: "UGG", value: "UGG" },
+    { label: "Uniqlo", value: "Uniqlo" },
+    { label: "Valentino", value: "Valentino" },
+    { label: "Vans", value: "Vans" },
+    { label: "Versace", value: "Versace" },
+    { label: "Victoria's Secret", value: "Victoria's Secret" },
+    { label: "Zara", value: "Zara" },
+  ]);
 
   const handleInputChange = (fieldName, text, selectedValue) => {
     switch (fieldName) {
@@ -45,16 +157,16 @@ export default function ValidateCameraScreen({ navigation, route }) {
         setCategory(selectedValue);
         break;
       case "type":
-        setType(text);
+        setType(selectedValue);
         break;
       case "colors":
-        setColors(text);
+        setColors(selectedValue);
         break;
       case "size":
         setSize(text);
         break;
       case "weatherType":
-        setWeatherType(text);
+        setWeatherType(selectedValue);
         break;
       case "tempMin":
         setTempMin(text);
@@ -63,24 +175,15 @@ export default function ValidateCameraScreen({ navigation, route }) {
         setTempMax(text);
         break;
       case "event":
-        setEvent(text);
+        setEvent(selectedValue);
         break;
       case "brand":
-        setBrand(text);
+        setBrand(selectedValue);
         break;
 
       default:
         break;
     }
-  };
-  const handleOpenPicker = () => {
-    setOpenCategory(true);
-    console.log("Picker opened");
-  };
-
-  const handleClosePicker = () => {
-    setOpenCategory(false);
-    console.log("Picker closed");
   };
 
   const handleSubmit = () => {
@@ -141,7 +244,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   body: JSON.stringify({
                     weather: weatherData.newWeather._id,
                     useDate: new Date(),
-                    favorite: favorite,
+                    favorite: true,
                     url_image: url,
                     description: descriptionData.newDescription._id,
                     brand: brandData.newBrand._id,
@@ -188,13 +291,13 @@ export default function ValidateCameraScreen({ navigation, route }) {
       </View>
 
       <View style={styles.contentContainer}>
-        {/* -------- IMAGE -------- */}
+        {/* ----------------------------------------------------------------------------- IMAGE -------- */}
         <View style={styles.imageContainer}>
           <Image source={{ uri: url }} style={styles.image} />
         </View>
         <View style={styles.separation}></View>
 
-        {/* -------- INPUTS -------- */}
+        {/* ----------------------------------------------------------------------DROPDOWNS & INPUTS -------- */}
         <View style={styles.descriptionContainer}>
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
@@ -210,8 +313,23 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 }
                 setItems={setCategoryItems}
                 placeholder="Sélectionnez une catégorie..."
-                containerStyle={{ height: 40, width: "75%" }}
-                style={{ backgroundColor: "#fafafa" }}
+                maxHeight={200}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 10,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                  //   zIndex: 10,
+                }}
                 itemStyle={{
                   justifyContent: "flex-start",
                 }}
@@ -220,20 +338,92 @@ export default function ValidateCameraScreen({ navigation, route }) {
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Type : </Text>
-              <TextInput
-                style={[styles.input, styles.type]}
-                placeholder="T-shirt, jean, ..."
-                onChangeText={(text) => handleInputChange("type", text)}
+              <DropDownPicker
+                listMode="SCROLLVIEW"
+                // scrollViewProps={{
+                //   nestedScrollEnabled: true,
+                // }}
+                open={openType}
                 value={type}
+                items={typeItems}
+                setOpen={setOpenType}
+                setValue={(selectedValue) =>
+                  handleInputChange("type", null, selectedValue)
+                }
+                setItems={setTypeItems}
+                placeholder="Sélectionnez un type..."
+                searchable={true} // Permet la recherche
+                searchablePlaceholder="Rechercher un type"
+                searchableError={() => <Text fontSize={16}>Not found</Text>}
+                maxHeight={230}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 9,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                }}
+                dropDownContainerStyle={{
+                  position: "relative",
+                  top: 0,
+                  height: 200,
+                }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
+                // scrollViewProps={{
+                //   style: { maxHeight: 200 },
+                // }}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Colors : </Text>
-              <TextInput
-                style={[styles.input, styles.colors]}
-                placeholder="black, red, ..."
-                onChangeText={(text) => handleInputChange("colors", text)}
+              <Text style={styles.label}>Couleurs : </Text>
+              <DropDownPicker
+                // multiple={true}
+                // min={0}
+                // max={3}
+                open={openColors}
                 value={colors}
+                items={colorsItems}
+                setOpen={setOpenColors}
+                setValue={(selectedValue) =>
+                  handleInputChange("colors", null, selectedValue)
+                }
+                setItems={setColorsItems}
+                placeholder="Sélectionnez une couleur (ou +)..."
+                searchable={true} // Permet la recherche
+                searchablePlaceholder="Rechercher dans les couleurs"
+                searchableError={() => <Text fontSize={16}>Not found</Text>}
+                maxHeight={200}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 8,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                  //   zIndex: 10,
+                }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
             <View style={styles.inputContainer}>
@@ -246,18 +436,45 @@ export default function ValidateCameraScreen({ navigation, route }) {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Weather type : </Text>
-              <TextInput
-                style={[styles.input, styles.weatherType]}
-                placeholder="Soleil, Pluie, ..."
-                onChangeText={(text) => handleInputChange("weatherType", text)}
+              <Text style={styles.label}>Type de météo : </Text>
+              <DropDownPicker
+                open={openWeatherType}
                 value={weatherType}
+                items={weatherTypeItems}
+                setOpen={setOpenWeatherType}
+                setValue={(selectedValue) =>
+                  handleInputChange("weatherType", null, selectedValue)
+                }
+                setItems={setWeatherTypeItems}
+                placeholder="Sélectionnez une type de météo..."
+                maxHeight={200}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 7,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                  //   zIndex: 6,
+                }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>TempMin : </Text>
               <TextInput
                 style={[styles.input, styles.tempMin]}
+                keyboardType="numeric"
                 placeholder="5, 12, ..."
                 onChangeText={(text) => handleInputChange("tempMin", text)}
                 value={tempMin}
@@ -267,27 +484,94 @@ export default function ValidateCameraScreen({ navigation, route }) {
               <Text style={styles.label}>TempMax : </Text>
               <TextInput
                 style={[styles.input, styles.tempMax]}
+                keyboardType="numeric"
                 placeholder="20, 35, ..."
                 onChangeText={(text) => handleInputChange("tempMax", text)}
                 value={tempMax}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Event : </Text>
-              <TextInput
-                style={[styles.input, styles.event]}
-                placeholder="Travail, Soirée, ..."
-                onChangeText={(text) => handleInputChange("event", text)}
+              <Text style={styles.label}>Évènement : </Text>
+              <DropDownPicker
+                open={openEvent}
                 value={event}
+                items={eventItems}
+                setOpen={setOpenEvent}
+                setValue={(selectedValue) =>
+                  handleInputChange("event", null, selectedValue)
+                }
+                setItems={setEventItems}
+                placeholder="Sélectionnez une occasion..."
+                maxHeight={200}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 6,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                  //   zIndex: 10,
+                }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Brand : </Text>
-              <TextInput
-                style={[styles.input, styles.brand]}
-                placeholder="Adidas, Devred, ..."
-                onChangeText={(text) => handleInputChange("brand", text)}
+              <Text style={styles.label}>Marque : </Text>
+              <DropDownPicker
+                listMode="SCROLLVIEW"
+                // scrollViewProps={{
+                //   nestedScrollEnabled: true,
+                // }}
+                open={openBrand}
                 value={brand}
+                items={brandItems}
+                setOpen={setOpenBrand}
+                setValue={(selectedValue) =>
+                  handleInputChange("brand", null, selectedValue)
+                }
+                setItems={setBrandItems}
+                placeholder="Sélectionnez un type..."
+                searchable={true} // Permet la recherche
+                searchablePlaceholder="Rechercher un type"
+                searchableError={() => <Text fontSize={16}>Not found</Text>}
+                maxHeight={230}
+                containerStyle={{
+                  height: 34,
+                  width: "72%",
+                  //   borderColor: "red",
+                  //   borderWidth: 2,
+                  zIndex: 5,
+                }}
+                style={{
+                  backgroundColor: "#fafafa",
+                  borderWidth: 1,
+                  borderColor: "#d5d5d9",
+                  backgroundColor: "#eee",
+                  borderRadius: 40,
+                  minHeight: 30,
+                }}
+                dropDownContainerStyle={{
+                  position: "relative",
+                  top: 0,
+                  height: 200,
+                }}
+                itemStyle={{
+                  justifyContent: "flex-start",
+                }}
+                dropDownStyle={{ backgroundColor: "#fafafa" }}
+                // scrollViewProps={{
+                //   style: { maxHeight: 200 },
+                // }}
               />
             </View>
           </View>
@@ -352,7 +636,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 6,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     marginTop: 10,
     // borderWidth: 2,
     // borderColor: "yellow",
@@ -361,8 +645,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "flex-start",
-    width: "80%",
-    marginLeft: 40,
+    width: "90%",
+    // marginLeft: 40,
     // borderWidth: 2,
     // borderColor: "red",
   },
@@ -386,6 +670,7 @@ const styles = StyleSheet.create({
     padding: 0,
     width: "50%",
     fontSize: 18,
+    zIndex: 1,
   },
   dropdownContainer: {
     width: "75%",
