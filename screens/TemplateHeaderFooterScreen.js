@@ -20,7 +20,7 @@ export default function TemplateHeaderFooterScreen() {
         <Text>CONTENT</Text>
       </View>
 
-      <FooterCompo />
+      <FooterCompo navigation={navigation} />
     </SafeAreaView>
   );
 }
