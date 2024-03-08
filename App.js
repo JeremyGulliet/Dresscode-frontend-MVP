@@ -51,6 +51,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
+          initialRouteName='DressingScreen'
         >
           <Stack.Screen name='SignIn' component={SignInScreen} />
           <Stack.Screen name='Home' component={HomeScreen} />
