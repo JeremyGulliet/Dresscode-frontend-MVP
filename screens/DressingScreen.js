@@ -6,12 +6,12 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { FontAwesome6 } from '@expo/vector-icons';
-import HeaderCompo from '../components/headerCompo';
-import { AntDesign } from '@expo/vector-icons';
-import { faStepBackward } from '@fortawesome/free-solid-svg-icons';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { FontAwesome6 } from "@expo/vector-icons";
+import HeaderCompo from "../components/headerCompo";
+import { AntDesign } from "@expo/vector-icons";
+import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
 
 export default function DressingScreen({ navigation }) {
   const [tops, setTops] = useState([]);
@@ -23,29 +23,35 @@ export default function DressingScreen({ navigation }) {
   }, []);
 
   const fetchTops = () => {
-    fetch('http://192.168.1.41:3000/articles/dressing/hauts')
+    fetch("http://192.168.1.36:3000/articles/dressing/hauts")
       .then((response) => {
-        //console.log('Response from tops:', response);
         return response.json();
       })
       .then((data) => {
-        console.log('Data for tops:', data);
-        setTops(data);
+        // Filtrer les éléments pour ne conserver que les hauts
+        const hauts = data.filter(
+          (item) => item.description && item.description.type === "haut"
+        );
+        console.log("Data for tops:", hauts);
+        setTops(hauts); // Définir uniquement les hauts dans l'état
       })
-      .catch((error) => console.error('Error fetching tops:', error));
+      .catch((error) => console.error("Error fetching tops:", error));
   };
 
   const fetchBottoms = () => {
-    fetch('http://192.168.1.41:3000/articles/dressing/bas')
+    fetch("http://192.168.1.36:3000/articles/dressing/bas")
       .then((response) => {
-        // console.log('Response from bottoms:', response);
         return response.json();
       })
       .then((data) => {
-        //console.log('Data for bottoms:', data[0].description.type);
-        setBottoms(data);
+        // Filtrer les éléments pour ne conserver que les bas
+        const bas = data.filter(
+          (item) => item.description && item.description.type === "bas"
+        );
+        console.log("Data for bottoms:", bas);
+        setBottoms(bas); // Définir uniquement les bas dans l'état
       })
-      .catch((error) => console.error('Error fetching bottoms:', error));
+      .catch((error) => console.error("Error fetching tops:", error));
   };
 
   return (
@@ -61,9 +67,9 @@ export default function DressingScreen({ navigation }) {
           <View style={styles.filterContainer}>
             <Text>Filter</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SearchScreen')}
+              onPress={() => navigation.navigate("SearchScreen")}
             >
-              <FontAwesome6 name='magnifying-glass' size={30} color='#0E0E66' />
+              <FontAwesome6 name="magnifying-glass" size={30} color="#0E0E66" />
             </TouchableOpacity>
           </View>
 
@@ -99,11 +105,11 @@ export default function DressingScreen({ navigation }) {
 
             <View style={styles.selectSubContainer}>
               <Image
-                source={require('../assets/dressing/top-01.png')}
+                source={require("../assets/dressing/top-01.png")}
                 style={styles.imageDressing}
               />
               <Image
-                source={require('../assets/dressing/bottom-01.png')}
+                source={require("../assets/dressing/bottom-01.png")}
                 style={styles.imageDressing}
               />
             </View>
@@ -114,22 +120,22 @@ export default function DressingScreen({ navigation }) {
             {/* button 1 */}
             <TouchableOpacity
               style={styles.buttonLeft}
-              onPress={() => console.log('Pressed => Sélectionner')}
+              onPress={() => console.log("Pressed => Sélectionner")}
             >
               <Text style={styles.buttonText}>Sélectionner</Text>
             </TouchableOpacity>
 
             {/* button 2 */}
             <TouchableOpacity
-              onPress={() => navigation.navigate('AddArticleScreen')}
+              onPress={() => console.log('Pressed => Central +')}
             >
-              <AntDesign name='pluscircle' size={50} color='#0E0E66' />
+              <AntDesign name="pluscircle" size={50} color="#0E0E66" />
             </TouchableOpacity>
 
             {/* button 3 */}
             <TouchableOpacity
               style={styles.buttonRight}
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => console.log('Pressed => Générer')}
             >
               <Text style={styles.buttonText}>Générer</Text>
             </TouchableOpacity>
@@ -152,65 +158,65 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: '5%',
-    paddingVertical: '10%',
-    justifyContent: 'flex-end',
-    backgroundColor: '#fff',
+    paddingHorizontal: "5%",
+    paddingVertical: "10%",
+    justifyContent: "flex-end",
+    backgroundColor: "#fff",
     rowGap: 20,
   },
   filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
   },
   topContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   bottomContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageDressing: {
     height: 150,
     width: 150,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     borderRadius: 8,
     marginHorizontal: 10,
   },
   selectContainer: {
     borderWidth: 1,
     borderRadius: 8,
-    height: 'auto',
+    height: "auto",
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     gap: 10,
   },
   selectSubContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   buttonLeft: {
-    backgroundColor: '#FCA311',
+    backgroundColor: "#FCA311",
     width: 130,
     height: 50,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonRight: {
-    backgroundColor: '#FF4B8C',
+    backgroundColor: "#FF4B8C",
     width: 130,
     height: 50,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
