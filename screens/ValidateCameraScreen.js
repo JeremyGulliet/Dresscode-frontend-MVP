@@ -286,6 +286,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       });
   };
 
+
   return (
     <SafeAreaView style={styles.SafeAreaView}>
 
@@ -303,6 +304,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
         {/* ----------------------------------------------------------------------DROPDOWNS & INPUTS -------- */}
         <View style={styles.descriptionContainer}>
+
           <View style={styles.inputsContainer}>
             {/* §§§§§§§§§§§§§§§§§§§ BLOC CATEGORY + TYPE + FAVORITE §§§§§§§§§§§§§§§§§§§ */}
             <View style={styles.blocCategoryTypeFavorite}>
@@ -336,7 +338,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       backgroundColor: "#eee",
                       borderRadius: 40,
                       minHeight: 30,
-                      //   zIndex: 10,
+                      zIndex: 10,
                     }}
                     itemStyle={{
                       justifyContent: "flex-start",
@@ -606,6 +608,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           </View>
         </View>
 
+
         {/* -------- @BUTTONS -------- */}
         <View style={styles.buttons}>
           <Button
@@ -620,9 +623,12 @@ export default function ValidateCameraScreen({ navigation, route }) {
             onPress={() => handleSubmit()}
           />
         </View>
+
       </View>
 
+
       <FooterCompo style={styles.footer} navigation={navigation} />
+
     </SafeAreaView>
   );
 }

@@ -29,7 +29,7 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        // console.log('Data for tops:', data);
+        console.log('Data for tops:', data);
         setTops(data);
       })
       .catch((error) => console.error('Error fetching tops:', error));
@@ -42,7 +42,7 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        console.log('Data for bottoms:', data[0].description.type);
+        //console.log('Data for bottoms:', data[0].description.type);
         setBottoms(data);
       })
       .catch((error) => console.error('Error fetching bottoms:', error));

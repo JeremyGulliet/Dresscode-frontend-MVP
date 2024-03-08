@@ -60,7 +60,7 @@ export default function CameraScreen({ navigation }) {
       flashMode={flashMode}
       ref={(ref) => (cameraRef = ref)}
       style={styles.camera}
-      autoFocus={AutoFocus.auto}
+      autoFocus={AutoFocus.on}
     >
       {/* Boutons Flash et changement de camera */}
       <View style={styles.buttonsContainer}>
