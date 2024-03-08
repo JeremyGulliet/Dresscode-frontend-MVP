@@ -23,7 +23,7 @@ export default function DressingScreen({ navigation }) {
   }, []);
 
   const fetchTops = () => {
-    fetch("http://192.168.1.36:3000/articles/dressing/hauts")
+    fetch("http://192.168.1.41:3000/articles/dressing/hauts")
       .then((response) => {
         return response.json();
       })
@@ -39,7 +39,7 @@ export default function DressingScreen({ navigation }) {
   };
 
   const fetchBottoms = () => {
-    fetch("http://192.168.1.36:3000/articles/dressing/bas")
+    fetch("http://192.168.1.41:3000/articles/dressing/bas")
       .then((response) => {
         return response.json();
       })
@@ -127,7 +127,7 @@ export default function DressingScreen({ navigation }) {
 
             {/* button 2 */}
             <TouchableOpacity
-              onPress={() => console.log('Pressed => Central +')}
+              onPress={() => navigation.navigate("AddArticleScreen")}
             >
               <AntDesign name="pluscircle" size={50} color="#0E0E66" />
             </TouchableOpacity>
@@ -135,7 +135,7 @@ export default function DressingScreen({ navigation }) {
             {/* button 3 */}
             <TouchableOpacity
               style={styles.buttonRight}
-              onPress={() => console.log('Pressed => Générer')}
+              onPress={() => navigation.navigate("Home")}
             >
               <Text style={styles.buttonText}>Générer</Text>
             </TouchableOpacity>

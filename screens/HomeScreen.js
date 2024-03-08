@@ -14,9 +14,9 @@ import * as Location from 'expo-location'
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [topImage, setTopImage] = useState(null);
-  const [bottomImage, setBottomImage] = useState(null);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [topImage, setTopImage] = useState([]);
+  const [bottomImage, setBottomImage] = useState([]);
+  //const [firstLoad, setFirstLoad] = useState(true);
 
   const WEATHER_API_KEY = 'ce7418650c86eae6629dfcfdda141c14';
 
@@ -53,7 +53,7 @@ const HomeScreen = () => {
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
-          console.log(data.weather[0].main);
+          //console.log(data.weather[0].main);
           setMyWeather(data.weather[0].main);
           setMyTemp(data.main.temp);
           setMyTempMin(data.main.temp_min);
@@ -92,29 +92,37 @@ const HomeScreen = () => {
 
 
   useEffect(() => {
-    // Fetch random top and bottom images for the first time
-    if (firstLoad) {
-      fetchRandomOutfit();
-      setFirstLoad(false);
-    }
-  }, []);
+    fetchRandomOutfit();
+  }, [])
 
   const fetchRandomOutfit = () => {
-    fetch('http://192.168.1.41:3000/articles/random/tops')
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data)
-        setTopImage(data.imageUrl);
+    fetch("http://192.168.1.41:3000/articles/dressing/hauts")
+      .then((response) => {
+        return response.json();
       })
-      .catch((error) => console.error(error));
+      .then((data) => {
+        // Filtrer les éléments pour ne conserver que les hauts
+        const hauts = data.filter(
+          (item) => item.description && item.description.type === "haut"
+        );
+        //console.log("Data for tops:", hauts);
+        setTopImage(hauts); // Définir uniquement les hauts dans l'état
+      })
+      .catch((error) => console.error("Error fetching tops:", error));
 
-    fetch('http://192.168.1.41:3000/articles/random/bottoms')
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data)
-        setBottomImage(data.imageUrl);
+    fetch("http://192.168.1.41:3000/articles/dressing/bas")
+      .then((response) => {
+        return response.json();
       })
-      .catch((error) => console.error(error));
+      .then((data) => {
+        // Filtrer les éléments pour ne conserver que les bas
+        const bas = data.filter(
+          (item) => item.description && item.description.type === "bas"
+        );
+        //console.log("Data for bottoms:", bas);
+        setBottomImage(bas); // Définir uniquement les bas dans l'état
+      })
+      .catch((error) => console.error("Error fetching tops:", error));
   };
 
   const reloadOutfit = () => {
@@ -139,8 +147,12 @@ const HomeScreen = () => {
             <Text style={styles.temperatureText}>Aujourd'hui {Math.round(myTemp)}°C</Text>
           </View>)}
         <View style={styles.clothingContainer}>
-          <Image source={{ uri: topImage }} style={styles.clothingImage} />
-          <Image source={{ uri: bottomImage }} style={styles.clothingImage} />
+          {topImage.length > 0 && (
+            <Image source={{ uri: topImage[Math.floor(Math.random() * topImage.length)].url_image }} style={styles.clothingImage} />
+          )}
+          {bottomImage.length > 0 && (
+            <Image source={{ uri: bottomImage[Math.floor(Math.random() * bottomImage.length)].url_image }} style={styles.clothingImage} />
+          )}
           {/* <Image
             source={require('../assets/home/vet-chauss.png')}
             style={styles.clothingImage}
