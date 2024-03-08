@@ -1,5 +1,4 @@
 import {
-  Button,
   StyleSheet,
   Text,
   View,
@@ -8,36 +7,46 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesome6 } from '@expo/vector-icons';
 import HeaderCompo from '../components/headerCompo';
 import { AntDesign } from '@expo/vector-icons';
 import { faStepBackward } from '@fortawesome/free-solid-svg-icons';
 
 export default function DressingScreen({ navigation }) {
-  //   const [tops, setTops] = useState([]);
+  const [tops, setTops] = useState([]);
+  const [bottoms, setBottoms] = useState([]);
 
-  //   useEffect(() => {
-  //     const fetchData = () => {
-  //       fetch('MA_ROUTE')
-  //         .then((response) => response.json())
-  //         .then((data) => setTops(data))
-  //         .catch((error) => console.error(error));
-  //     };
+  useEffect(() => {
+    fetchTops();
+    fetchBottoms();
+  }, []);
 
-  //     fetchData();
-  //   }, []);
+  const fetchTops = () => {
+    fetch('http://localhost:3000/dressing/hauts')
+      .then((response) => {
+        console.log('Response from tops:', response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data for tops:', data);
+        setTops(data);
+      })
+      .catch((error) => console.error('Error fetching tops:', error));
+  };
 
-  //   return (
-  //     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-  //       {tops.map((top, i) => (
-  //         <View key={i} style={styles.selectSubContainer}>
-  //           {top.image && <Image source={{ uri: top.image }} style={styles.imageDressing} />}
-  //           <Text>{top.name}</Text>
-  //         </View>
-  //       ))}
-  //     </ScrollView>
-  //   );
+  const fetchBottoms = () => {
+    fetch('http://localhost:3000/dressing/bas')
+      .then((response) => {
+        console.log('Response from bottoms:', response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data for bottoms:', data);
+        setBottoms(data);
+      })
+      .catch((error) => console.error('Error fetching bottoms:', error));
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -61,53 +70,27 @@ export default function DressingScreen({ navigation }) {
           {/* vetement haut */}
           <View style={styles.topContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <Image
-                source={require('../assets/dressing/top-01.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/top-02.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/top-03.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/top-04.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/top-05.png')}
-                style={styles.imageDressing}
-              />
+              {tops.map((top, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: top.url_image }}
+                  style={styles.imageDressing}
+                />
+              ))}
             </ScrollView>
           </View>
 
           {/* vetement bas */}
           <View style={styles.bottomContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <Image
-                source={require('../assets/dressing/bottom-01.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/bottom-02.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/bottom-03.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/bottom-04.png')}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require('../assets/dressing/bottom-05.png')}
-                style={styles.imageDressing}
-              />
-            </ScrollView>
+              {bottoms.map((bottom, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: bottom.url_image }}
+                  style={styles.imageDressing}
+                />
+              ))}
+            </ScrollView> 
           </View>
 
           {/* section sélection */}
@@ -169,8 +152,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: '5%', // Marge horizontale en pourcentage de la largeur de l'écran
-    paddingVertical: '10%', // Marge verticale en pourcentage de la hauteur de l'écran
+    paddingHorizontal: '5%',
+    paddingVertical: '10%',
     justifyContent: 'flex-end',
     backgroundColor: '#fff',
     rowGap: 20,

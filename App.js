@@ -53,29 +53,23 @@ export default function App() {
           screenOptions={{ headerShown: false }}
         //initialRouteName='DressingScreen'
         >
-          <Stack.Screen name='SignIn' component={SignInScreen} />
-          <Stack.Screen name='Home' component={HomeScreen} />
-          <Stack.Screen name='SignUp' component={SignUpScreen} />
-          <Stack.Screen name='SearchScreen' component={SearchScreen} />
-          <Stack.Screen name='DressingScreen' component={DressingScreen} />
-          <Stack.Screen name='AddArticleScreen' component={AddArticleScreen} />
-          <Stack.Screen name='ArticleScreen' component={ArticleScreen} />
-          <Stack.Screen name='CameraScreen' component={CameraScreen} />
-          <Stack.Screen name='ImportScreen' component={ImportScreen} />
-          <Stack.Screen name='UserScreen' component={UserScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="DressingScreen" component={DressingScreen} />
+          <Stack.Screen name="AddArticleScreen" component={AddArticleScreen} />
+          <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
+          <Stack.Screen name="CameraScreen" component={CameraScreen} />
+          <Stack.Screen name="ImportScreen" component={ImportScreen} />
+          <Stack.Screen name="UserScreen" component={UserScreen} />
           <Stack.Screen
-
-            name='ValidateCameraScreen'
-
+            name="ValidateCameraScreen"
             component={ValidateCameraScreen}
-
           />
           <Stack.Screen
-
-            name='ValidateImportScreen'
-
+            name="ValidateImportScreen"
             component={ValidateImportScreen}
-
           />
         </Stack.Navigator>
       </NavigationContainer>
