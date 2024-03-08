@@ -29,7 +29,7 @@ const HomeScreen = () => {
     fetch('http://192.168.1.41:3000/articles/random/tops')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        //console.log(data)
         setTopImage(data.imageUrl);
       })
       .catch((error) => console.error(error));
@@ -37,7 +37,7 @@ const HomeScreen = () => {
     fetch('http://192.168.1.41:3000/articles/random/bottoms')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        //console.log(data)
         setBottomImage(data.imageUrl);
       })
       .catch((error) => console.error(error));
