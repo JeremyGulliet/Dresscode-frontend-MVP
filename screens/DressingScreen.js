@@ -90,7 +90,7 @@ export default function DressingScreen({ navigation }) {
                   style={styles.imageDressing}
                 />
               ))}
-            </ScrollView>
+            </ScrollView> 
           </View>
 
           {/* section sélection */}
