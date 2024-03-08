@@ -120,6 +120,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Calvin Klein", value: "Calvin Klein" },
     { label: "Chanel", value: "Chanel" },
     { label: "Christian Dior", value: "Christian Dior" },
+    { label: "Célio", value: "Célio" },
     { label: "Converse", value: "Converse" },
     { label: "Dolce & Gabbana", value: "Dolce & Gabbana" },
     { label: "Fendi", value: "Fendi" },
