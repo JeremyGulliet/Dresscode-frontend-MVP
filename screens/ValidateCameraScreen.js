@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons/faHeart";
 
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
@@ -300,201 +301,218 @@ export default function ValidateCameraScreen({ navigation, route }) {
         {/* ----------------------------------------------------------------------DROPDOWNS & INPUTS -------- */}
         <View style={styles.descriptionContainer}>
           <View style={styles.inputsContainer}>
-            {/* ------------------- @DROPDOWN - CATEGORY  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Catégorie : </Text>
-              <DropDownPicker
-                open={openCategory}
-                value={category}
-                items={categoryItems}
-                setOpen={setOpenCategory}
-                setValue={(selectedValue) =>
-                  handleInputChange("category", null, selectedValue)
-                }
-                setItems={setCategoryItems}
-                placeholder="Sélectionnez une catégorie..."
-                maxHeight={200}
-                containerStyle={{
-                  height: 34,
-                  width: "72%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 10,
-                }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                  //   zIndex: 10,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-              />
+            {/* §§§§§§§§§§§§§§§§§§§ BLOC CATEGORY + TYPE + FAVORITE §§§§§§§§§§§§§§§§§§§ */}
+            <View style={styles.blocCategoryTypeFavorite}>
+              {/* §§§§§§§§§§§§§§§§§§§ BLOC CATEGORY & TYPE §§§§§§§§§§§§§§§§§§§ */}
+              <View style={styles.blocCategoryType}>
+                {/* ------------------- @DROPDOWN - CATEGORY  ------------------- */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Catégorie : </Text>
+                  <DropDownPicker
+                    open={openCategory}
+                    value={category}
+                    items={categoryItems}
+                    setOpen={setOpenCategory}
+                    setValue={(selectedValue) =>
+                      handleInputChange("category", null, selectedValue)
+                    }
+                    setItems={setCategoryItems}
+                    placeholder="Votre choix..."
+                    maxHeight={200}
+                    containerStyle={{
+                      height: 34,
+                      width: "60%",
+                      //   borderColor: "red",
+                      //   borderWidth: 2,
+                      zIndex: 10,
+                    }}
+                    style={{
+                      backgroundColor: "#fafafa",
+                      borderWidth: 1,
+                      borderColor: "#d5d5d9",
+                      backgroundColor: "#eee",
+                      borderRadius: 40,
+                      minHeight: 30,
+                      //   zIndex: 10,
+                    }}
+                    itemStyle={{
+                      justifyContent: "flex-start",
+                    }}
+                    dropDownStyle={{ backgroundColor: "#fafafa" }}
+                  />
+                </View>
+                {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Type : </Text>
+                  <DropDownPicker
+                    listMode="SCROLLVIEW"
+                    // scrollViewProps={{
+                    //   nestedScrollEnabled: true,
+                    // }}
+                    open={openType}
+                    value={type}
+                    items={typeItems}
+                    setOpen={setOpenType}
+                    setValue={(selectedValue) =>
+                      handleInputChange("type", null, selectedValue)
+                    }
+                    setItems={setTypeItems}
+                    placeholder="Votre choix..."
+                    searchable={true} // Permet la recherche
+                    searchablePlaceholder="Rechercher un type"
+                    searchableError={() => <Text fontSize={16}>Not found</Text>}
+                    maxHeight={230}
+                    containerStyle={{
+                      height: 34,
+                      width: "60%",
+                      //   borderColor: "red",
+                      //   borderWidth: 2,
+                      zIndex: 9,
+                    }}
+                    style={{
+                      backgroundColor: "#fafafa",
+                      borderWidth: 1,
+                      borderColor: "#d5d5d9",
+                      backgroundColor: "#eee",
+                      borderRadius: 40,
+                      minHeight: 30,
+                    }}
+                    dropDownContainerStyle={{
+                      position: "relative",
+                      top: 0,
+                      height: 200,
+                    }}
+                    itemStyle={{
+                      justifyContent: "flex-start",
+                    }}
+                    dropDownStyle={{ backgroundColor: "#fafafa" }}
+                    // scrollViewProps={{
+                    //   style: { maxHeight: 200 },
+                    // }}
+                  />
+                </View>
+              </View>
+              <View style={styles.faHeart}>
+                <Text>
+                  <FontAwesomeIcon icon={faHeart} size={30} color="red" />
+                </Text>
+              </View>
             </View>
-            {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Type : </Text>
-              <DropDownPicker
-                listMode="SCROLLVIEW"
-                // scrollViewProps={{
-                //   nestedScrollEnabled: true,
-                // }}
-                open={openType}
-                value={type}
-                items={typeItems}
-                setOpen={setOpenType}
-                setValue={(selectedValue) =>
-                  handleInputChange("type", null, selectedValue)
-                }
-                setItems={setTypeItems}
-                placeholder="Sélectionnez un type..."
-                searchable={true} // Permet la recherche
-                searchablePlaceholder="Rechercher un type"
-                searchableError={() => <Text fontSize={16}>Not found</Text>}
-                maxHeight={230}
-                containerStyle={{
-                  height: 34,
-                  width: "72%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 9,
-                }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                }}
-                dropDownContainerStyle={{
-                  position: "relative",
-                  top: 0,
-                  height: 200,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-                // scrollViewProps={{
-                //   style: { maxHeight: 200 },
-                // }}
-              />
+            {/* §§§§§§§§§§§§§§§§§§§ BLOC COLORS & SIZE §§§§§§§§§§§§§§§§§§§ */}
+            <View style={styles.blocColorsSize}>
+              {/* ------------------- @DROPDOWN - COLORS  ------------------- */}
+              <View style={styles.inputContainerColors}>
+                <Text style={styles.label}>Couleurs</Text>
+                <DropDownPicker
+                  // multiple={true}
+                  // min={0}
+                  // max={3}
+                  open={openColors}
+                  value={colors}
+                  items={colorsItems}
+                  setOpen={setOpenColors}
+                  setValue={(selectedValue) =>
+                    handleInputChange("colors", null, selectedValue)
+                  }
+                  setItems={setColorsItems}
+                  placeholder="Votre choix..."
+                  searchable={true} // Permet la recherche
+                  searchablePlaceholder="Rechercher dans les couleurs"
+                  searchableError={() => <Text fontSize={16}>Not found</Text>}
+                  maxHeight={200}
+                  containerStyle={{
+                    height: 34,
+                    width: "100%",
+                    //   borderColor: "red",
+                    //   borderWidth: 2,
+                    zIndex: 8,
+                  }}
+                  style={{
+                    backgroundColor: "#fafafa",
+                    borderWidth: 1,
+                    borderColor: "#d5d5d9",
+                    backgroundColor: "#eee",
+                    borderRadius: 40,
+                    minHeight: 30,
+                    //   zIndex: 10,
+                  }}
+                  itemStyle={{
+                    justifyContent: "flex-start",
+                  }}
+                  dropDownStyle={{ backgroundColor: "#fafafa" }}
+                />
+              </View>
+              {/* ------------------- @INPUT - SIZE  ------------------- */}
+              <View style={styles.inputContainerSize}>
+                <Text style={styles.label}>Taille</Text>
+                <TextInput
+                  style={[styles.input, styles.size]}
+                  placeholder="M, 42, ..."
+                  onChangeText={(text) => handleInputChange("size", text)}
+                  value={size}
+                />
+              </View>
             </View>
-            {/* ------------------- @DROPDOWN - COLORS  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Couleurs : </Text>
-              <DropDownPicker
-                // multiple={true}
-                // min={0}
-                // max={3}
-                open={openColors}
-                value={colors}
-                items={colorsItems}
-                setOpen={setOpenColors}
-                setValue={(selectedValue) =>
-                  handleInputChange("colors", null, selectedValue)
-                }
-                setItems={setColorsItems}
-                placeholder="Sélectionnez une couleur (ou +)..."
-                searchable={true} // Permet la recherche
-                searchablePlaceholder="Rechercher dans les couleurs"
-                searchableError={() => <Text fontSize={16}>Not found</Text>}
-                maxHeight={200}
-                containerStyle={{
-                  height: 34,
-                  width: "72%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 8,
-                }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                  //   zIndex: 10,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-              />
-            </View>
-            {/* ------------------- @INPUT - SIZE  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Size : </Text>
-              <TextInput
-                style={[styles.input, styles.size]}
-                placeholder="M, 42, ..."
-                onChangeText={(text) => handleInputChange("size", text)}
-                value={size}
-              />
-            </View>
-            {/* ------------------- @DROPDOWN - WEATHER  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Type de météo : </Text>
-              <DropDownPicker
-                open={openWeatherType}
-                value={weatherType}
-                items={weatherTypeItems}
-                setOpen={setOpenWeatherType}
-                setValue={(selectedValue) =>
-                  handleInputChange("weatherType", null, selectedValue)
-                }
-                setItems={setWeatherTypeItems}
-                placeholder="Sélectionnez un type de météo..."
-                maxHeight={200}
-                containerStyle={{
-                  height: 34,
-                  width: "72%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 7,
-                }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                  //   zIndex: 6,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-              />
-            </View>
-            {/* ------------------- @INPUT - TEMPMIN  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>TempMin : </Text>
-              <TextInput
-                style={[styles.input, styles.tempMin]}
-                keyboardType="numeric"
-                placeholder="5, 12, ..."
-                onChangeText={(text) => handleInputChange("tempMin", text)}
-                value={tempMin}
-              />
-            </View>
-            {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>TempMax : </Text>
-              <TextInput
-                style={[styles.input, styles.tempMax]}
-                keyboardType="numeric"
-                placeholder="20, 35, ..."
-                onChangeText={(text) => handleInputChange("tempMax", text)}
-                value={tempMax}
-              />
+            {/* §§§§§§§§§§§§§§§§§§§ BLOC WEATHER + TEMPMIN + TEMPMAX §§§§§§§§§§§§§§§§§§§ */}
+            <View style={styles.blocWeatherTemperature}>
+              {/* ------------------- @DROPDOWN - WEATHER  ------------------- */}
+              <View style={styles.inputContainerWeather}>
+                <Text style={styles.label}>Météo</Text>
+                <DropDownPicker
+                  open={openWeatherType}
+                  value={weatherType}
+                  items={weatherTypeItems}
+                  setOpen={setOpenWeatherType}
+                  setValue={(selectedValue) =>
+                    handleInputChange("weatherType", null, selectedValue)
+                  }
+                  setItems={setWeatherTypeItems}
+                  placeholder="Votre choix..."
+                  maxHeight={200}
+                  containerStyle={{
+                    height: 34,
+                    width: "100%",
+                    //   borderColor: "red",
+                    //   borderWidth: 2,
+                    zIndex: 7,
+                  }}
+                  style={{
+                    backgroundColor: "#fafafa",
+                    borderWidth: 1,
+                    borderColor: "#d5d5d9",
+                    backgroundColor: "#eee",
+                    borderRadius: 40,
+                    minHeight: 30,
+                    //   zIndex: 6,
+                  }}
+                  itemStyle={{
+                    justifyContent: "flex-start",
+                  }}
+                  dropDownStyle={{ backgroundColor: "#fafafa" }}
+                />
+              </View>
+              {/* ------------------- @INPUT - TEMPMIN  ------------------- */}
+              <View style={styles.inputContainerTemperatures}>
+                <Text style={styles.label}>TempMin</Text>
+                <TextInput
+                  style={[styles.input, styles.tempMin]}
+                  keyboardType="numeric"
+                  placeholder="5, 12, ..."
+                  onChangeText={(text) => handleInputChange("tempMin", text)}
+                  value={tempMin}
+                />
+              </View>
+              {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
+              <View style={styles.inputContainerColumn}>
+                <Text style={styles.label}>TempMax</Text>
+                <TextInput
+                  style={[styles.input, styles.tempMax]}
+                  keyboardType="numeric"
+                  placeholder="20, 35, ..."
+                  onChangeText={(text) => handleInputChange("tempMax", text)}
+                  value={tempMax}
+                />
+              </View>
             </View>
             {/* ------------------- @DROPDOWN - EVENT  ------------------- */}
             <View style={styles.inputContainer}>
@@ -508,11 +526,11 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   handleInputChange("event", null, selectedValue)
                 }
                 setItems={setEventItems}
-                placeholder="Sélectionnez une occasion..."
+                placeholder="Votre choix..."
                 maxHeight={200}
                 containerStyle={{
                   height: 34,
-                  width: "72%",
+                  width: "65%",
                   //   borderColor: "red",
                   //   borderWidth: 2,
                   zIndex: 6,
@@ -548,14 +566,14 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   handleInputChange("brand", null, selectedValue)
                 }
                 setItems={setBrandItems}
-                placeholder="Sélectionnez une marque..."
+                placeholder="Votre choix..."
                 searchable={true} // Permet la recherche
                 searchablePlaceholder="Rechercher une marque"
                 searchableError={() => <Text fontSize={16}>Not found</Text>}
                 maxHeight={230}
                 containerStyle={{
                   height: 34,
-                  width: "72%",
+                  width: "65%",
                   //   borderColor: "red",
                   //   borderWidth: 2,
                   zIndex: 5,
@@ -588,11 +606,16 @@ export default function ValidateCameraScreen({ navigation, route }) {
         {/* -------- @BUTTONS -------- */}
         <View style={styles.buttons}>
           <Button
+            style={styles.btnToCamera}
             title="Go To Camera"
             onPress={() => navigation.navigate("CameraScreen")}
           />
 
-          <Button title="Go To Dressing" onPress={() => handleSubmit()} />
+          <Button
+            style={styles.btnToDressing}
+            title="Go To Dressing"
+            onPress={() => handleSubmit()}
+          />
         </View>
       </View>
 
@@ -666,11 +689,100 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     // borderWidth: 2,
+    // borderColor: "blue",
+  },
+
+  blocCategoryTypeFavorite: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  blocCategoryType: {
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    width: 250,
+    // borderWidth: 2,
     // borderColor: "green",
+  },
+
+  blocColorsSize: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  blocWeatherTemperature: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // borderColor: "black",
+    // borderWidth: 2,
+  },
+  inputContainerColors: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginLeft: 40,
+    width: "40%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "blue",
+  },
+  inputContainerSize: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginLeft: 40,
+    width: "50%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "blue",
+  },
+  inputContainerWeather: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginLeft: 40,
+    width: "40%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "blue",
+  },
+  inputContainerTemperatures: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginLeft: 40,
+    width: "30%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "blue",
+  },
+  inputContainerColumn: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginLeft: 40,
+    // width: "100%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "blue",
+  },
+  faHeart: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderColor: "black",
+    // borderWidth: 2,
   },
   label: {
     fontSize: 18,
     fontWeight: "bold",
+    // borderColor: "green",
+    // borderWidth: 2,
   },
   input: {
     borderBottomWidth: 1,
@@ -686,8 +798,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     marginLeft: 10,
-    borderWidth: 2,
-    borderColor: "green",
+    // borderWidth: 2,
+    // borderColor: "green",
   },
 
   selectedValue: {
@@ -702,6 +814,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+
   image: {
     width: "90%",
     height: "90%",
