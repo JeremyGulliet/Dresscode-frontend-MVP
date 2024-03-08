@@ -47,7 +47,7 @@ export default function AddArticleScreen({ navigation }) {
     <View style={styles.mainContainer}>
       <View style={styles.notifBar}>
         <View style={styles.headerContainer}>
-          <HeaderCompo />
+          <HeaderCompo navigation={navigation} />
         </View>
       </View>
 

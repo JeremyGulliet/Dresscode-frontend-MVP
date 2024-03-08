@@ -85,7 +85,7 @@ export default function ImportScreen({ route, navigation }) {
 
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.headerContainer}>
-                <HeaderCompo />
+                <HeaderCompo navigation={navigation} />
             </View>
 
             <View style={styles.contentContainer}>
