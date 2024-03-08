@@ -2,26 +2,24 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HeaderCompo from "../components/headerCompo.js";
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState, useEffect } from 'react';
+import * as ImagePicker from "expo-image-picker";
+import React, { useState, useEffect } from "react";
+import { Platform } from "react-native";
 
 export default function AddArticleScreen({ navigation }) {
-
-
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Permission to access media library is required!');
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission to access media library is required!");
         }
       }
     })();
   }, []);
 
-
   const handleImport = async () => {
-
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       //allowsEditing: true, //Pour editer la photo selectionnée. ATTENTION, il faut le commenter si on décommente "allowMiltipleSelection"
@@ -33,15 +31,12 @@ export default function AddArticleScreen({ navigation }) {
     //console.log(result.assets[0]);
     //console.log(result.assets[1].uri);
 
-
     if (!result.canceled) {
       // Récupérer les URLs des images sélectionnées
-      const selectedImages = result.assets.map(asset => asset.uri);
-      navigation.navigate('ImportScreen', { images: selectedImages });
-
+      const selectedImages = result.assets.map((asset) => asset.uri);
+      navigation.navigate("ImportScreen", { images: selectedImages });
     }
-
-  }
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -72,7 +67,6 @@ export default function AddArticleScreen({ navigation }) {
 
             <View style={styles.importContainer}>
               <TouchableOpacity
-
                 onPress={handleImport}
                 style={styles.buttonContent}
               >

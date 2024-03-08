@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import SvgUri from "react-native-svg-uri";
+import Svg from "react-native-svg";
 import DefaultUserPic from "../assets/defaultUserPic.svg";
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ function UserCompo() {
   const user = useSelector((state) => state.user.value);
   return (
     <View style={styles.userPicContainer}>
-      <SvgUri
+      <Svg
         style={styles.defaultUserPic}
         source={DefaultUserPic}
         width={35}

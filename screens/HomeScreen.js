@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import HeaderCompo from '../components/headerCompo';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import HeaderCompo from "../components/headerCompo";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -26,7 +26,7 @@ const HomeScreen = () => {
   }, []);
 
   const fetchRandomOutfit = () => {
-    fetch('http://192.168.1.41:3000/articles/random/tops')
+    fetch("http://192.168.1.138:3000/articles/random/tops")
       .then((response) => response.json())
       .then((data) => {
         //console.log(data)
@@ -34,7 +34,7 @@ const HomeScreen = () => {
       })
       .catch((error) => console.error(error));
 
-    fetch('http://192.168.1.41:3000/articles/random/bottoms')
+    fetch("http://192.168.1.138:3000/articles/random/bottoms")
       .then((response) => response.json())
       .then((data) => {
         //console.log(data)
@@ -58,7 +58,7 @@ const HomeScreen = () => {
         <View style={styles.weatherContainer}>
           <Image
             style={styles.weatherImage}
-            source={require('../assets/home/soleil-1.png')}
+            source={require("../assets/home/soleil-1.png")}
           ></Image>
           <Text style={styles.temperatureText}>Aujourd'hui 25°C</Text>
         </View>
@@ -74,12 +74,12 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={reloadOutfit}>
             <Image
               style={styles.reload}
-              source={require('../assets/home/chargement.png')}
+              source={require("../assets/home/chargement.png")}
             ></Image>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button1}
-            onPress={() => navigation.navigate('DressingScreen')}
+            onPress={() => navigation.navigate("DressingScreen")}
           >
             <Text style={styles.buttonText}>Dressing</Text>
           </TouchableOpacity>
@@ -97,80 +97,80 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
+    backgroundColor: "white",
+    justifyContent: "space-around",
   },
   scrollView: {
     flex: 1,
   },
   header: {
     padding: 20,
-    backgroundColor: '#0000ff',
-    alignItems: 'center',
+    backgroundColor: "#0000ff",
+    alignItems: "center",
     height: 25,
   },
   headerText: {
-    color: 'white',
+    color: "white",
     fontSize: 24,
   },
   weatherContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
+    backgroundColor: "white",
+    justifyContent: "space-around",
   },
   weatherImage: {
     height: 100,
     width: 100,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginBottom: 20,
   },
   temperatureText: {
     fontSize: 20,
     marginBottom: 20,
-    color: 'black',
+    color: "black",
   },
   clothingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     gap: 20,
   },
   clothingImage: {
     height: 150,
     width: 200,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     borderWidth: 3,
-    borderColor: '#000000',
+    borderColor: "#000000",
     borderRadius: 8,
   },
   buttonContainer: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     padding: 20,
     gap: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button1: {
-    backgroundColor: '#FCA311',
+    backgroundColor: "#FCA311",
     padding: 15,
     borderRadius: 8,
-    width: '85%',
+    width: "85%",
     height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button2: {
-    backgroundColor: '#FF4B8C',
+    backgroundColor: "#FF4B8C",
     padding: 15,
     borderRadius: 8,
-    width: '85%',
+    width: "85%",
     height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'black',
-    fontWeight: '600',
+    color: "black",
+    fontWeight: "600",
     fontSize: 16,
   },
   headerContainer: {

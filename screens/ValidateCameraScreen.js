@@ -14,7 +14,8 @@ import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons/faHeart";
-
+import { Dropdown } from "react-native-element-dropdown";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
 
@@ -34,6 +35,22 @@ export default function ValidateCameraScreen({ navigation, route }) {
   ]);
 
   /* --- États dropdown "type" --- */
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+
+  const renderLabel = () => {
+    if (value || isFocus) {
+      console.log("RENDERLABEL value : ", value, "isFocus : ", isFocus);
+      return (
+        <Text style={[styles.labelNEW, isFocus && { color: "#FCA311" }]}>
+          Type :
+        </Text>
+      );
+    }
+    return null;
+  };
+
   const [type, setType] = useState(null);
   const [openType, setOpenType] = useState(false);
   const [typeItems, setTypeItems] = useState([
@@ -344,8 +361,51 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Type : </Text>
-                  <DropDownPicker
+                  {/* <Text style={styles.label}>Type : </Text> */}
+                  {renderLabel()}
+                  <Dropdown
+                    style={[
+                      styles.dropdown,
+                      isFocus && { borderColor: "orange" },
+                    ]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    data={typeItems}
+                    search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocus ? "Type ..." : "..."}
+                    searchPlaceholder="Recherche..."
+                    value={type}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    onChange={(selectedValue) => {
+                      setValue(selectedValue);
+                      handleInputChange("type", null, selectedValue);
+                      setIsFocus(false);
+                    }}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
+                  />
+                  {/* <DropDownPicker
                     listMode="SCROLLVIEW"
                     // scrollViewProps={{
                     //   nestedScrollEnabled: true,
@@ -362,7 +422,8 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     searchable={true} // Permet la recherche
                     searchablePlaceholder="Rechercher un type"
                     searchableError={() => <Text fontSize={16}>Not found</Text>}
-                    maxHeight={230}
+                    dropDownMaxHeight={230}
+                    dropDownDirection="BOTTOM"
                     containerStyle={{
                       height: 34,
                       width: "60%",
@@ -390,7 +451,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     // scrollViewProps={{
                     //   style: { maxHeight: 200 },
                     // }}
-                  />
+                  /> */}
                 </View>
               </View>
               <View style={styles.faHeart}>
@@ -823,5 +884,50 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
+  },
+  // ---------------------------------------TEST NOUVEAU DROPDOWN
+  container: {
+    backgroundColor: "white",
+    padding: 16,
+  },
+  dropdown: {
+    height: 35,
+    width: 200,
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  labelNEW: {
+    position: "absolute",
+    backgroundColor: "whitesmoke",
+    left: 5,
+    top: -12,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    textAlign: "right",
+    marginRight: 25,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  focusedLabel: {
+    color: "#0E0E66", // Change la couleur du label en bleu lorsqu'il est en focus
   },
 });
