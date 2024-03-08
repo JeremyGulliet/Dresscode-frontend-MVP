@@ -23,26 +23,26 @@ export default function DressingScreen({ navigation }) {
   }, []);
 
   const fetchTops = () => {
-    fetch('http://localhost:3000/dressing/hauts')
+    fetch('http://192.168.1.41:3000/articles/dressing/hauts')
       .then((response) => {
-        console.log('Response from tops:', response);
+        //console.log('Response from tops:', response);
         return response.json();
       })
       .then((data) => {
-        console.log('Data for tops:', data);
+        // console.log('Data for tops:', data);
         setTops(data);
       })
       .catch((error) => console.error('Error fetching tops:', error));
   };
 
   const fetchBottoms = () => {
-    fetch('http://localhost:3000/dressing/bas')
+    fetch('http://192.168.1.41:3000/articles/dressing/bas')
       .then((response) => {
-        console.log('Response from bottoms:', response);
+        // console.log('Response from bottoms:', response);
         return response.json();
       })
       .then((data) => {
-        console.log('Data for bottoms:', data);
+        console.log('Data for bottoms:', data[0].description.type);
         setBottoms(data);
       })
       .catch((error) => console.error('Error fetching bottoms:', error));
@@ -90,7 +90,7 @@ export default function DressingScreen({ navigation }) {
                   style={styles.imageDressing}
                 />
               ))}
-            </ScrollView> 
+            </ScrollView>
           </View>
 
           {/* section sélection */}

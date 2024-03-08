@@ -38,7 +38,7 @@ export default function CameraScreen({ navigation }) {
       type: "image/jpeg",
     });
 
-    fetch("http://192.168.1.138:3000/articles/upload", {
+    fetch("http://192.168.1.41:3000/articles/upload", {
       method: "POST",
       body: formData,
     })

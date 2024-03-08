@@ -200,7 +200,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       event,
       brand
     );
-    fetch("http://192.168.1.138:3000/weathers", {
+    fetch("http://192.168.1.41:3000/weathers", {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -214,7 +214,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       .then((weatherData) => {
         //console.log("Mon ID:", weatherData.newWeather._id)
         //requête POST pour créer une entrée dans la collection "descriptions"
-        fetch("http://192.168.1.138:3000/descriptions", {
+        fetch("http://192.168.1.41:3000/descriptions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -229,7 +229,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           .then((descriptionData) => {
             //console.log(descriptionData)
             //requête POST pour créer une entrée dans la collection "brands"
-            fetch("http://192.168.1.138:3000/brands", {
+            fetch("http://192.168.1.41:3000/brands", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -240,7 +240,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
               .then((brandData) => {
                 //console.log(brandData)
                 //requêtePOST pour créer le nouvel article dans la collection "articles"
-                fetch("http://192.168.1.138:3000/articles", {
+                fetch("http://192.168.1.41:3000/articles", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
