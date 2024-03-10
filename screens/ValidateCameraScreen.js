@@ -33,27 +33,14 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Bas", value: "Bas" },
     { label: "Accessoire", value: "Accessoire" },
   ]);
+  const [isFocusCategory, setIsFocusCategory] = useState(false);
+  const [isSelectedCategory, setIsSelectedCategory] = useState(false);
 
   /* --- États dropdown "type" --- */
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-
-  const renderLabel = () => {
-    if (value || isFocus) {
-      console.log("RENDERLABEL value : ", value, "isFocus : ", isFocus);
-      return (
-        <Text style={[styles.labelNEW, isFocus && { color: "#FCA311" }]}>
-          Type :
-        </Text>
-      );
-    }
-    return null;
-  };
 
   const [type, setType] = useState(null);
-  const [openType, setOpenType] = useState(false);
-  const [typeItems, setTypeItems] = useState([
+  //   const [openType, setOpenType] = useState(false);
+  const typeItems = [
     { label: "Blouse", value: "Blouse" },
     { label: "Chemise", value: "Chemise" },
     { label: "Jean", value: "Jean" },
@@ -66,7 +53,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Sweatshirt", value: "Sweatshirt" },
     { label: "T-shirt", value: "T-shirt" },
     { label: "Veste", value: "Veste" },
-  ]);
+  ];
+
+  const [isFocusType, setIsFocusType] = useState(false);
+  const [isSelectedType, setIsSelectedType] = useState(false);
 
   /* --- États dropdown "colors" --- */
   const [colors, setColors] = useState(null);
@@ -100,10 +90,13 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Vert menthe", value: "Vert menthe" },
     { label: "Violet", value: "Violet" },
   ]);
+  const [isFocusColors, setIsFocusColors] = useState(false);
+  const [isSelectedColors, setIsSelectedColors] = useState(false);
 
+  /* --- États dropdown "size" --- */
   const [size, setSize] = useState("");
 
-  /* --- États dropdown "colors" --- */
+  /* --- États dropdown "weatherType" --- */
   const [weatherType, setWeatherType] = useState("");
   const [openWeatherType, setOpenWeatherType] = useState(false);
   const [weatherTypeItems, setWeatherTypeItems] = useState([
@@ -112,9 +105,14 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Pluie", value: "Pluie" },
     { label: "Soleil", value: "Soleil" },
   ]);
+  const [isFocusWeatherType, setIsFocusWeatherType] = useState(false);
+  const [isSelectedWeatherType, setIsSelectedWeatherType] = useState(false);
 
+  /* --- États dropdown "tempMin" & "tempMax" --- */
   const [tempMin, setTempMin] = useState("");
   const [tempMax, setTempMax] = useState("");
+
+  /* --- États dropdown "event" --- */
 
   const [event, setEvent] = useState("");
   const [openEvent, setOpenEvent] = useState(false);
@@ -128,6 +126,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Travail", value: "Travail" },
     { label: "Voyage", value: "Voyage" },
   ]);
+  const [isFocusEvent, setIsFocusEvent] = useState(false);
+  const [isSelectedEvent, setIsSelectedEvent] = useState(false);
+
+  /* --- États dropdown "brand" --- */
 
   const [brand, setBrand] = useState("");
   const [openBrand, setOpenBrand] = useState(false);
@@ -169,23 +171,25 @@ export default function ValidateCameraScreen({ navigation, route }) {
     { label: "Victoria's Secret", value: "Victoria's Secret" },
     { label: "Zara", value: "Zara" },
   ]);
+  const [isFocusBrand, setIsFocusBrand] = useState(false);
+  const [isSelectedBrand, setIsSelectedBrand] = useState(false);
 
-  const handleInputChange = (fieldName, text, selectedValue) => {
+  const handleInputChange = (fieldName, text, value) => {
     switch (fieldName) {
       case "category":
-        setCategory(selectedValue);
+        setCategory(value);
         break;
       case "type":
-        setType(selectedValue);
+        setType(value);
         break;
       case "colors":
-        setColors(selectedValue);
+        setColors(value);
         break;
       case "size":
         setSize(text);
         break;
       case "weatherType":
-        setWeatherType(selectedValue);
+        setWeatherType(value);
         break;
       case "tempMin":
         setTempMin(text);
@@ -194,14 +198,86 @@ export default function ValidateCameraScreen({ navigation, route }) {
         setTempMax(text);
         break;
       case "event":
-        setEvent(selectedValue);
+        setEvent(value);
         break;
       case "brand":
-        setBrand(selectedValue);
+        setBrand(value);
         break;
 
       default:
         break;
+    }
+  };
+
+  const renderLabel = (fieldName) => {
+    const isSelectedState =
+      fieldName === "category"
+        ? isSelectedCategory
+        : fieldName === "type"
+        ? isSelectedType
+        : fieldName === "colors"
+        ? isSelectedColors
+        : fieldName === "weatherType"
+        ? isSelectedWeatherType
+        : fieldName === "event"
+        ? isSelectedEvent
+        : fieldName === "brand"
+        ? isSelectedBrand
+        : false;
+
+    const isFocusState =
+      fieldName === "category"
+        ? isFocusCategory
+        : fieldName === "type"
+        ? isFocusType
+        : fieldName === "colors"
+        ? isFocusColors
+        : fieldName === "weatherType"
+        ? isFocusWeatherType
+        : fieldName === "event"
+        ? isFocusEvent
+        : fieldName === "brand"
+        ? isFocusBrand
+        : false;
+
+    const label = getFieldLabel(fieldName);
+
+    // On applique un style différent pour le label "Marque"
+    const labelBrand = fieldName === "brand" ? styles.labelBrand : styles.label;
+
+    if ((fieldName && isSelectedState) || isFocusState) {
+      console.log("RENDERLABEL : ", fieldName, "isFocus : ", isFocusState);
+      return (
+        <Text
+          style={[
+            labelBrand,
+            isSelectedState && !isFocusState && { color: "#FF4B8C" },
+          ]}
+        >
+          {label}
+        </Text>
+      );
+    }
+
+    return null;
+  };
+
+  const getFieldLabel = (fieldName) => {
+    switch (fieldName) {
+      case "category":
+        return "Catégorie";
+      case "type":
+        return "Type";
+      case "colors":
+        return "Couleurs";
+      case "weatherType":
+        return "Météo";
+      case "event":
+        return "Évènement";
+      case "brand":
+        return "Marque";
+      default:
+        return "";
     }
   };
 
@@ -325,8 +401,52 @@ export default function ValidateCameraScreen({ navigation, route }) {
               <View style={styles.blocCategoryType}>
                 {/* ------------------- @DROPDOWN - CATEGORY  ------------------- */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Catégorie : </Text>
-                  <DropDownPicker
+                  {/* <Text style={styles.label}>Catégorie : </Text> */}
+                  {renderLabel("category")}
+                  <Dropdown
+                    style={[
+                      styles.dropdown,
+                      //   isFocus && { borderColor: "#FF4B8C" },
+                      isSelectedCategory && { borderColor: "#FF4B8C" },
+                    ]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    data={categoryItems}
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocusCategory ? "Catégorie ..." : "..."}
+                    value={category}
+                    onFocus={() => setIsFocusCategory(true)}
+                    onBlur={() => setIsFocusCategory(false)}
+                    onChange={(selectedValue) => {
+                      //   setValue(selectedValue);
+                      console.log(selectedValue.value);
+                      handleInputChange("category", null, selectedValue.value);
+                      setIsFocusCategory(false);
+                      setIsSelectedCategory(true);
+                    }}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
+                  />
+                  {/* <DropDownPicker
                     open={openCategory}
                     value={category}
                     items={categoryItems}
@@ -357,16 +477,17 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       justifyContent: "flex-start",
                     }}
                     dropDownStyle={{ backgroundColor: "#fafafa" }}
-                  />
+                  /> */}
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
                 <View style={styles.inputContainer}>
                   {/* <Text style={styles.label}>Type : </Text> */}
-                  {renderLabel()}
+                  {renderLabel("type")}
                   <Dropdown
                     style={[
                       styles.dropdown,
-                      isFocus && { borderColor: "orange" },
+                      //   isFocus && { borderColor: "#FF4B8C" },
+                      isSelectedType && { borderColor: "#FF4B8C" },
                     ]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
@@ -376,15 +497,17 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
-                    placeholder={!isFocus ? "Type ..." : "..."}
+                    placeholder={!isFocusType ? "Type ..." : "..."}
                     searchPlaceholder="Recherche..."
                     value={type}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
+                    onFocus={() => setIsFocusType(true)}
+                    onBlur={() => setIsFocusType(false)}
                     onChange={(selectedValue) => {
-                      setValue(selectedValue);
-                      handleInputChange("type", null, selectedValue);
-                      setIsFocus(false);
+                      //   setValue(selectedValue);
+                      console.log(selectedValue.value);
+                      handleInputChange("type", null, selectedValue.value);
+                      setIsFocusType(false);
+                      setIsSelectedType(true);
                     }}
                     // renderLeftIcon={() => (
                     //   <Text
@@ -464,44 +587,34 @@ export default function ValidateCameraScreen({ navigation, route }) {
             <View style={styles.blocColorsSize}>
               {/* ------------------- @DROPDOWN - COLORS  ------------------- */}
               <View style={styles.inputContainerColors}>
-                <Text style={styles.label}>Couleurs</Text>
-                <DropDownPicker
-                  // multiple={true}
-                  // min={0}
-                  // max={3}
-                  open={openColors}
+                {/* <Text style={styles.label}>Couleurs</Text> */}
+                {renderLabel("colors")}
+                <Dropdown
+                  style={[
+                    styles.dropdown,
+                    //   isFocus && { borderColor: "#FF4B8C" },
+                    isSelectedColors && { borderColor: "#FF4B8C" },
+                  ]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  data={colorsItems}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocusColors ? "Couleurs ..." : "..."}
+                  searchPlaceholder="Recherche..."
                   value={colors}
-                  items={colorsItems}
-                  setOpen={setOpenColors}
-                  setValue={(selectedValue) =>
-                    handleInputChange("colors", null, selectedValue)
-                  }
-                  setItems={setColorsItems}
-                  placeholder="Votre choix..."
-                  searchable={true} // Permet la recherche
-                  searchablePlaceholder="Rechercher dans les couleurs"
-                  searchableError={() => <Text fontSize={16}>Not found</Text>}
-                  maxHeight={200}
-                  containerStyle={{
-                    height: 34,
-                    width: "100%",
-                    //   borderColor: "red",
-                    //   borderWidth: 2,
-                    zIndex: 8,
+                  onFocus={() => setIsFocusColors(true)}
+                  onBlur={() => setIsFocusColors(false)}
+                  onChange={(selectedValue) => {
+                    //   setValue(selectedValue);
+                    console.log(selectedValue.value);
+                    handleInputChange("colors", null, selectedValue.value);
+                    setIsFocusColors(false);
+                    setIsSelectedColors(true);
                   }}
-                  style={{
-                    backgroundColor: "#fafafa",
-                    borderWidth: 1,
-                    borderColor: "#d5d5d9",
-                    backgroundColor: "#eee",
-                    borderRadius: 40,
-                    minHeight: 30,
-                    //   zIndex: 10,
-                  }}
-                  itemStyle={{
-                    justifyContent: "flex-start",
-                  }}
-                  dropDownStyle={{ backgroundColor: "#fafafa" }}
                 />
               </View>
               {/* ------------------- @INPUT - SIZE  ------------------- */}
@@ -519,148 +632,132 @@ export default function ValidateCameraScreen({ navigation, route }) {
             <View style={styles.blocWeatherTemperature}>
               {/* ------------------- @DROPDOWN - WEATHER  ------------------- */}
               <View style={styles.inputContainerWeather}>
-                <Text style={styles.label}>Météo</Text>
-                <DropDownPicker
-                  open={openWeatherType}
+                {/* <Text style={styles.label}>Météo</Text> */}
+                {renderLabel("weatherType")}
+                <Dropdown
+                  style={[
+                    styles.dropdown,
+                    //   isFocus && { borderColor: "#FF4B8C" },
+                    isSelectedWeatherType && { borderColor: "#FF4B8C" },
+                  ]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  //   inputSearchStyle={styles.inputSearchStyle}
+                  data={weatherTypeItems}
+                  //   search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocusWeatherType ? "Météo ..." : "..."}
+                  //   searchPlaceholder="Recherche..."
                   value={weatherType}
-                  items={weatherTypeItems}
-                  setOpen={setOpenWeatherType}
-                  setValue={(selectedValue) =>
-                    handleInputChange("weatherType", null, selectedValue)
-                  }
-                  setItems={setWeatherTypeItems}
-                  placeholder="Votre choix..."
-                  maxHeight={200}
-                  containerStyle={{
-                    height: 34,
-                    width: "100%",
-                    //   borderColor: "red",
-                    //   borderWidth: 2,
-                    zIndex: 7,
+                  onFocus={() => setIsFocusWeatherType(true)}
+                  onBlur={() => setIsFocusWeatherType(false)}
+                  onChange={(selectedValue) => {
+                    //   setValue(selectedValue);
+                    console.log(selectedValue.value);
+                    handleInputChange("weatherType", null, selectedValue.value);
+                    setIsFocusWeatherType(false);
+                    setIsSelectedWeatherType(true);
                   }}
-                  style={{
-                    backgroundColor: "#fafafa",
-                    borderWidth: 1,
-                    borderColor: "#d5d5d9",
-                    backgroundColor: "#eee",
-                    borderRadius: 40,
-                    minHeight: 30,
-                    //   zIndex: 6,
-                  }}
-                  itemStyle={{
-                    justifyContent: "flex-start",
-                  }}
-                  dropDownStyle={{ backgroundColor: "#fafafa" }}
                 />
               </View>
-              {/* ------------------- @INPUT - TEMPMIN  ------------------- */}
               <View style={styles.inputContainerTemperatures}>
-                <Text style={styles.label}>TempMin</Text>
-                <TextInput
-                  style={[styles.input, styles.tempMin]}
-                  keyboardType="numeric"
-                  placeholder="5, 12, ..."
-                  onChangeText={(text) => handleInputChange("tempMin", text)}
-                  value={tempMin}
-                />
-              </View>
-              {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
-              <View style={styles.inputContainerColumn}>
-                <Text style={styles.label}>TempMax</Text>
-                <TextInput
-                  style={[styles.input, styles.tempMax]}
-                  keyboardType="numeric"
-                  placeholder="20, 35, ..."
-                  onChangeText={(text) => handleInputChange("tempMax", text)}
-                  value={tempMax}
-                />
+                {/* ------------------- @INPUT - TEMPMIN  ------------------- */}
+                <View style={styles.tempMinContainer}>
+                  <Text style={styles.tempText}>TempMin</Text>
+                  <TextInput
+                    style={[styles.input, styles.tempMin]}
+                    keyboardType="numeric"
+                    placeholder="5, 12, ..."
+                    onChangeText={(text) => {
+                      handleInputChange("tempMin", text, null);
+                      console.log(text);
+                    }}
+                    value={tempMin}
+                  />
+                </View>
+                {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
+                <View style={styles.tempMaxContainer}>
+                  <Text style={styles.tempText}>TempMax</Text>
+                  <TextInput
+                    style={[styles.input, styles.tempMax]}
+                    keyboardType="numeric"
+                    placeholder="20, 35, ..."
+                    onChangeText={(text) =>
+                      handleInputChange("tempMax", text, null)
+                    }
+                    value={tempMax}
+                  />
+                </View>
               </View>
             </View>
-            {/* ------------------- @DROPDOWN - EVENT  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Évènement : </Text>
-              <DropDownPicker
-                open={openEvent}
+            {/* §§§§§§§§§§§§§§§§§§§ BLOC EVENT & BRAND §§§§§§§§§§§§§§§§§§§ */}
+            <View style={styles.blocEventBrand}>
+              {/* ------------------- @DROPDOWN - EVENT  ------------------- */}
+              {/* <View style={styles.inputContainer}> */}
+              {/* <Text style={styles.label}>Évènement : </Text> */}
+              {renderLabel("event")}
+              <Dropdown
+                style={[
+                  styles.dropdownsEventBrand,
+                  //   isFocus && { borderColor: "#FF4B8C" },
+                  isSelectedEvent && { borderColor: "#FF4B8C" },
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                //   inputSearchStyle={styles.inputSearchStyle}
+                data={eventItems}
+                //   search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocusEvent ? "Évènement ..." : "..."}
+                //   searchPlaceholder="Recherche..."
                 value={event}
-                items={eventItems}
-                setOpen={setOpenEvent}
-                setValue={(selectedValue) =>
-                  handleInputChange("event", null, selectedValue)
-                }
-                setItems={setEventItems}
-                placeholder="Votre choix..."
-                maxHeight={200}
-                containerStyle={{
-                  height: 34,
-                  width: "65%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 6,
+                onFocus={() => setIsFocusEvent(true)}
+                onBlur={() => setIsFocusEvent(false)}
+                onChange={(selectedValue) => {
+                  //   setValue(selectedValue);
+                  console.log(selectedValue.value);
+                  handleInputChange("event", null, selectedValue.value);
+                  setIsFocusEvent(false);
+                  setIsSelectedEvent(true);
                 }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                  //   zIndex: 10,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
               />
-            </View>
-            {/* ------------------- @DROPDOWN - BRAND  ------------------- */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Marque : </Text>
-              <DropDownPicker
-                listMode="SCROLLVIEW"
-                // scrollViewProps={{
-                //   nestedScrollEnabled: true,
-                // }}
-                open={openBrand}
+              {/* </View> */}
+              {/* ------------------- @DROPDOWN - BRAND  ------------------- */}
+              {/* <View style={styles.inputContainer}> */}
+              {/* <Text style={styles.label}>Marque : </Text> */}
+              {renderLabel("brand")}
+              <Dropdown
+                style={[
+                  styles.dropdownsEventBrand,
+                  //   isFocus && { borderColor: "#FF4B8C" },
+                  isSelectedBrand && { borderColor: "#FF4B8C" },
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                data={brandItems}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocusBrand ? "Marque ..." : "..."}
+                searchPlaceholder="Recherche..."
                 value={brand}
-                items={brandItems}
-                setOpen={setOpenBrand}
-                setValue={(selectedValue) =>
-                  handleInputChange("brand", null, selectedValue)
-                }
-                setItems={setBrandItems}
-                placeholder="Votre choix..."
-                searchable={true} // Permet la recherche
-                searchablePlaceholder="Rechercher une marque"
-                searchableError={() => <Text fontSize={16}>Not found</Text>}
-                maxHeight={230}
-                containerStyle={{
-                  height: 34,
-                  width: "65%",
-                  //   borderColor: "red",
-                  //   borderWidth: 2,
-                  zIndex: 5,
+                onFocus={() => setIsFocusBrand(true)}
+                onBlur={() => setIsFocusBrand(false)}
+                onChange={(selectedValue) => {
+                  //   setValue(selectedValue);
+                  console.log(selectedValue.value);
+                  handleInputChange("brand", null, selectedValue.value);
+                  setIsFocusBrand(false);
+                  setIsSelectedBrand(true);
                 }}
-                style={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#d5d5d9",
-                  backgroundColor: "#eee",
-                  borderRadius: 40,
-                  minHeight: 30,
-                }}
-                dropDownContainerStyle={{
-                  position: "relative",
-                  top: 0,
-                  height: 200,
-                }}
-                itemStyle={{
-                  justifyContent: "flex-start",
-                }}
-                dropDownStyle={{ backgroundColor: "#fafafa" }}
-                // scrollViewProps={{
-                //   style: { maxHeight: 200 },
-                // }}
               />
+              {/* </View> */}
             </View>
           </View>
         </View>
@@ -762,9 +859,9 @@ const styles = StyleSheet.create({
   blocCategoryType: {
     flex: 3,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "flex-start",
-    width: 250,
+    height: 100,
     // borderWidth: 2,
     // borderColor: "green",
   },
@@ -784,44 +881,75 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
   },
   inputContainerColors: {
+    flex: 2,
     flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "center",
+    alignItems: "flex-start",
     // marginLeft: 40,
-    width: "40%",
     height: "auto",
     // borderWidth: 2,
     // borderColor: "blue",
   },
   inputContainerSize: {
+    flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     // marginLeft: 40,
-    width: "50%",
     height: "auto",
     // borderWidth: 2,
     // borderColor: "blue",
   },
   inputContainerWeather: {
+    flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginLeft: 40,
-    width: "40%",
+    alignSelf: "left",
     height: "auto",
     // borderWidth: 2,
     // borderColor: "blue",
   },
   inputContainerTemperatures: {
+    flex: 0.8,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginLeft: 40,
-    width: "30%",
-    height: "auto",
+    height: 90,
+    marginLeft: 5,
     // borderWidth: 2,
     // borderColor: "blue",
+  },
+  tempMinContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "90%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
+  tempMaxContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "90%",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
+  tempText: {
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  blocEventBrand: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: "auto",
+    // borderWidth: 2,
+    // borderColor: "green",
   },
   inputContainerColumn: {
     flexDirection: "column",
@@ -840,12 +968,12 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     // borderWidth: 2,
   },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold",
-    // borderColor: "green",
-    // borderWidth: 2,
-  },
+  //   label: {
+  //     fontSize: 18,
+  //     fontWeight: "bold",
+  //     // borderColor: "green",
+  //     // borderWidth: 2,
+  //   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "gray",
@@ -898,10 +1026,28 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
   },
+  dropdownsEventBrand: {
+    height: 35,
+    width: "48%",
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  labelBrand: {
+    position: "absolute",
+    backgroundColor: "whitesmoke",
+    right: 92,
+    top: -12,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   icon: {
     marginRight: 5,
   },
-  labelNEW: {
+  label: {
     position: "absolute",
     backgroundColor: "whitesmoke",
     left: 5,
