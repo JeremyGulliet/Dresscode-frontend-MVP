@@ -26,7 +26,9 @@ export default function CameraScreen({ navigation }) {
 
   // Fonction pour la prise de photo et l'envoi sur Cloudinairy
   const takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    const photo = await cameraRef.takePictureAsync({
+      quality: 0.3,
+    });
     //console.log(photo);
     const uri = photo.uri;
 
@@ -38,16 +40,19 @@ export default function CameraScreen({ navigation }) {
       type: "image/jpeg",
     });
 
-    fetch("http://192.168.1.42:3000/articles/upload", {
+    console.log(formData);
+
+    fetch("http://192.168.1.138:3000/articles/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("La data de l'upload :", data);
         //setUrlPhoto(data.url)
         navigation.navigate("ValidateCameraScreen", { url: data.url });
-      });
+      })
+      .catch((error) => console.error("Erreur fetch de l'upload :", error));
   };
   // Désactiver la caméra en arrière plan quand changement d'écran
   if (!hasPermission || !isFocused) {
@@ -111,6 +116,7 @@ export default function CameraScreen({ navigation }) {
 const styles = StyleSheet.create({
   camera: {
     flex: 1,
+    width: "100%",
   },
   buttonsContainer: {
     flex: 0.1,

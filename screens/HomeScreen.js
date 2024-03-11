@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import HeaderCompo from '../components/headerCompo';
-import * as Location from 'expo-location'
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import HeaderCompo from "../components/headerCompo";
+import * as Location from "expo-location";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ const HomeScreen = () => {
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
 
-  const WEATHER_API_KEY = 'ce7418650c86eae6629dfcfdda141c14';
+  const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14";
 
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
@@ -28,14 +28,12 @@ const HomeScreen = () => {
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
 
-
-
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
     const fetchData = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
-      if (status === 'granted') {
+      if (status === "granted") {
         const location = await Location.getCurrentPositionAsync({});
         setMyLatitude(location.coords.latitude);
         setMyLongitude(location.coords.longitude);
@@ -61,7 +59,7 @@ const HomeScreen = () => {
           setMyTempMax(data.main.temp_max);
           setCity(data.name);
         } catch (error) {
-          console.error('Erreur lors de la récupération de la météo :', error);
+          console.error("Erreur lors de la récupération de la météo :", error);
         }
       }
     };
@@ -73,32 +71,31 @@ const HomeScreen = () => {
 
   const getWeatherImagePath = (weather) => {
     switch (weather) {
-      case 'Clear':
-        return require('../assets/weather/Clear.png');
-      case 'Clouds':
-        return require('../assets/weather/BrokenClouds.png');
-      case 'Rain':
-        return require('../assets/weather/Rain.png');
-      case 'Thunderstorm ':
-        return require('../assets/weather/ThunderStorm.png');
-      case 'Snow ':
-        return require('../assets/weather/Snow.png');
-      case 'Mist ':
-        return require('../assets/weather/Rain.png');
+      case "Clear":
+        return require("../assets/weather/Clear.png");
+      case "Clouds":
+        return require("../assets/weather/BrokenClouds.png");
+      case "Rain":
+        return require("../assets/weather/Rain.png");
+      case "Thunderstorm ":
+        return require("../assets/weather/ThunderStorm.png");
+      case "Snow ":
+        return require("../assets/weather/Snow.png");
+      case "Mist ":
+        return require("../assets/weather/Rain.png");
       default:
-        return require('../assets/weather/Default.png'); // Image par défaut si la météo n'est pas reconnue
+        return require("../assets/weather/Default.png"); // Image par défaut si la météo n'est pas reconnue
     }
   };
 
   const weatherImagePath = myWeather ? getWeatherImagePath(myWeather) : null;
 
-
   useEffect(() => {
     fetchRandomOutfit();
-  }, [])
+  }, []);
 
   const fetchRandomOutfit = () => {
-    fetch("http://192.168.1.42:3000/articles/dressing/hauts")
+    fetch("http://192.168.1.138:3000/articles/dressing/hauts")
       .then((response) => {
         return response.json();
       })
@@ -112,7 +109,7 @@ const HomeScreen = () => {
       })
       .catch((error) => console.error("Error fetching tops:", error));
 
-    fetch("http://192.168.1.42:3000/articles/dressing/bas")
+    fetch("http://192.168.1.138:3000/articles/dressing/bas")
       .then((response) => {
         return response.json();
       })
@@ -131,8 +128,6 @@ const HomeScreen = () => {
     fetchRandomOutfit();
   };
 
-
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -146,14 +141,29 @@ const HomeScreen = () => {
               style={styles.weatherImage}
               source={weatherImagePath}
             ></Image>
-            <Text style={styles.temperatureText}>{city} - {Math.round(myTemp)}°C</Text>
-          </View>)}
+            <Text style={styles.temperatureText}>
+              {city} - {Math.round(myTemp)}°C
+            </Text>
+          </View>
+        )}
         <View style={styles.clothingContainer}>
           {topImage.length > 0 && (
-            <Image source={{ uri: topImage[Math.floor(Math.random() * topImage.length)].url_image }} style={styles.clothingImage} />
+            <Image
+              source={{
+                uri: topImage[Math.floor(Math.random() * topImage.length)]
+                  .url_image,
+              }}
+              style={styles.clothingImage}
+            />
           )}
           {bottomImage.length > 0 && (
-            <Image source={{ uri: bottomImage[Math.floor(Math.random() * bottomImage.length)].url_image }} style={styles.clothingImage} />
+            <Image
+              source={{
+                uri: bottomImage[Math.floor(Math.random() * bottomImage.length)]
+                  .url_image,
+              }}
+              style={styles.clothingImage}
+            />
           )}
           {/* <Image
             source={require('../assets/home/vet-chauss.png')}
@@ -164,12 +174,12 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={reloadOutfit}>
             <Image
               style={styles.reload}
-              source={require('../assets/home/chargement.png')}
+              source={require("../assets/home/chargement.png")}
             ></Image>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button1}
-            onPress={() => navigation.navigate('DressingScreen')}
+            onPress={() => navigation.navigate("DressingScreen")}
           >
             <Text style={styles.buttonText}>Dressing</Text>
           </TouchableOpacity>
@@ -187,80 +197,80 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
+    backgroundColor: "white",
+    justifyContent: "space-around",
   },
   scrollView: {
     flex: 1,
   },
   header: {
     padding: 20,
-    backgroundColor: '#0000ff',
-    alignItems: 'center',
+    backgroundColor: "#0000ff",
+    alignItems: "center",
     height: 25,
   },
   headerText: {
-    color: 'white',
+    color: "white",
     fontSize: 24,
   },
   weatherContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
+    backgroundColor: "white",
+    justifyContent: "space-around",
   },
   weatherImage: {
     height: 100,
     width: 100,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginBottom: 20,
   },
   temperatureText: {
     fontSize: 20,
     marginBottom: 20,
-    color: 'black',
+    color: "black",
   },
   clothingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     gap: 20,
   },
   clothingImage: {
     height: 150,
     width: 200,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     borderWidth: 3,
-    borderColor: '#000000',
+    borderColor: "#000000",
     borderRadius: 8,
   },
   buttonContainer: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     padding: 20,
     gap: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button1: {
-    backgroundColor: '#FCA311',
+    backgroundColor: "#FCA311",
     padding: 15,
     borderRadius: 8,
-    width: '85%',
+    width: "85%",
     height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button2: {
-    backgroundColor: '#FF4B8C',
+    backgroundColor: "#FF4B8C",
     padding: 15,
     borderRadius: 8,
-    width: '85%',
+    width: "85%",
     height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'black',
-    fontWeight: '600',
+    color: "black",
+    fontWeight: "600",
     fontSize: 16,
   },
   headerContainer: {
