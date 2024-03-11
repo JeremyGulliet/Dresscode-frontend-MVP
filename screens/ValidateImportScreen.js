@@ -142,9 +142,11 @@ export default function ValidateImportScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
+
       <View style={styles.headerContainer}>
-        <HeaderCompo />
+        <HeaderCompo navigation={navigation} />
       </View>
+
 
       <View style={styles.contentContainer}>
         {/* -------- IMAGE -------- */}

@@ -4,12 +4,12 @@ import { View, StyleSheet } from 'react-native';
 import UserCompo from './userCompo';
 import AppTitleCompo from './appTitleCompo';
 
-function HeaderCompo() {
+function HeaderCompo({ navigation }) {
   return (
     <View style={styles.container}>
-      <AppTitleCompo />
+      <AppTitleCompo navigation={navigation} />
 
-      <UserCompo />
+      <UserCompo navigation={navigation} />
     </View>
   );
 }

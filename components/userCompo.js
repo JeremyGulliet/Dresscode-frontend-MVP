@@ -1,19 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Svg from "react-native-svg";
 import DefaultUserPic from "../assets/defaultUserPic.svg";
 import { useSelector } from "react-redux";
 
-function UserCompo() {
+function UserCompo({ navigation }) {
   const user = useSelector((state) => state.user.value);
   return (
     <View style={styles.userPicContainer}>
-      <Svg
-        style={styles.defaultUserPic}
-        source={DefaultUserPic}
-        width={35}
-        height={35}
-      />
+      <TouchableOpacity onPress={() => navigation.navigate("UserScreen")}>
+        <Svg
+          style={styles.defaultUserPic}
+          source={DefaultUserPic}
+          width={35}
+          height={35}
+        />
+      </TouchableOpacity>
       <Text style={styles.userNameText}>{user.username}</Text>
     </View>
   );

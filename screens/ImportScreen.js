@@ -46,7 +46,7 @@ export default function ImportScreen({ route, navigation }) {
 
     try {
       const response = await fetch(
-        "http://192.168.1.138:3000/articles/import",
+        "http://192.168.1.41:3000/articles/import",
         {
           method: "POST",
           body: formData,
@@ -84,9 +84,10 @@ export default function ImportScreen({ route, navigation }) {
   };
 
   return (
+
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.headerContainer}>
-        <HeaderCompo />
+        <HeaderCompo navigation={navigation} />
       </View>
 
       <View style={styles.contentContainer}>
