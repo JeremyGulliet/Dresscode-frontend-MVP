@@ -42,7 +42,7 @@ export default function CameraScreen({ navigation }) {
 
     console.log(formData);
 
-    fetch("http://192.168.1.138:3000/articles/upload", {
+    fetch("http://192.168.1.42:3000/articles/upload", {
       method: "POST",
       body: formData,
     })

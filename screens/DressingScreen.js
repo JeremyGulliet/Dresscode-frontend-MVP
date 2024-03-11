@@ -30,7 +30,7 @@ export default function DressingScreen({ navigation }) {
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les hauts
         const hauts = data.filter(
-          (item) => item.description && item.description.type === "haut"
+          (item) => item.description && item.description.category === "haut"
         );
         console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
@@ -46,7 +46,7 @@ export default function DressingScreen({ navigation }) {
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les bas
         const bas = data.filter(
-          (item) => item.description && item.description.type === "bas"
+          (item) => item.description && item.description.category === "bas"
         );
         console.log("Data for bottoms:", bas);
         setBottoms(bas); // Définir uniquement les bas dans l'état
