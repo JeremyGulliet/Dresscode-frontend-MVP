@@ -23,7 +23,7 @@ export default function DressingScreen({ navigation }) {
   }, []);
 
   const fetchTops = () => {
-    fetch("http://192.168.1.41:3000/articles/dressing/hauts")
+    fetch("http://192.168.1.42:3000/articles/dressing/hauts")
       .then((response) => {
         return response.json();
       })
@@ -39,7 +39,7 @@ export default function DressingScreen({ navigation }) {
   };
 
   const fetchBottoms = () => {
-    fetch("http://192.168.1.41:3000/articles/dressing/bas")
+    fetch("http://192.168.1.42:3000/articles/dressing/bas")
       .then((response) => {
         return response.json();
       })

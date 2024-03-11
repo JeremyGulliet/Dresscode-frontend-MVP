@@ -26,6 +26,7 @@ const HomeScreen = () => {
   const [myTemp, setMyTemp] = useState(0);
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
+  const [city, setCity] = useState(null);
 
 
 
@@ -53,11 +54,12 @@ const HomeScreen = () => {
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
-          //console.log(data.weather[0].main);
+          //console.log(data.name);
           setMyWeather(data.weather[0].main);
           setMyTemp(data.main.temp);
           setMyTempMin(data.main.temp_min);
           setMyTempMax(data.main.temp_max);
+          setCity(data.name);
         } catch (error) {
           console.error('Erreur lors de la récupération de la météo :', error);
         }
@@ -96,7 +98,7 @@ const HomeScreen = () => {
   }, [])
 
   const fetchRandomOutfit = () => {
-    fetch("http://192.168.1.41:3000/articles/dressing/hauts")
+    fetch("http://192.168.1.42:3000/articles/dressing/hauts")
       .then((response) => {
         return response.json();
       })
@@ -110,7 +112,7 @@ const HomeScreen = () => {
       })
       .catch((error) => console.error("Error fetching tops:", error));
 
-    fetch("http://192.168.1.41:3000/articles/dressing/bas")
+    fetch("http://192.168.1.42:3000/articles/dressing/bas")
       .then((response) => {
         return response.json();
       })
@@ -144,7 +146,7 @@ const HomeScreen = () => {
               style={styles.weatherImage}
               source={weatherImagePath}
             ></Image>
-            <Text style={styles.temperatureText}>Aujourd'hui {Math.round(myTemp)}°C</Text>
+            <Text style={styles.temperatureText}>{city} - {Math.round(myTemp)}°C</Text>
           </View>)}
         <View style={styles.clothingContainer}>
           {topImage.length > 0 && (

@@ -11,7 +11,7 @@ export default function SearchScreen({ navigation }) {
         try {
 
             console.log(search); // Afficher la valeur de search dans la console
-            const response = await fetch(`http://192.168.1.41:3000/articles/${search}`);
+            const response = await fetch(`http://192.168.1.42:3000/articles/${search}`);
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des articles');
             }
