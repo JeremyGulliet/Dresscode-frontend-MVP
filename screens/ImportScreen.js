@@ -46,7 +46,7 @@ export default function ImportScreen({ route, navigation }) {
 
     try {
       const response = await fetch(
-        "http://192.168.1.41:3000/articles/import",
+        "http://192.168.1.42:3000/articles/import",
         {
           method: "POST",
           body: formData,

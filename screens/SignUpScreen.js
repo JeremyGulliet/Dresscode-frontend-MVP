@@ -27,7 +27,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch("http://192.168.1.41:3000/users/signup", {
+    fetch("http://192.168.1.42:3000/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

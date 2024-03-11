@@ -26,6 +26,7 @@ const HomeScreen = () => {
   const [myTemp, setMyTemp] = useState(0);
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
+  const [city, setCity] = useState(null);
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
@@ -51,11 +52,12 @@ const HomeScreen = () => {
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
-          //console.log(data.weather[0].main);
+          //console.log(data.name);
           setMyWeather(data.weather[0].main);
           setMyTemp(data.main.temp);
           setMyTempMin(data.main.temp_min);
           setMyTempMax(data.main.temp_max);
+          setCity(data.name);
         } catch (error) {
           console.error("Erreur lors de la récupération de la météo :", error);
         }
@@ -140,7 +142,7 @@ const HomeScreen = () => {
               source={weatherImagePath}
             ></Image>
             <Text style={styles.temperatureText}>
-              Aujourd'hui {Math.round(myTemp)}°C
+              {city} - {Math.round(myTemp)}°C
             </Text>
           </View>
         )}
