@@ -242,15 +242,15 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
     const label = getFieldLabel(fieldName);
 
-    // On applique un style différent pour le label "Marque"
-    const labelBrand = fieldName === "brand" ? styles.labelBrand : styles.label;
+    // // On applique un style différent pour le label "Marque"
+    // const labelBrand = fieldName === "brand" ? styles.labelBrand : styles.label;
 
     if ((fieldName && isSelectedState) || isFocusState) {
       console.log("RENDERLABEL : ", fieldName, "isFocus : ", isFocusState);
       return (
         <Text
           style={[
-            labelBrand,
+            styles.label,
             isSelectedState && !isFocusState && { color: "#FF4B8C" },
           ]}
         >
@@ -446,38 +446,6 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     //   />
                     // )}
                   />
-                  {/* <DropDownPicker
-                    open={openCategory}
-                    value={category}
-                    items={categoryItems}
-                    setOpen={setOpenCategory}
-                    setValue={(selectedValue) =>
-                      handleInputChange("category", null, selectedValue)
-                    }
-                    setItems={setCategoryItems}
-                    placeholder="Votre choix..."
-                    maxHeight={200}
-                    containerStyle={{
-                      height: 34,
-                      width: "60%",
-                      //   borderColor: "red",
-                      //   borderWidth: 2,
-                      zIndex: 10,
-                    }}
-                    style={{
-                      backgroundColor: "#fafafa",
-                      borderWidth: 1,
-                      borderColor: "#d5d5d9",
-                      backgroundColor: "#eee",
-                      borderRadius: 40,
-                      minHeight: 30,
-                      //   zIndex: 10,
-                    }}
-                    itemStyle={{
-                      justifyContent: "flex-start",
-                    }}
-                    dropDownStyle={{ backgroundColor: "#fafafa" }}
-                  /> */}
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
                 <View style={styles.inputContainer}>
@@ -528,53 +496,6 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     //   />
                     // )}
                   />
-                  {/* <DropDownPicker
-                    listMode="SCROLLVIEW"
-                    // scrollViewProps={{
-                    //   nestedScrollEnabled: true,
-                    // }}
-                    open={openType}
-                    value={type}
-                    items={typeItems}
-                    setOpen={setOpenType}
-                    setValue={(selectedValue) =>
-                      handleInputChange("type", null, selectedValue)
-                    }
-                    setItems={setTypeItems}
-                    placeholder="Votre choix..."
-                    searchable={true} // Permet la recherche
-                    searchablePlaceholder="Rechercher un type"
-                    searchableError={() => <Text fontSize={16}>Not found</Text>}
-                    dropDownMaxHeight={230}
-                    dropDownDirection="BOTTOM"
-                    containerStyle={{
-                      height: 34,
-                      width: "60%",
-                      //   borderColor: "red",
-                      //   borderWidth: 2,
-                      zIndex: 9,
-                    }}
-                    style={{
-                      backgroundColor: "#fafafa",
-                      borderWidth: 1,
-                      borderColor: "#d5d5d9",
-                      backgroundColor: "#eee",
-                      borderRadius: 40,
-                      minHeight: 30,
-                    }}
-                    dropDownContainerStyle={{
-                      position: "relative",
-                      top: 0,
-                      height: 200,
-                    }}
-                    itemStyle={{
-                      justifyContent: "flex-start",
-                    }}
-                    dropDownStyle={{ backgroundColor: "#fafafa" }}
-                    // scrollViewProps={{
-                    //   style: { maxHeight: 200 },
-                    // }}
-                  /> */}
                 </View>
               </View>
               <View style={styles.faHeart}>
@@ -619,7 +540,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
               </View>
               {/* ------------------- @INPUT - SIZE  ------------------- */}
               <View style={styles.inputContainerSize}>
-                <Text style={styles.label}>Taille</Text>
+                <Text style={styles.sizeText}>Taille</Text>
                 <TextInput
                   style={[styles.input, styles.size]}
                   placeholder="M, 42, ..."
@@ -697,66 +618,70 @@ export default function ValidateCameraScreen({ navigation, route }) {
               {/* ------------------- @DROPDOWN - EVENT  ------------------- */}
               {/* <View style={styles.inputContainer}> */}
               {/* <Text style={styles.label}>Évènement : </Text> */}
-              {renderLabel("event")}
-              <Dropdown
-                style={[
-                  styles.dropdownsEventBrand,
-                  //   isFocus && { borderColor: "#FF4B8C" },
-                  isSelectedEvent && { borderColor: "#FF4B8C" },
-                ]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                //   inputSearchStyle={styles.inputSearchStyle}
-                data={eventItems}
-                //   search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocusEvent ? "Évènement ..." : "..."}
-                //   searchPlaceholder="Recherche..."
-                value={event}
-                onFocus={() => setIsFocusEvent(true)}
-                onBlur={() => setIsFocusEvent(false)}
-                onChange={(selectedValue) => {
-                  //   setValue(selectedValue);
-                  console.log(selectedValue.value);
-                  handleInputChange("event", null, selectedValue.value);
-                  setIsFocusEvent(false);
-                  setIsSelectedEvent(true);
-                }}
-              />
+              <View style={styles.handleLabels}>
+                {renderLabel("event")}
+                <Dropdown
+                  style={[
+                    styles.dropdownsEventBrand,
+                    //   isFocus && { borderColor: "#FF4B8C" },
+                    isSelectedEvent && { borderColor: "#FF4B8C" },
+                  ]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  //   inputSearchStyle={styles.inputSearchStyle}
+                  data={eventItems}
+                  //   search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocusEvent ? "Évènement ..." : "..."}
+                  //   searchPlaceholder="Recherche..."
+                  value={event}
+                  onFocus={() => setIsFocusEvent(true)}
+                  onBlur={() => setIsFocusEvent(false)}
+                  onChange={(selectedValue) => {
+                    //   setValue(selectedValue);
+                    console.log(selectedValue.value);
+                    handleInputChange("event", null, selectedValue.value);
+                    setIsFocusEvent(false);
+                    setIsSelectedEvent(true);
+                  }}
+                />
+              </View>
               {/* </View> */}
               {/* ------------------- @DROPDOWN - BRAND  ------------------- */}
               {/* <View style={styles.inputContainer}> */}
               {/* <Text style={styles.label}>Marque : </Text> */}
-              {renderLabel("brand")}
-              <Dropdown
-                style={[
-                  styles.dropdownsEventBrand,
-                  //   isFocus && { borderColor: "#FF4B8C" },
-                  isSelectedBrand && { borderColor: "#FF4B8C" },
-                ]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                data={brandItems}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocusBrand ? "Marque ..." : "..."}
-                searchPlaceholder="Recherche..."
-                value={brand}
-                onFocus={() => setIsFocusBrand(true)}
-                onBlur={() => setIsFocusBrand(false)}
-                onChange={(selectedValue) => {
-                  //   setValue(selectedValue);
-                  console.log(selectedValue.value);
-                  handleInputChange("brand", null, selectedValue.value);
-                  setIsFocusBrand(false);
-                  setIsSelectedBrand(true);
-                }}
-              />
+              <View style={styles.handleLabels}>
+                {renderLabel("brand")}
+                <Dropdown
+                  style={[
+                    styles.dropdownsEventBrand,
+                    //   isFocus && { borderColor: "#FF4B8C" },
+                    isSelectedBrand && { borderColor: "#FF4B8C" },
+                  ]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  data={brandItems}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocusBrand ? "Marque ..." : "..."}
+                  searchPlaceholder="Recherche..."
+                  value={brand}
+                  onFocus={() => setIsFocusBrand(true)}
+                  onBlur={() => setIsFocusBrand(false)}
+                  onChange={(selectedValue) => {
+                    //   setValue(selectedValue);
+                    console.log(selectedValue.value);
+                    handleInputChange("brand", null, selectedValue.value);
+                    setIsFocusBrand(false);
+                    setIsSelectedBrand(true);
+                  }}
+                />
+              </View>
               {/* </View> */}
             </View>
           </View>
@@ -877,6 +802,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 20,
     // borderColor: "black",
     // borderWidth: 2,
   },
@@ -895,10 +821,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginLeft: 40,
-    height: "auto",
+    marginBottom: 20,
+    height: 50,
     // borderWidth: 2,
     // borderColor: "blue",
+  },
+  sizeText: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   inputContainerWeather: {
     flex: 1,
@@ -951,6 +881,13 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: "green",
   },
+  handleLabels: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 2,
+    // borderColor: "black",
+  },
   inputContainerColumn: {
     flexDirection: "column",
     justifyContent: "space-between",
@@ -962,18 +899,13 @@ const styles = StyleSheet.create({
     // borderColor: "blue",
   },
   faHeart: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: "center",
     alignItems: "center",
     // borderColor: "black",
     // borderWidth: 2,
   },
-  //   label: {
-  //     fontSize: 18,
-  //     fontWeight: "bold",
-  //     // borderColor: "green",
-  //     // borderWidth: 2,
-  //   },
+
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "gray",
@@ -1028,22 +960,14 @@ const styles = StyleSheet.create({
   },
   dropdownsEventBrand: {
     height: 35,
-    width: "48%",
+    width: "95%",
+    height: 40,
     borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
   },
-  labelBrand: {
-    position: "absolute",
-    backgroundColor: "whitesmoke",
-    right: 92,
-    top: -12,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
+
   icon: {
     marginRight: 5,
   },
