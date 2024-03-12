@@ -102,10 +102,12 @@ export default function ValidateImportScreen({ navigation, route }) {
   const [weatherType, setWeatherType] = useState("");
   const [openWeatherType, setOpenWeatherType] = useState(false);
   const [weatherTypeItems, setWeatherTypeItems] = useState([
-    { label: "Neige", value: "Neige" },
-    { label: "Nuages", value: "Nuages" },
-    { label: "Pluie", value: "Pluie" },
-    { label: "Soleil", value: "Soleil" },
+    { label: "Neige", value: "Snow" },
+    { label: "Nuages", value: "Clouds" },
+    { label: "Pluie", value: "Rain" },
+    { label: "Soleil", value: "Clear" },
+    { label: "Orage", value: "Thunderstorm" },
+    { label: "Brume", value: "Mist" },
   ]);
   const [isFocusWeatherType, setIsFocusWeatherType] = useState(false);
   const [isSelectedWeatherType, setIsSelectedWeatherType] = useState(false);

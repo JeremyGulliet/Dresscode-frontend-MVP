@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
+import { WEATHER_API_KEY } from "../constants/config";
 import * as Location from "expo-location";
 
 const HomeScreen = () => {
@@ -19,8 +20,6 @@ const HomeScreen = () => {
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
 
-  const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14";
-
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
   const [myWeather, setMyWeather] = useState(null);
@@ -28,7 +27,6 @@ const HomeScreen = () => {
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
-  const [articlesWeather, setArticlesWeather] = useState([]);
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
