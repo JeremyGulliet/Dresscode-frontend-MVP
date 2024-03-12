@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
-import * as Location from "expo-location";
+import { API_URL } from "../constants/config";
 
 const HomeScreen = () => {
   const navigation = useNavigation();

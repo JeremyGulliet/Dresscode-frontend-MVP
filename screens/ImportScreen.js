@@ -14,6 +14,7 @@ import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import * as ImagePicker from "expo-image-picker";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { API_URL } from "../constants/config";
 
 export default function ImportScreen({ route, navigation }) {
   const { images } = route.params;
@@ -45,16 +46,13 @@ export default function ImportScreen({ route, navigation }) {
     });
 
     try {
-      const response = await fetch(
-        "http://192.168.1.42:3000/articles/import",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/articles/import`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Erreur lors de l'envoi de l'image à Cloudinary");
@@ -84,7 +82,6 @@ export default function ImportScreen({ route, navigation }) {
   };
 
   return (
-
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.headerContainer}>
         <HeaderCompo navigation={navigation} />

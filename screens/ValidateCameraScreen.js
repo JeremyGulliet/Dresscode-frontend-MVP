@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
@@ -19,6 +19,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
+import { API_URL } from "../constants/config";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -215,31 +216,31 @@ export default function ValidateCameraScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-          ? isSelectedType
-          : fieldName === "colors"
-            ? isSelectedColors
-            : fieldName === "weatherType"
-              ? isSelectedWeatherType
-              : fieldName === "event"
-                ? isSelectedEvent
-                : fieldName === "brand"
-                  ? isSelectedBrand
-                  : false;
+        ? isSelectedType
+        : fieldName === "colors"
+        ? isSelectedColors
+        : fieldName === "weatherType"
+        ? isSelectedWeatherType
+        : fieldName === "event"
+        ? isSelectedEvent
+        : fieldName === "brand"
+        ? isSelectedBrand
+        : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-          ? isFocusType
-          : fieldName === "colors"
-            ? isFocusColors
-            : fieldName === "weatherType"
-              ? isFocusWeatherType
-              : fieldName === "event"
-                ? isFocusEvent
-                : fieldName === "brand"
-                  ? isFocusBrand
-                  : false;
+        ? isFocusType
+        : fieldName === "colors"
+        ? isFocusColors
+        : fieldName === "weatherType"
+        ? isFocusWeatherType
+        : fieldName === "event"
+        ? isFocusEvent
+        : fieldName === "brand"
+        ? isFocusBrand
+        : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -294,7 +295,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       event,
       brand
     );
-    fetch("http://192.168.1.42:3000/weathers", {
+    fetch(`${API_URL}/weathers`, {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -308,7 +309,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       .then((weatherData) => {
         //console.log("Mon ID:", weatherData.newWeather._id)
         //requête POST pour créer une entrée dans la collection "descriptions"
-        fetch("http://192.168.1.42:3000/descriptions", {
+        fetch(`${API_URL}/descriptions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -323,7 +324,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           .then((descriptionData) => {
             //console.log(descriptionData)
             //requête POST pour créer une entrée dans la collection "brands"
-            fetch("http://192.168.1.42:3000/brands", {
+            fetch(`${API_URL}/brands`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -334,7 +335,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
               .then((brandData) => {
                 //console.log(brandData)
                 //requêtePOST pour créer le nouvel article dans la collection "articles"
-                fetch("http://192.168.1.42:3000/articles", {
+                fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
@@ -381,8 +382,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
   };
 
   return (
-
-    <KeyboardAvoidingView style={styles.SafeAreaView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={styles.SafeAreaView}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.headerContainer}>
         <HeaderCompo navigation={navigation} />
       </View>
@@ -429,24 +432,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                  // renderLeftIcon={() => (
-                  //   <Text
-                  //     style={[
-                  //       styles.labelNEW,
-                  //       isFocus && styles.focusedLabel,
-                  //     ]}
-                  //   >
-                  //     {value ? value.label : "Dropdown label"}
-                  //   </Text>
-                  // )}
-                  // renderLeftIcon={() => (
-                  //   <AntDesign
-                  //     style={styles.icon}
-                  //     color={isFocus ? "blue" : "black"}
-                  //     name="Safety"
-                  //     size={20}
-                  //   />
-                  // )}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -479,24 +482,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                  // renderLeftIcon={() => (
-                  //   <Text
-                  //     style={[
-                  //       styles.labelNEW,
-                  //       isFocus && styles.focusedLabel,
-                  //     ]}
-                  //   >
-                  //     {value ? value.label : "Dropdown label"}
-                  //   </Text>
-                  // )}
-                  // renderLeftIcon={() => (
-                  //   <AntDesign
-                  //     style={styles.icon}
-                  //     color={isFocus ? "blue" : "black"}
-                  //     name="Safety"
-                  //     size={20}
-                  //   />
-                  // )}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
                   />
                 </View>
               </View>
@@ -541,8 +544,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 />
               </View>
               {/* ------------------- @INPUT - SIZE  ------------------- */}
-              <KeyboardAvoidingView style={styles.inputContainerSize} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
+              <KeyboardAvoidingView
+                style={styles.inputContainerSize}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              >
                 <Text style={styles.sizeText}>Taille</Text>
                 <TextInput
                   style={[styles.input, styles.size]}
@@ -708,11 +713,17 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
       <FooterCompo style={styles.footer} navigation={navigation} />
     </KeyboardAvoidingView>
-
   );
 }
 
 const styles = StyleSheet.create({
+  SafeAreaView: {
+    flex: 1,
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   SafeAreaView: {
     flex: 1,
     backgroundColor: "#0E0E66",
@@ -725,7 +736,21 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 40,
   },
+  headerContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
 
+  contentContainer: {
+    flex: 12,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
   contentContainer: {
     flex: 12,
     flexDirection: "column",

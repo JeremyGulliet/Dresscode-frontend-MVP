@@ -22,6 +22,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { API_URL } from "../constants/config";
 
 export default function ValidateImportScreen({ navigation, route }) {
   const { uri, newImages } = route.params;
@@ -294,7 +295,7 @@ export default function ValidateImportScreen({ navigation, route }) {
       event,
       brand
     );
-    fetch("http://192.168.1.42:3000/weathers", {
+    fetch(`${API_URL}/weathers`, {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -308,7 +309,7 @@ export default function ValidateImportScreen({ navigation, route }) {
       .then((weatherData) => {
         //console.log("Mon ID:", weatherData.newWeather._id)
         //requête POST pour créer une entrée dans la collection "descriptions"
-        fetch("http://192.168.1.42:3000/descriptions", {
+        fetch(`${API_URL}/descriptions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -323,7 +324,7 @@ export default function ValidateImportScreen({ navigation, route }) {
           .then((descriptionData) => {
             //console.log(descriptionData)
             //requête POST pour créer une entrée dans la collection "brands"
-            fetch("http://192.168.1.42:3000/brands", {
+            fetch(`${API_URL}/brands`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -334,7 +335,7 @@ export default function ValidateImportScreen({ navigation, route }) {
               .then((brandData) => {
                 //console.log(brandData)
                 //requêtePOST pour créer le nouvel article dans la collection "articles"
-                fetch("http://192.168.1.42:3000/articles", {
+                fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({

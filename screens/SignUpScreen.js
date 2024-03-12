@@ -10,7 +10,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
+import { API_URL } from "../constants/config";
 
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
@@ -27,7 +29,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch("http://192.168.1.42:3000/users/signup", {
+    fetch(`${API_URL}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -139,11 +141,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   scrollView: {
     flex: 1,
   },
 
+  logoContainer: { justifyContent: "center", alignItems: "center" },
+  logo: { width: 250, height: 250, resizeMode: "contain" },
   logoContainer: { justifyContent: "center", alignItems: "center" },
   logo: { width: 250, height: 250, resizeMode: "contain" },
   title: {
@@ -184,6 +191,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
