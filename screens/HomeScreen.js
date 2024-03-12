@@ -11,40 +11,128 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
+import { WEATHER_API_KEY } from "../constants/config";
+import * as Location from "expo-location";
+
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [topImage, setTopImage] = useState(null);
-  const [bottomImage, setBottomImage] = useState(null);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [topImage, setTopImage] = useState([]);
+  const [bottomImage, setBottomImage] = useState([]);
+  //const [firstLoad, setFirstLoad] = useState(true);
 
+  const [myLatitude, setMyLatitude] = useState(null);
+  const [myLongitude, setMyLongitude] = useState(null);
+  const [myWeather, setMyWeather] = useState(null);
+  const [myTemp, setMyTemp] = useState(0);
+  const [myTempMin, setMyTempMin] = useState(0);
+  const [myTempMax, setMyTempMax] = useState(0);
+  const [city, setCity] = useState(null);
+
+  // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
-    // Fetch random top and bottom images for the first time
-    if (firstLoad) {
-      fetchRandomOutfit();
-      setFirstLoad(false);
-    }
+    const fetchData = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({});
+        setMyLatitude(location.coords.latitude);
+        setMyLongitude(location.coords.longitude);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const fetchRandomOutfit = () => {
-    fetch(`${API_URL}/articles/random/tops`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTopImage(data.imageUrl);
-      })
-      .catch((error) => console.error(error));
+  // fonction pour afficher la météo locale selon LAT et LON
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (myLatitude !== null && myLongitude !== null) {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&appid=${WEATHER_API_KEY}&units=metric`;
 
-    fetch(`${API_URL}/articles/random/bottoms`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setBottomImage(data.imageUrl);
-      })
-      .catch((error) => console.error(error));
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          // Arrondir temp_min à la valeur en dessous
+          const tempMinRounded = Math.floor(data.main.temp_min);
+          // Arrondir temp_max à la valeur du dessus
+          const tempMaxRounded = Math.ceil(data.main.temp_max);
+
+          setMyWeather(data.weather[0].main);
+          setMyTemp(data.main.temp);
+          setMyTempMin(tempMinRounded);
+          setMyTempMax(tempMaxRounded);
+          setCity(data.name);
+        } catch (error) {
+          console.error("Erreur lors de la récupération de la météo :", error);
+        }
+      }
+    };
+
+    fetchWeather();
+  }, [myLatitude, myLongitude]);
+
+  //Choix de l'image à affiché selon la météo
+
+  const getWeatherImagePath = (weather) => {
+    switch (weather) {
+      case "Clear":
+        return require("../assets/weather/Clear.png");
+      case "Clouds":
+        return require("../assets/weather/BrokenClouds.png");
+      case "Rain":
+        return require("../assets/weather/Rain.png");
+      case "Thunderstorm ":
+        return require("../assets/weather/ThunderStorm.png");
+      case "Snow ":
+        return require("../assets/weather/Snow.png");
+      case "Mist ":
+        return require("../assets/weather/Rain.png");
+      default:
+        return require("../assets/weather/Default.png"); // Image par défaut si la météo n'est pas reconnue
+    }
   };
 
+  useEffect(() => {
+    // Assurez-vous que myWeather, myTempMin et myTempMax ont des valeurs avant d'appeler fetchArticles
+    if (myWeather !== null && myTempMin !== 0 && myTempMax !== 0) {
+      fetchArticles();
+    }
+  }, [myWeather, myTempMin, myTempMax]); // Exécutez lorsque ces valeurs changent
+
+  const fetchArticles = () => {
+    const categories = ["Haut", "Bas"];
+
+    const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
+
+    categories.forEach((category) => {
+      fetch(
+        `${API_URL}/articles/dressing/homeArticle?${queryString}&category=${category}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);
+
+          if (category === "Haut") {
+            setTopImage(data);
+          } else if (category === "Bas") {
+            setBottomImage(data);
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Erreur lors de la récupération des articles pour la catégorie",
+            category,
+            ":",
+            error
+          );
+        });
+    });
+  };
+
+  const weatherImagePath = myWeather ? getWeatherImagePath(myWeather) : null;
+
   const reloadOutfit = () => {
-    fetchRandomOutfit();
+    fetchArticles();
   };
 
   return (
@@ -52,19 +140,38 @@ const HomeScreen = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.headerContainer}>
           {/* ici le header */}
-          <HeaderCompo />
+          <HeaderCompo navigation={navigation} />
         </View>
-
-        <View style={styles.weatherContainer}>
-          <Image
-            style={styles.weatherImage}
-            source={require("../assets/home/soleil-1.png")}
-          ></Image>
-          <Text style={styles.temperatureText}>Aujourd'hui 25°C</Text>
-        </View>
+        {myWeather && (
+          <View style={styles.weatherContainer}>
+            <Image
+              style={styles.weatherImage}
+              source={weatherImagePath}
+            ></Image>
+            <Text style={styles.temperatureText}>
+              {city} - {Math.round(myTemp)}°C
+            </Text>
+          </View>
+        )}
         <View style={styles.clothingContainer}>
-          <Image source={{ uri: topImage }} style={styles.clothingImage} />
-          <Image source={{ uri: bottomImage }} style={styles.clothingImage} />
+          {topImage.length > 0 && (
+            <Image
+              source={{
+                uri: topImage[Math.floor(Math.random() * topImage.length)]
+                  .url_image,
+              }}
+              style={styles.clothingImage}
+            />
+          )}
+          {bottomImage.length > 0 && (
+            <Image
+              source={{
+                uri: bottomImage[Math.floor(Math.random() * bottomImage.length)]
+                  .url_image,
+              }}
+              style={styles.clothingImage}
+            />
+          )}
           {/* <Image
             source={require('../assets/home/vet-chauss.png')}
             style={styles.clothingImage}

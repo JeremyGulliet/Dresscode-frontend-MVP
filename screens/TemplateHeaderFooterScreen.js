@@ -9,18 +9,18 @@ import {
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 
-export default function TemplateHeaderFooterScreen() {
+export default function TemplateHeaderFooterScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.headerContainer}>
-        <HeaderCompo />
+        <HeaderCompo navigation={navigation} />
       </View>
 
       <View style={styles.contentContainer}>
         <Text>CONTENT</Text>
       </View>
 
-      <FooterCompo />
+      <FooterCompo navigation={navigation} />
     </SafeAreaView>
   );
 }

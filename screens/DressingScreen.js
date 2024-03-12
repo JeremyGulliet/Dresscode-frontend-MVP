@@ -19,46 +19,38 @@ export default function DressingScreen({ navigation }) {
   const [bottoms, setBottoms] = useState([]);
 
   useEffect(() => {
-    fetchTops();
-    fetchBottoms();
+    fetchArticles();
   }, []);
 
-  const fetchTops = () => {
-    fetch(`${API_URL}/articles/dressing/hauts`)
+  const fetchArticles = () => {
+    fetch(`${API_URL}/articles/dressing`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les hauts
         const hauts = data.filter(
-          (item) => item.description && item.description.type === "haut"
-        );
-        console.log("Data for tops:", hauts);
+          (item) => item.description && item.description.category == "Haut"
+        ).sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        //console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
+
+        // Filtrer les éléments pour ne conserver que les bas
+        const bas = data.filter(
+          (item) => item.description && item.description.category == "Bas"
+        ).sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        //console.log("Data for bottoms:", bas);
+        setBottoms(bas); // Définir uniquement les bas dans l'état
+
       })
       .catch((error) => console.error("Error fetching tops:", error));
   };
 
-  const fetchBottoms = () => {
-    fetch(`${API_URL}/articles/dressing/bas`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // Filtrer les éléments pour ne conserver que les bas
-        const bas = data.filter(
-          (item) => item.description && item.description.type === "bas"
-        );
-        console.log("Data for bottoms:", bas);
-        setBottoms(bas); // Définir uniquement les bas dans l'état
-      })
-      .catch((error) => console.error("Error fetching tops:", error));
-  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.headerContainer}>
-        <HeaderCompo />
+        <HeaderCompo navigation={navigation} />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
@@ -128,7 +120,7 @@ export default function DressingScreen({ navigation }) {
 
             {/* button 2 */}
             <TouchableOpacity
-              onPress={() => console.log("Pressed => Central +")}
+              onPress={() => navigation.navigate("AddArticleScreen")}
             >
               <AntDesign name="pluscircle" size={50} color="#0E0E66" />
             </TouchableOpacity>
@@ -136,7 +128,7 @@ export default function DressingScreen({ navigation }) {
             {/* button 3 */}
             <TouchableOpacity
               style={styles.buttonRight}
-              onPress={() => console.log("Pressed => Générer")}
+              onPress={() => navigation.navigate("Home")}
             >
               <Text style={styles.buttonText}>Générer</Text>
             </TouchableOpacity>

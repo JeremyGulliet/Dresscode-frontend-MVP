@@ -2,19 +2,53 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HeaderCompo from "../components/headerCompo.js";
+import * as ImagePicker from "expo-image-picker";
+import React, { useState, useEffect } from "react";
+import { Platform } from "react-native";
 
 export default function AddArticleScreen({ navigation }) {
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission to access media library is required!");
+        }
+      }
+    })();
+  }, []);
+
+  const handleImport = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      //allowsEditing: true, //Pour editer la photo selectionnée. ATTENTION, il faut le commenter si on décommente "allowMiltipleSelection"
+      aspect: [4, 3],
+      quality: 1,
+      allowsMultipleSelection: true, //Pour permettre la selection de plusieurs photos
+    });
+
+    //console.log(result.assets[0]);
+    //console.log(result.assets[1].uri);
+
+    if (!result.canceled) {
+      // Récupérer les URLs des images sélectionnées
+      const selectedImages = result.assets.map((asset) => asset.uri);
+      navigation.navigate("ImportScreen", { images: selectedImages });
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.notifBar}>
         <View style={styles.headerContainer}>
-          <HeaderCompo />
+          <HeaderCompo navigation={navigation} />
         </View>
       </View>
 
       <View style={styles.contentContainer}>
         <View style={styles.container}>
-          <Text style={styles.title}>Dressing vide</Text>
+          <Text style={styles.title}>Choisissez la manière de remplir votre dressing</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.cameraContainer}>
               <TouchableOpacity
@@ -33,7 +67,7 @@ export default function AddArticleScreen({ navigation }) {
 
             <View style={styles.importContainer}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("ImportScreen")}
+                onPress={handleImport}
                 style={styles.buttonContent}
               >
                 <FontAwesome
@@ -94,7 +128,8 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
+    textAlign: 'center',
     // marginTop: 300,
   },
   buttonContainer: {

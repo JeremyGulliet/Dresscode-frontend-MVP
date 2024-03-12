@@ -27,7 +27,9 @@ export default function CameraScreen({ navigation }) {
 
   // Fonction pour la prise de photo et l'envoi sur Cloudinairy
   const takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    const photo = await cameraRef.takePictureAsync({
+      quality: 0.3,
+    });
     //console.log(photo);
     const uri = photo.uri;
 
@@ -45,7 +47,7 @@ export default function CameraScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("La data de l'upload :", data);
         //setUrlPhoto(data.url)
         navigation.navigate("ValidateCameraScreen", { url: data.url });
       });
@@ -61,7 +63,7 @@ export default function CameraScreen({ navigation }) {
       flashMode={flashMode}
       ref={(ref) => (cameraRef = ref)}
       style={styles.camera}
-      autoFocus={AutoFocus.auto}
+      autoFocus={AutoFocus.on}
     >
       {/* Boutons Flash et changement de camera */}
       <View style={styles.buttonsContainer}>
@@ -112,6 +114,7 @@ export default function CameraScreen({ navigation }) {
 const styles = StyleSheet.create({
   camera: {
     flex: 1,
+    width: "100%",
   },
   buttonsContainer: {
     flex: 0.1,

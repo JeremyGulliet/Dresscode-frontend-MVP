@@ -126,11 +126,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-around",
     alignItems: "center",
+    backgroundColor: "white",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   scrollView: {
     flex: 1,
   },
 
+  logoContainer: { justifyContent: "center", alignItems: "center" },
+  logo: { width: 250, height: 250, resizeMode: "contain" },
   logoContainer: { justifyContent: "center", alignItems: "center" },
   logo: { width: 250, height: 250, resizeMode: "contain" },
   input: {
@@ -163,6 +168,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
