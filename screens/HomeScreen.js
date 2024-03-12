@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
-import * as Location from "expo-location";
+import { API_URL } from "../config";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,6 +27,7 @@ const HomeScreen = () => {
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
+  const [articlesWeather, setArticlesWeather] = useState([]);
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
@@ -52,11 +53,15 @@ const HomeScreen = () => {
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
-          //console.log(data.name);
+          // Arrondir temp_min à la valeur en dessous
+          const tempMinRounded = Math.floor(data.main.temp_min);
+          // Arrondir temp_max à la valeur du dessus
+          const tempMaxRounded = Math.ceil(data.main.temp_max);
+
           setMyWeather(data.weather[0].main);
           setMyTemp(data.main.temp);
-          setMyTempMin(data.main.temp_min);
-          setMyTempMax(data.main.temp_max);
+          setMyTempMin(tempMinRounded);
+          setMyTempMax(tempMaxRounded);
           setCity(data.name);
         } catch (error) {
           console.error("Erreur lors de la récupération de la météo :", error);
@@ -88,44 +93,47 @@ const HomeScreen = () => {
     }
   };
 
-  const weatherImagePath = myWeather ? getWeatherImagePath(myWeather) : null;
-
   useEffect(() => {
-    fetchRandomOutfit();
-  }, []);
+    // Assurez-vous que myWeather, myTempMin et myTempMax ont des valeurs avant d'appeler fetchArticles
+    if (myWeather !== null && myTempMin !== 0 && myTempMax !== 0) {
+      fetchArticles();
+    }
+  }, [myWeather, myTempMin, myTempMax]); // Exécutez lorsque ces valeurs changent
 
-  const fetchRandomOutfit = () => {
-    fetch("http://192.168.1.138:3000/articles/dressing/hauts")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data.filter(
-          (item) => item.description && item.description.type === "haut"
-        );
-        //console.log("Data for tops:", hauts);
-        setTopImage(hauts); // Définir uniquement les hauts dans l'état
-      })
-      .catch((error) => console.error("Error fetching tops:", error));
+  const fetchArticles = () => {
+    const categories = ["Haut", "Bas"];
 
-    fetch("http://192.168.1.138:3000/articles/dressing/bas")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // Filtrer les éléments pour ne conserver que les bas
-        const bas = data.filter(
-          (item) => item.description && item.description.type === "bas"
-        );
-        //console.log("Data for bottoms:", bas);
-        setBottomImage(bas); // Définir uniquement les bas dans l'état
-      })
-      .catch((error) => console.error("Error fetching tops:", error));
+    const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
+
+    categories.forEach((category) => {
+      fetch(
+        `${API_URL}/articles/dressing/homeArticle?${queryString}&category=${category}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);
+
+          if (category === "Haut") {
+            setTopImage(data);
+          } else if (category === "Bas") {
+            setBottomImage(data);
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Erreur lors de la récupération des articles pour la catégorie",
+            category,
+            ":",
+            error
+          );
+        });
+    });
   };
 
+  const weatherImagePath = myWeather ? getWeatherImagePath(myWeather) : null;
+
   const reloadOutfit = () => {
-    fetchRandomOutfit();
+    fetchArticles();
   };
 
   return (

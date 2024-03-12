@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { API_URL } from "../config";
 import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Camera, CameraType, FlashMode, AutoFocus } from "expo-camera";
 import { useDispatch } from "react-redux";
@@ -32,18 +33,25 @@ export default function CameraScreen({ navigation }) {
     //console.log(photo);
     const uri = photo.uri;
 
-    const formData = new FormData();
+    console.log("----- Taille photo ---> ", photo.fileSize);
+    console.log("URI ---> ", uri);
 
+    const formData = new FormData();
+    const uriArray = uri.split(".");
+    const fileExtension = uriArray[uriArray.length - 1]; // e.g.: "jpg"
+    const fileTypeExtended = `${"image"}/${fileExtension}`; // e.g.: "image/jpg"
+    console.log(fileTypeExtended);
     formData.append("photoFromFront", {
       uri: uri,
-      name: "photo.jpg",
-      type: "image/jpeg",
+      name: "photo",
+      type: fileTypeExtended,
     });
 
-    console.log(formData);
+    console.log("formData :", formData);
 
-    fetch("http://192.168.1.138:3000/articles/upload", {
+    fetch(`${API_URL}/articles/upload`, {
       method: "POST",
+
       body: formData,
     })
       .then((response) => response.json())

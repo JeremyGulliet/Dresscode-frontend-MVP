@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { API_URL } from "../config";
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
@@ -18,37 +19,31 @@ export default function DressingScreen({ navigation }) {
   const [bottoms, setBottoms] = useState([]);
 
   useEffect(() => {
-    fetchTops();
-    fetchBottoms();
+    fetchArticles();
   }, []);
 
-  const fetchTops = () => {
-    fetch("http://192.168.1.42:3000/articles/dressing/hauts")
+  const fetchArticles = () => {
+    fetch(`${API_URL}/articles/dressing`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data.filter(
-          (item) => item.description && item.description.type === "haut"
-        );
-        console.log("Data for tops:", hauts);
+        const hauts = data
+          .filter(
+            (item) => item.description && item.description.category == "Haut"
+          )
+          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        //console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
-      })
-      .catch((error) => console.error("Error fetching tops:", error));
-  };
 
-  const fetchBottoms = () => {
-    fetch("http://192.168.1.42:3000/articles/dressing/bas")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
         // Filtrer les éléments pour ne conserver que les bas
-        const bas = data.filter(
-          (item) => item.description && item.description.type === "bas"
-        );
-        console.log("Data for bottoms:", bas);
+        const bas = data
+          .filter(
+            (item) => item.description && item.description.category == "Bas"
+          )
+          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        //console.log("Data for bottoms:", bas);
         setBottoms(bas); // Définir uniquement les bas dans l'état
       })
       .catch((error) => console.error("Error fetching tops:", error));

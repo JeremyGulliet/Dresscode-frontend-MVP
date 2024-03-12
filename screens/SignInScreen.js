@@ -9,6 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
+import { API_URL } from "../config.js";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
@@ -24,7 +25,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-    fetch("http://192.168.1.42:3000/users/signin", {
+    fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,11 +66,12 @@ const SignInScreen = () => {
         contentContainerStyle={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View>
+        <View style={styles.logoContainer}>
+          {/* Affichage du logo */}
           <Image
-            source={require("../assets/logo.png")}
-            style={{ width: 250, height: 150 }}
-          />
+            source={require("../assets/DressCodeLogo.png")}
+            style={styles.logo}
+          ></Image>
         </View>
 
         <View>
@@ -130,8 +132,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  logoContainer: { justifyContent: "center", alignItems: "center" },
-  logo: { width: 250, height: 250, resizeMode: "contain" },
+  logoContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
+  logo: {
+    width: "100%",
+    height: 250,
+    resizeMode: "contain",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
   input: {
     height: 60,
     width: 350,

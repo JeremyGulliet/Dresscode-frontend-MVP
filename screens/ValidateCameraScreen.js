@@ -10,6 +10,7 @@ import {
   Platform,
   Image,
 } from "react-native";
+import { API_URL } from "../config.js";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -293,7 +294,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       event,
       brand
     );
-    fetch("http://192.168.1.42:3000/weathers", {
+    fetch(`${API_URL}/weathers`, {
       // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -307,7 +308,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
       .then((weatherData) => {
         //console.log("Mon ID:", weatherData.newWeather._id)
         //requête POST pour créer une entrée dans la collection "descriptions"
-        fetch("http://192.168.1.42:3000/descriptions", {
+        fetch(`${API_URL}/descriptions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -322,7 +323,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
           .then((descriptionData) => {
             //console.log(descriptionData)
             //requête POST pour créer une entrée dans la collection "brands"
-            fetch("http://192.168.1.42:3000/brands", {
+            fetch(`${API_URL}/brands`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -333,7 +334,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
               .then((brandData) => {
                 //console.log(brandData)
                 //requêtePOST pour créer le nouvel article dans la collection "articles"
-                fetch("http://192.168.1.42:3000/articles", {
+                fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
@@ -345,8 +346,33 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     brand: brandData.newBrand._id,
                   }),
                 })
-                  .then((data) => {
+                  .then((response) => response.json())
+                  .then(async (postData) => {
                     //console.log(data);
+                    // console.log("newArticle ---> ", data.newArticle);
+                    // Vérif requête POST
+                    if (postData && postData.newArticle) {
+                      await new Promise((resolve) => setTimeout(resolve, 500));
+                      // Requête GET pour vérif article dans BDD
+                      fetch(`${API_URL}/articles/${postData.newArticle._id}`)
+                        .then((getResponse) => getResponse.json())
+                        .then((getData) => {
+                          // Si nouvel article en BDD ---> DressingScreen
+                          if (
+                            getData &&
+                            getData._id === postData.newArticle._id
+                          ) {
+                            navigation.navigate("DressingScreen", {
+                              refreshKey: Date.now(),
+                            });
+                          } else {
+                            console.error(
+                              "Erreur : L'article n'est pas présent dans la base de données."
+                            );
+                          }
+                        });
+                    }
+
                     navigation.navigate("DressingScreen");
                   })
                   .catch((error) => {
