@@ -12,6 +12,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
 import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../constants/config";
 
 export default function DressingScreen({ navigation }) {
   const [tops, setTops] = useState([]);
@@ -23,7 +24,7 @@ export default function DressingScreen({ navigation }) {
   }, []);
 
   const fetchTops = () => {
-    fetch("http://192.168.1.36:3000/articles/dressing/hauts")
+    fetch(`${API_URL}/articles/dressing/hauts`)
       .then((response) => {
         return response.json();
       })
@@ -39,7 +40,7 @@ export default function DressingScreen({ navigation }) {
   };
 
   const fetchBottoms = () => {
-    fetch("http://192.168.1.36:3000/articles/dressing/bas")
+    fetch(`${API_URL}/articles/dressing/bas`)
       .then((response) => {
         return response.json();
       })
