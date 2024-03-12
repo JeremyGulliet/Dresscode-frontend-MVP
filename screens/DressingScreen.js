@@ -13,6 +13,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
 import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../constants/config";
 
 export default function DressingScreen({ navigation }) {
   const [tops, setTops] = useState([]);
@@ -20,8 +21,11 @@ export default function DressingScreen({ navigation }) {
 
   useEffect(() => {
     fetchArticles();
+    fetchArticles();
   }, []);
 
+  const fetchArticles = () => {
+    fetch(`${API_URL}/articles/dressing`)
   const fetchArticles = () => {
     fetch(`${API_URL}/articles/dressing`)
       .then((response) => {
@@ -37,6 +41,7 @@ export default function DressingScreen({ navigation }) {
         //console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
 
+
         // Filtrer les éléments pour ne conserver que les bas
         const bas = data
           .filter(
@@ -45,9 +50,11 @@ export default function DressingScreen({ navigation }) {
           .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
         //console.log("Data for bottoms:", bas);
         setBottoms(bas); // Définir uniquement les bas dans l'état
+
       })
       .catch((error) => console.error("Error fetching tops:", error));
   };
+
 
   return (
     <SafeAreaView style={styles.safeArea}>

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import { API_URL } from "../config.js";
 import HeaderCompo from "../components/headerCompo.js";
@@ -19,6 +20,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
+import { API_URL } from "../constants/config";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -406,7 +408,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.SafeAreaView}>
+    <KeyboardAvoidingView
+      style={styles.SafeAreaView}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.headerContainer}>
         <HeaderCompo navigation={navigation} />
       </View>
@@ -565,7 +570,10 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 />
               </View>
               {/* ------------------- @INPUT - SIZE  ------------------- */}
-              <View style={styles.inputContainerSize}>
+              <KeyboardAvoidingView
+                style={styles.inputContainerSize}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              >
                 <Text style={styles.sizeText}>Taille</Text>
                 <TextInput
                   style={[styles.input, styles.size]}
@@ -573,7 +581,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                   onChangeText={(text) => handleInputChange("size", text)}
                   value={size}
                 />
-              </View>
+              </KeyboardAvoidingView>
             </View>
             {/* §§§§§§§§§§§§§§§§§§§ BLOC WEATHER + TEMPMIN + TEMPMAX §§§§§§§§§§§§§§§§§§§ */}
             <View style={styles.blocWeatherTemperature}>
@@ -730,11 +738,18 @@ export default function ValidateCameraScreen({ navigation, route }) {
       </View>
 
       <FooterCompo style={styles.footer} navigation={navigation} />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  SafeAreaView: {
+    flex: 1,
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   SafeAreaView: {
     flex: 1,
     backgroundColor: "#0E0E66",
@@ -747,7 +762,21 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 40,
   },
+  headerContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
 
+  contentContainer: {
+    flex: 12,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
   contentContainer: {
     flex: 12,
     flexDirection: "column",
@@ -964,8 +993,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "90%",
-    height: "90%",
+    width: "50%",
+    height: "100%",
     borderRadius: 10,
   },
   footer: {

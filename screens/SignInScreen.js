@@ -14,6 +14,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
 import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
+import { API_URL } from "../constants/config";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(""); // État local pour stocker l'email
@@ -25,6 +26,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
+    fetch(`${API_URL}/users/signin`, {
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: {
@@ -127,6 +129,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-around",
     alignItems: "center",
+    backgroundColor: "white",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   scrollView: {
     flex: 1,
@@ -176,6 +181,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
