@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [topImage, setTopImage] = useState([]);

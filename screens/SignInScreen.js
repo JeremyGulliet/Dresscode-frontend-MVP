@@ -77,13 +77,11 @@ const SignInScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholder="Email"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Password"
             placeholder="Password"
             value={password}
             onChangeText={(value) => setPassword(value)}
@@ -95,7 +93,6 @@ const SignInScreen = () => {
           <Text
             style={styles.register}
             onPress={() => navigation.navigate("SignUp")}
-            onPress={() => navigation.navigate("SignUp")}
           >
             Pas encore inscrit ? S'inscrire
           </Text>
@@ -103,16 +100,13 @@ const SignInScreen = () => {
             {/* Images des logos de connexion */}
             <Image
               source={require("../assets/loginMicrosoft.png")}
-              source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
               source={require("../assets/loginGoogle.png")}
-              source={require("../assets/loginGoogle.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
-              source={require("../assets/loginApple.png")}
               source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
