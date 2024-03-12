@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
-import * as Location from "expo-location";
-
+import { API_URL } from "../constants/config";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [topImage, setTopImage] = useState([]);
@@ -95,10 +94,8 @@ const HomeScreen = () => {
   }, []);
 
   const fetchRandomOutfit = () => {
-    fetch("http://192.168.1.42:3000/articles/dressing/hauts")
-      .then((response) => {
-        return response.json();
-      })
+    fetch(`${API_URL}/articles/random/tops`)
+      .then((response) => response.json())
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les hauts
         const hauts = data.filter(
@@ -109,10 +106,8 @@ const HomeScreen = () => {
       })
       .catch((error) => console.error("Error fetching tops:", error));
 
-    fetch("http://192.168.1.42:3000/articles/dressing/bas")
-      .then((response) => {
-        return response.json();
-      })
+    fetch(`${API_URL}/articles/random/bottoms`)
+      .then((response) => response.json())
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les bas
         const bas = data.filter(

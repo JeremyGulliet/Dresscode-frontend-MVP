@@ -10,7 +10,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
+import { API_URL } from "../constants/config";
 
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
@@ -27,7 +29,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch("http://192.168.1.42:3000/users/signup", {
+    fetch(`${API_URL}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,9 +72,14 @@ const SignUp = () => {
         contentContainerStyle={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View>
           {/* Affichage du logo */}
           <Image
+            source={require("../assets/logo.png")}
             source={require("../assets/logo.png")}
             style={styles.logo}
           ></Image>
@@ -83,17 +90,20 @@ const SignUp = () => {
           <TextInput
             style={styles.input}
             placeholder="Username"
+            placeholder="Username"
             value={username}
             onChangeText={(value) => setUsername(value)}
           />
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholder="Email"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           <TextInput
             style={styles.input}
+            placeholder="Password"
             placeholder="Password"
             value={password}
             onChangeText={(value) => setPassword(value)}
@@ -107,6 +117,7 @@ const SignUp = () => {
           <Text
             style={styles.login}
             onPress={() => navigation.navigate("SignIn")}
+            onPress={() => navigation.navigate("SignIn")}
           >
             Déjà inscrit ? Connexion
           </Text>
@@ -114,13 +125,16 @@ const SignUp = () => {
           <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
+              source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
               source={require("../assets/loginGoogle.png")}
+              source={require("../assets/loginGoogle.png")}
               style={{ width: 50, height: 50 }}
             />
             <Image
+              source={require("../assets/loginApple.png")}
               source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
@@ -139,11 +153,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   scrollView: {
     flex: 1,
   },
 
+  logoContainer: { justifyContent: "center", alignItems: "center" },
+  logo: { width: 250, height: 250, resizeMode: "contain" },
   logoContainer: { justifyContent: "center", alignItems: "center" },
   logo: { width: 250, height: 250, resizeMode: "contain" },
   title: {
@@ -184,6 +203,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLogo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

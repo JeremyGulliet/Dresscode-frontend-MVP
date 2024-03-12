@@ -4,6 +4,7 @@ import { Camera, CameraType, FlashMode, AutoFocus } from "expo-camera";
 import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { API_URL } from "../constants/config";
 
 export default function CameraScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -40,9 +41,7 @@ export default function CameraScreen({ navigation }) {
       type: "image/jpeg",
     });
 
-    console.log(formData);
-
-    fetch("http://192.168.1.42:3000/articles/upload", {
+    fetch(`${API_URL}/articles/upload`, {
       method: "POST",
       body: formData,
     })
@@ -51,8 +50,7 @@ export default function CameraScreen({ navigation }) {
         console.log("La data de l'upload :", data);
         //setUrlPhoto(data.url)
         navigation.navigate("ValidateCameraScreen", { url: data.url });
-      })
-      .catch((error) => console.error("Erreur fetch de l'upload :", error));
+      });
   };
   // Désactiver la caméra en arrière plan quand changement d'écran
   if (!hasPermission || !isFocused) {
