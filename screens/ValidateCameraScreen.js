@@ -942,8 +942,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "90%",
-    height: "90%",
+    width: "50%",
+    height: "100%",
     borderRadius: 10,
   },
   footer: {

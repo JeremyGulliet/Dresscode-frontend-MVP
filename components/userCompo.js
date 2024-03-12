@@ -1,19 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Svg from "react-native-svg";
-import DefaultUserPic from "../assets/defaultUserPic.svg";
 import { useSelector } from "react-redux";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 function UserCompo({ navigation }) {
   const user = useSelector((state) => state.user.value);
   return (
     <View style={styles.userPicContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}><Svg
-        style={styles.defaultUserPic}
-        source={DefaultUserPic}
-        width={35}
-        height={35}
-      /></TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
+        <FontAwesome name="user-circle" size={30} color="#ffffff" /></TouchableOpacity>
       <Text style={styles.userNameText}>{user.username}</Text>
     </View>
   );
