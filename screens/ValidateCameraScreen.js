@@ -102,10 +102,12 @@ export default function ValidateCameraScreen({ navigation, route }) {
   const [weatherType, setWeatherType] = useState("");
   const [openWeatherType, setOpenWeatherType] = useState(false);
   const [weatherTypeItems, setWeatherTypeItems] = useState([
-    { label: "Neige", value: "Neige" },
-    { label: "Nuages", value: "Nuages" },
-    { label: "Pluie", value: "Pluie" },
-    { label: "Soleil", value: "Soleil" },
+    { label: "Neige", value: "Snow" },
+    { label: "Nuages", value: "Clouds" },
+    { label: "Pluie", value: "Rain" },
+    { label: "Soleil", value: "Clear" },
+    { label: "Orage", value: "Thunderstorm" },
+    { label: "Brume", value: "Mist" },
   ]);
   const [isFocusWeatherType, setIsFocusWeatherType] = useState(false);
   const [isSelectedWeatherType, setIsSelectedWeatherType] = useState(false);
@@ -216,31 +218,31 @@ export default function ValidateCameraScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-        ? isSelectedType
-        : fieldName === "colors"
-        ? isSelectedColors
-        : fieldName === "weatherType"
-        ? isSelectedWeatherType
-        : fieldName === "event"
-        ? isSelectedEvent
-        : fieldName === "brand"
-        ? isSelectedBrand
-        : false;
+          ? isSelectedType
+          : fieldName === "colors"
+            ? isSelectedColors
+            : fieldName === "weatherType"
+              ? isSelectedWeatherType
+              : fieldName === "event"
+                ? isSelectedEvent
+                : fieldName === "brand"
+                  ? isSelectedBrand
+                  : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-        ? isFocusType
-        : fieldName === "colors"
-        ? isFocusColors
-        : fieldName === "weatherType"
-        ? isFocusWeatherType
-        : fieldName === "event"
-        ? isFocusEvent
-        : fieldName === "brand"
-        ? isFocusBrand
-        : false;
+          ? isFocusType
+          : fieldName === "colors"
+            ? isFocusColors
+            : fieldName === "weatherType"
+              ? isFocusWeatherType
+              : fieldName === "event"
+                ? isFocusEvent
+                : fieldName === "brand"
+                  ? isFocusBrand
+                  : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -432,24 +434,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -482,24 +484,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
               </View>

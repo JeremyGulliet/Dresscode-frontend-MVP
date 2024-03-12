@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
+import * as Location from 'expo-location';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const HomeScreen = () => {
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
-  const [articlesWeather, setArticlesWeather] = useState([]);
+
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
@@ -107,7 +108,7 @@ const HomeScreen = () => {
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
     categories.forEach(category => {
-      fetch(`http://192.168.1.42:3000/articles/dressing/homeArticle?${queryString}&category=${category}`)
+      fetch(`${API_URL}/articles/dressing/homeArticle?${queryString}&category=${category}`)
         .then(response => response.json())
         .then(data => {
           //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);

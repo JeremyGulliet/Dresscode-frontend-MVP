@@ -48,7 +48,7 @@ export default function AddArticleScreen({ navigation }) {
 
       <View style={styles.contentContainer}>
         <View style={styles.container}>
-          <Text style={styles.title}>Dressing vide</Text>
+          <Text style={styles.title}>Choisissez la manière de remplir votre dressing</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.cameraContainer}>
               <TouchableOpacity
@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
+    textAlign: 'center',
     // marginTop: 300,
   },
   buttonContainer: {
