@@ -17,6 +17,8 @@ import { API_URL } from "../constants/config";
 export default function DressingScreen({ navigation }) {
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
+  const [selectedTop, setSelectedTop] = useState(null);
+  const [selectedBottom, setSelectedBottom] = useState(null);
 
   useEffect(() => {
     fetchArticles();
@@ -29,23 +31,33 @@ export default function DressingScreen({ navigation }) {
       })
       .then((data) => {
         // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data.filter(
-          (item) => item.description && item.description.category == "Haut"
-        ).sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        //console.log("Data for tops:", hauts);
+        const hauts = data
+          .filter(
+            (item) => item.description && item.description.category == "Haut"
+          )
+          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
 
         // Filtrer les éléments pour ne conserver que les bas
-        const bas = data.filter(
-          (item) => item.description && item.description.category == "Bas"
-        ).sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+        const bas = data
+          .filter(
+            (item) => item.description && item.description.category == "Bas"
+          )
+          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
         //console.log("Data for bottoms:", bas);
         setBottoms(bas); // Définir uniquement les bas dans l'état
-
       })
       .catch((error) => console.error("Error fetching tops:", error));
   };
 
+  const handleTopPress = (top) => {
+    setSelectedTop(top);
+  };
+
+  const handleBottomPress = (bottom) => {
+    setSelectedBottom(bottom);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -70,11 +82,18 @@ export default function DressingScreen({ navigation }) {
           <View style={styles.topContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {tops.map((top, index) => (
-                <Image
+                <TouchableOpacity
                   key={index}
-                  source={{ uri: top.url_image }}
-                  style={styles.imageDressing}
-                />
+                  onPress={() => handleTopPress(top)}
+                  onLongPress={() =>
+                    navigation.navigate("ArticleScreen", { url: top.url_image })
+                  }
+                >
+                  <Image
+                    source={{ uri: top.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
@@ -83,11 +102,20 @@ export default function DressingScreen({ navigation }) {
           <View style={styles.bottomContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {bottoms.map((bottom, index) => (
-                <Image
+                <TouchableOpacity
                   key={index}
-                  source={{ uri: bottom.url_image }}
-                  style={styles.imageDressing}
-                />
+                  onPress={() => handleBottomPress(bottom)}
+                  onLongPress={() =>
+                    navigation.navigate("ArticleScreen", {
+                      url: bottom.url_image,
+                    })
+                  }
+                >
+                  <Image
+                    source={{ uri: bottom.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
@@ -95,16 +123,19 @@ export default function DressingScreen({ navigation }) {
           {/* section sélection */}
           <View style={styles.selectContainer}>
             <Text>Votre sélection</Text>
-
             <View style={styles.selectSubContainer}>
-              <Image
-                source={require("../assets/dressing/top-01.png")}
-                style={styles.imageDressing}
-              />
-              <Image
-                source={require("../assets/dressing/bottom-01.png")}
-                style={styles.imageDressing}
-              />
+              {selectedTop && (
+                <Image
+                  source={{ uri: selectedTop.url_image }}
+                  style={styles.imageDressing}
+                />
+              )}
+              {selectedBottom && (
+                <Image
+                  source={{ uri: selectedBottom.url_image }}
+                  style={styles.imageDressing}
+                />
+              )}
             </View>
           </View>
 
