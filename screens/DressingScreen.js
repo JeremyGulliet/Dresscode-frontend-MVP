@@ -21,6 +21,8 @@ export default function DressingScreen({ navigation }) {
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
+  const [selectedTop, setSelectedTop] = useState(null);
+  const [selectedBottom, setSelectedBottom] = useState(null);
 
   const [placeholderText, setPlaceholderText] = useState(
     "Filtrer par couleur..."
@@ -103,10 +105,12 @@ export default function DressingScreen({ navigation }) {
   };
 
   const handleTopPress = (top) => {
+    console.log("handleTopPress");
     setSelectedTop(top);
   };
 
   const handleBottomPress = (bottom) => {
+    console.log("handleBottomPress");
     setSelectedBottom(bottom);
   };
 
@@ -154,8 +158,8 @@ export default function DressingScreen({ navigation }) {
               }}
               onChange={(selectedValue) => {
                 //   setValue(selectedValue);
-                console.log("SelectedValue.label --->", selectedValue.label);
-                console.log("SelectedValue.value --->", selectedValue.value);
+                // console.log("SelectedValue.label --->", selectedValue.label);
+                // console.log("SelectedValue.value --->", selectedValue.value);
                 if (selectedValue.label === "Réinitialiser") {
                   setSelectedColor("all");
                   setPlaceholderText("Filtrer par couleur...");
@@ -218,13 +222,16 @@ export default function DressingScreen({ navigation }) {
           {/* section sélection */}
           <View style={styles.selectContainer}>
             <Text>Votre sélection</Text>
+            {console.log("Affichage SELECTION")}
             <View style={styles.selectSubContainer}>
+              {console.log("Affichage selectedTop")}
               {selectedTop && (
                 <Image
                   source={{ uri: selectedTop.url_image }}
                   style={styles.imageDressing}
                 />
               )}
+              {console.log("Affichage selectedBottom")}
               {selectedBottom && (
                 <Image
                   source={{ uri: selectedBottom.url_image }}
