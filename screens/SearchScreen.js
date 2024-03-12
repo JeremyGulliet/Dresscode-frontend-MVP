@@ -8,30 +8,13 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { API_URL } from "../config";
+import { API_URL } from "../constants/config";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SearchScreen({ navigation }) {
   const [articles, setArticles] = useState([]); // État pour stocker les articles récupérés
   const [search, setSearch] = useState("");
-  const [articles, setArticles] = useState([]); // État pour stocker les articles récupérés
-  const [search, setSearch] = useState("");
 
-  // Fonction pour effectuer la recherche d'articles
-  const handleSearch = async () => {
-    try {
-      console.log(search); // Afficher la valeur de search dans la console
-      const response = await fetch(`${API_URL}/articles/${search}`);
-      if (!response.ok) {
-        throw new Error("Erreur lors de la récupération des articles");
-      }
-      const articlesData = await response.json();
-      setArticles(articlesData); // Mettre à jour l'état avec les articles récupérés
-    } catch (error) {
-      console.error("Erreur");
-    }
-  };
-  console.log(articles);
   // Fonction pour effectuer la recherche d'articles
   const handleSearch = async () => {
     try {

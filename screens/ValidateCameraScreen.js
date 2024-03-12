@@ -11,7 +11,6 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
-import { API_URL } from "../config.js";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -20,7 +19,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
-import { API_URL } from "../constants/config";
+import { API_URL } from "../constants/config.js";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -348,33 +347,8 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     brand: brandData.newBrand._id,
                   }),
                 })
-                  .then((response) => response.json())
-                  .then(async (postData) => {
+                  .then((data) => {
                     //console.log(data);
-                    // console.log("newArticle ---> ", data.newArticle);
-                    // Vérif requête POST
-                    if (postData && postData.newArticle) {
-                      await new Promise((resolve) => setTimeout(resolve, 500));
-                      // Requête GET pour vérif article dans BDD
-                      fetch(`${API_URL}/articles/${postData.newArticle._id}`)
-                        .then((getResponse) => getResponse.json())
-                        .then((getData) => {
-                          // Si nouvel article en BDD ---> DressingScreen
-                          if (
-                            getData &&
-                            getData._id === postData.newArticle._id
-                          ) {
-                            navigation.navigate("DressingScreen", {
-                              refreshKey: Date.now(),
-                            });
-                          } else {
-                            console.error(
-                              "Erreur : L'article n'est pas présent dans la base de données."
-                            );
-                          }
-                        });
-                    }
-
                     navigation.navigate("DressingScreen");
                   })
                   .catch((error) => {

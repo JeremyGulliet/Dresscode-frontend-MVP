@@ -10,12 +10,11 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import { API_URL } from "../config.js";
+import { API_URL } from "../constants/config.js";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import * as ImagePicker from "expo-image-picker";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { API_URL } from "../constants/config";
 
 export default function ImportScreen({ route, navigation }) {
   const { images } = route.params;

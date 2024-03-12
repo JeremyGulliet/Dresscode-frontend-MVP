@@ -9,12 +9,11 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
-import { API_URL } from "../config.js";
+import { API_URL } from "../constants/config";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
 import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
-import { API_URL } from "../constants/config";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(""); // État local pour stocker l'email
@@ -26,7 +25,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-    fetch(`${API_URL}/users/signin`, {
+
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: {

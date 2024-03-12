@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import React, { useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -12,16 +11,8 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
-import { API_URL } from "../config.js";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons/faHeart";
-import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import DropDownPicker from "react-native-dropdown-picker";
-// DropDownPicker.setListMode("SCROLLVIEW");
-
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons/faHeart";
 import { Dropdown } from "react-native-element-dropdown";
@@ -105,78 +96,7 @@ export default function ValidateImportScreen({ navigation, route }) {
   const [isSelectedColors, setIsSelectedColors] = useState(false);
 
   /* --- États dropdown "size" --- */
-  /* --- États dropdown "category" --- */
-  const [category, setCategory] = useState(null);
-  const [openCategory, setOpenCategory] = useState(false);
-  const [categoryItems, setCategoryItems] = useState([
-    { label: "Haut", value: "Haut" },
-    { label: "Bas", value: "Bas" },
-    { label: "Accessoire", value: "Accessoire" },
-  ]);
-  const [isFocusCategory, setIsFocusCategory] = useState(false);
-  const [isSelectedCategory, setIsSelectedCategory] = useState(false);
-
-  /* --- États dropdown "type" --- */
-
-  const [type, setType] = useState(null);
-  //   const [openType, setOpenType] = useState(false);
-  const typeItems = [
-    { label: "Blouse", value: "Blouse" },
-    { label: "Chemise", value: "Chemise" },
-    { label: "Jean", value: "Jean" },
-    { label: "Jupe", value: "Jupe" },
-    { label: "Manteau", value: "Manteau" },
-    { label: "Pantalon", value: "Pantalon" },
-    { label: "Pull", value: "Pull" },
-    { label: "Robe", value: "Robe" },
-    { label: "Short", value: "Short" },
-    { label: "Sweatshirt", value: "Sweatshirt" },
-    { label: "T-shirt", value: "T-shirt" },
-    { label: "Veste", value: "Veste" },
-  ];
-
-  const [isFocusType, setIsFocusType] = useState(false);
-  const [isSelectedType, setIsSelectedType] = useState(false);
-
-  /* --- États dropdown "colors" --- */
-  const [colors, setColors] = useState(null);
-  const [openColors, setOpenColors] = useState(false);
-  const [colorsItems, setColorsItems] = useState([
-    { label: "Abricot", value: "Abricot" },
-    { label: "Argenté", value: "Argenté" },
-    { label: "Beige", value: "Beige" },
-    { label: "Blanc", value: "Blanc" },
-    { label: "Bleu", value: "Bleu" },
-    { label: "Bleu clair", value: "Bleu clair" },
-    { label: "Bleu marine", value: "Bleu marine" },
-    { label: "Bordeaux", value: "Bordeaux" },
-    { label: "Corail", value: "Corail" },
-    { label: "Crème", value: "Crème" },
-    { label: "Doré", value: "Doré" },
-    { label: "Gris", value: "Gris" },
-    { label: "Jaune", value: "Jaune" },
-    { label: "Jaune moutarde", value: "Jaune moutarde" },
-    { label: "Kaki", value: "Kaki" },
-    { label: "Lila", value: "Lila" },
-    { label: "Marron", value: "Marron" },
-    { label: "Multicolore", value: "Multicolore" },
-    { label: "Noir", value: "Noir" },
-    { label: "Orange", value: "Orange" },
-    { label: "Rose", value: "Rose" },
-    { label: "Rouge", value: "Rouge" },
-    { label: "Turquoise", value: "Turquoise" },
-    { label: "Vert", value: "Vert" },
-    { label: "Vert foncé", value: "Vert foncé" },
-    { label: "Vert menthe", value: "Vert menthe" },
-    { label: "Violet", value: "Violet" },
-  ]);
-  const [isFocusColors, setIsFocusColors] = useState(false);
-  const [isSelectedColors, setIsSelectedColors] = useState(false);
-
-  /* --- États dropdown "size" --- */
   const [size, setSize] = useState("");
-
-  /* --- États dropdown "weatherType" --- */
 
   /* --- États dropdown "weatherType" --- */
   const [weatherType, setWeatherType] = useState("");
@@ -191,21 +111,8 @@ export default function ValidateImportScreen({ navigation, route }) {
   const [isSelectedWeatherType, setIsSelectedWeatherType] = useState(false);
 
   /* --- États dropdown "tempMin" & "tempMax" --- */
-  const [openWeatherType, setOpenWeatherType] = useState(false);
-  const [weatherTypeItems, setWeatherTypeItems] = useState([
-    { label: "Neige", value: "Neige" },
-    { label: "Nuages", value: "Nuages" },
-    { label: "Pluie", value: "Pluie" },
-    { label: "Soleil", value: "Soleil" },
-  ]);
-  const [isFocusWeatherType, setIsFocusWeatherType] = useState(false);
-  const [isSelectedWeatherType, setIsSelectedWeatherType] = useState(false);
-
-  /* --- États dropdown "tempMin" & "tempMax" --- */
   const [tempMin, setTempMin] = useState("");
   const [tempMax, setTempMax] = useState("");
-
-  /* --- États dropdown "event" --- */
 
   /* --- États dropdown "event" --- */
 
@@ -226,64 +133,7 @@ export default function ValidateImportScreen({ navigation, route }) {
 
   /* --- États dropdown "brand" --- */
 
-  const [openEvent, setOpenEvent] = useState(false);
-  const [eventItems, setEventItems] = useState([
-    { label: "Cérémonie", value: "Cérémonie" },
-    { label: "Détente", value: "Détente" },
-    { label: "Fête", value: "Fête" },
-    { label: "Mariage", value: "Mariage" },
-    { label: "Soirée", value: "Soirée" },
-    { label: "Sport", value: "Sport" },
-    { label: "Travail", value: "Travail" },
-    { label: "Voyage", value: "Voyage" },
-  ]);
-  const [isFocusEvent, setIsFocusEvent] = useState(false);
-  const [isSelectedEvent, setIsSelectedEvent] = useState(false);
-
-  /* --- États dropdown "brand" --- */
-
   const [brand, setBrand] = useState("");
-  const [openBrand, setOpenBrand] = useState(false);
-  const [brandItems, setBrandItems] = useState([
-    { label: "Adidas", value: "Adidas" },
-    { label: "Balenciaga", value: "Balenciaga" },
-    { label: "Calvin Klein", value: "Calvin Klein" },
-    { label: "Chanel", value: "Chanel" },
-    { label: "Christian Dior", value: "Christian Dior" },
-    { label: "Célio", value: "Célio" },
-    { label: "Converse", value: "Converse" },
-    { label: "Dolce & Gabbana", value: "Dolce & Gabbana" },
-    { label: "Fendi", value: "Fendi" },
-    { label: "Gucci", value: "Gucci" },
-    { label: "H&M", value: "H&M" },
-    { label: "Hermès", value: "Hermès" },
-    { label: "Hugo Boss", value: "Hugo Boss" },
-    { label: "Kenzo", value: "Kenzo" },
-    { label: "Lacoste", value: "Lacoste" },
-    { label: "Levi's", value: "Levi's" },
-    { label: "Louis Vuitton", value: "Louis Vuitton" },
-    { label: "Mango", value: "Mango" },
-    { label: "Michael Kors", value: "Michael Kors" },
-    { label: "New Balance", value: "New Balance" },
-    { label: "Nike", value: "Nike" },
-    { label: "Puma", value: "Puma" },
-    { label: "Ralph Lauren", value: "Ralph Lauren" },
-    { label: "Reebok", value: "Reebok" },
-    { label: "Saint Laurent", value: "Saint Laurent" },
-    { label: "Salomon", value: "Salomon" },
-    { label: "Supreme", value: "Supreme" },
-    { label: "The North Face", value: "The North Face" },
-    { label: "Tommy Hilfiger", value: "Tommy Hilfiger" },
-    { label: "UGG", value: "UGG" },
-    { label: "Uniqlo", value: "Uniqlo" },
-    { label: "Valentino", value: "Valentino" },
-    { label: "Vans", value: "Vans" },
-    { label: "Versace", value: "Versace" },
-    { label: "Victoria's Secret", value: "Victoria's Secret" },
-    { label: "Zara", value: "Zara" },
-  ]);
-  const [isFocusBrand, setIsFocusBrand] = useState(false);
-  const [isSelectedBrand, setIsSelectedBrand] = useState(false);
   const [openBrand, setOpenBrand] = useState(false);
   const [brandItems, setBrandItems] = useState([
     { label: "Adidas", value: "Adidas" },
@@ -435,7 +285,6 @@ export default function ValidateImportScreen({ navigation, route }) {
 
   const handleSubmit = () => {
     console.log(
-      "handleSubmit result : ",
       category,
       type,
       colors,

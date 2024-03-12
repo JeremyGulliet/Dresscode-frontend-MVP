@@ -9,7 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../constants/config";
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
-    fetch(`${API_URL}/users/signup`, {
+
     fetch(`${API_URL}/users/signup`, {
       method: "POST",
       headers: {

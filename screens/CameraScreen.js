@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { API_URL } from "../config";
+import { API_URL } from "../constants/config";
 import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Camera, CameraType, FlashMode, AutoFocus } from "expo-camera";
 import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { API_URL } from "../constants/config";
 
 export default function CameraScreen({ navigation }) {
   const dispatch = useDispatch();
