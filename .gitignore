@@ -34,7 +34,5 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# dossier contenant les informations sensibles
-constants/
-
+#Api_url
 **/config.js

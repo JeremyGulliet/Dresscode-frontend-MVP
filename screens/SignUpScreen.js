@@ -77,6 +77,7 @@ const SignUp = () => {
           {/* Affichage du logo */}
           <Image
             source={require("../assets/DressCodeLogo.png")}
+            source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
           ></Image>
         </View>

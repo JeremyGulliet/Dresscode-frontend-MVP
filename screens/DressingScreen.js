@@ -17,10 +17,16 @@ import { useIsFocused } from "@react-navigation/native";
 
 import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
 
+import { useSelector } from "react-redux";
+
 export default function DressingScreen({ navigation }) {
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
+  let focus = useIsFocused();
+
+  const user = useSelector((state) => state.user.value);
+
   const [selectedTop, setSelectedTop] = useState(null);
   const [selectedBottom, setSelectedBottom] = useState(null);
 
@@ -84,8 +90,10 @@ export default function DressingScreen({ navigation }) {
   }, [focus, selectedColor]);
 
   const fetchArticles = () => {
-    fetch(`${API_URL}/articles/dressing`)
-      .then((response) => response.json())
+    fetch(`${API_URL}/articles/dressing/${user.token}`)
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
         const filteredTops = filterArticlesByCategoryAndColor(
           data,

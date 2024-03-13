@@ -13,12 +13,14 @@ import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
 import { WEATHER_API_KEY } from "../constants/config";
 import * as Location from "expo-location";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [topImage, setTopImage] = useState([]);
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
+  const user = useSelector(state => state.user.value);
 
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
@@ -104,12 +106,10 @@ const HomeScreen = () => {
 
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
-    categories.forEach((category) => {
-      fetch(
-        `${API_URL}/articles/dressing/homeArticle?${queryString}&category=${category}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
+    categories.forEach(category => {
+      fetch(`${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}&category=${category}`)
+        .then(response => response.json())
+        .then(data => {
           //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);
 
           if (category === "Haut") {
