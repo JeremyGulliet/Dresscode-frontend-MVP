@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
 import * as Location from 'expo-location';
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -20,6 +21,7 @@ const HomeScreen = () => {
   //const [firstLoad, setFirstLoad] = useState(true);
 
   const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14";
+  const user = useSelector(state => state.user.value);
 
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
@@ -108,7 +110,7 @@ const HomeScreen = () => {
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
     categories.forEach(category => {
-      fetch(`${API_URL}/articles/dressing/homeArticle?${queryString}&category=${category}`)
+      fetch(`${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}&category=${category}`)
         .then(response => response.json())
         .then(data => {
           //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);

@@ -74,7 +74,7 @@ const SignUp = () => {
         <View>
           {/* Affichage du logo */}
           <Image
-            source={require("../assets/logo.png")}
+            source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
           ></Image>
         </View>
@@ -148,8 +148,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  logoContainer: { justifyContent: "center", alignItems: "center" },
-  logo: { width: 250, height: 250, resizeMode: "contain" },
   logoContainer: { justifyContent: "center", alignItems: "center" },
   logo: { width: 250, height: 250, resizeMode: "contain" },
   title: {

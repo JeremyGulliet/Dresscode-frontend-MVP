@@ -13,17 +13,23 @@ import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
 import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
 import { API_URL } from "../constants/config";
+import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from "react-redux";
 
 export default function DressingScreen({ navigation }) {
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
+  let focus = useIsFocused();
+
+  const user = useSelector(state => state.user.value);
+
 
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [focus]);
 
   const fetchArticles = () => {
-    fetch(`${API_URL}/articles/dressing`)
+    fetch(`${API_URL}/articles/dressing/${user.token}`)
       .then((response) => {
         return response.json();
       })

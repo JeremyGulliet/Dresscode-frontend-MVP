@@ -68,7 +68,7 @@ const SignInScreen = () => {
       >
         <View>
           <Image
-            source={require("../assets/logo.png")}
+            source={require("../assets/DressCodeLogo.png")}
             style={{ width: 250, height: 150 }}
           />
         </View>
@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  logoContainer: { justifyContent: "center", alignItems: "center" },
-  logo: { width: 250, height: 250, resizeMode: "contain" },
   logoContainer: { justifyContent: "center", alignItems: "center" },
   logo: { width: 250, height: 250, resizeMode: "contain" },
   input: {
