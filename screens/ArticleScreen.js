@@ -13,6 +13,8 @@ import HeaderCompo from "../components/headerCompo";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ArticleScreen({ navigation, route }) {
+  const user = useSelector(state => state.user.value);
+  const API_URL = process.env.API_URL;
   const { item } = route.params ? route.params : { item: null }; // Vérification de route.params
   console.log({ item });
 
@@ -20,6 +22,26 @@ export default function ArticleScreen({ navigation, route }) {
   const handleBackPress = () => {
     navigation.navigate("DressingScreen");
   };
+
+  const handleDelete = () => {
+
+    fetch(`${API_URL}/users/deleteArticle/${user.token}/${item._id}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log("Article supprimé avec succès");
+          navigation.navigate('DressingScreen')
+        } else {
+          console.error("Échec de la suppression de l'article");
+          // Gérez les erreurs en conséquence
+        }
+      })
+      .catch(error => {
+        console.error("Erreur lors de la suppression de l'article:", error);
+        // Gérez les erreurs en conséquence
+      });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
