@@ -11,9 +11,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
-import { WEATHER_API_KEY } from "../constants/config";
 import * as Location from "expo-location";
 import { useSelector } from "react-redux";
+import { useIsFocused } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -21,6 +21,7 @@ const HomeScreen = () => {
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
   const user = useSelector(state => state.user.value);
+  const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14"
 
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
@@ -30,23 +31,26 @@ const HomeScreen = () => {
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
 
+  let focus = useIsFocused();
+
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
+
     const fetchData = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-
+      //console.log("Status received")
       if (status === "granted") {
         const location = await Location.getCurrentPositionAsync({});
         setMyLatitude(location.coords.latitude);
         setMyLongitude(location.coords.longitude);
       }
     };
-
     fetchData();
   }, []);
 
   // fonction pour afficher la météo locale selon LAT et LON
   useEffect(() => {
+
     const fetchWeather = async () => {
       if (myLatitude !== null && myLongitude !== null) {
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&appid=${WEATHER_API_KEY}&units=metric`;
@@ -54,6 +58,7 @@ const HomeScreen = () => {
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
+
           // Arrondir temp_min à la valeur en dessous
           const tempMinRounded = Math.floor(data.main.temp_min);
           // Arrondir temp_max à la valeur du dessus
@@ -95,6 +100,7 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
+
     // Assurez-vous que myWeather, myTempMin et myTempMax ont des valeurs avant d'appeler fetchArticles
     if (myWeather !== null && myTempMin !== 0 && myTempMax !== 0) {
       fetchArticles();
@@ -102,31 +108,28 @@ const HomeScreen = () => {
   }, [myWeather, myTempMin, myTempMax]); // Exécutez lorsque ces valeurs changent
 
   const fetchArticles = () => {
-    const categories = ["Haut", "Bas"];
 
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
-    categories.forEach(category => {
-      fetch(`${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}&category=${category}`)
-        .then(response => response.json())
-        .then(data => {
-          //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);
-
-          if (category === "Haut") {
-            setTopImage(data);
-          } else if (category === "Bas") {
-            setBottomImage(data);
+    fetch(`${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("Articles trouvés:");
+        const tops = [];
+        const bottoms = [];
+        data.forEach(article => {
+          if (article.description.category === "Haut") {
+            tops.push(article);
+          } else if (article.description.category === "Bas") {
+            bottoms.push(article);
           }
-        })
-        .catch((error) => {
-          console.error(
-            "Erreur lors de la récupération des articles pour la catégorie",
-            category,
-            ":",
-            error
-          );
         });
-    });
+        setTopImage(tops);
+        setBottomImage(bottoms);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la récupération des articles:", error);
+      });
   };
 
   const weatherImagePath = myWeather ? getWeatherImagePath(myWeather) : null;

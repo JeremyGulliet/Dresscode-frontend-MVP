@@ -349,17 +349,29 @@ export default function ValidateImportScreen({ navigation, route }) {
                     brand: brandData.newBrand._id,
                   }),
                 })
-                  .then((data) => {
-                    //console.log(data);
-                    navigation.navigate("DressingScreen");
+                  .then((response) => response.json())
+                  .then((articleData) => {
+                    //console.log("articles:", articleData);
+
+                    const token = user.token;
+                    fetch(`${API_URL}/users/${token}/${articleData.newArticle._id}`, {
+                      method: "PUT",
+                    })
+                      .then((response) => response.json())
+                      .then((updatedUserData) => {
+                        //console.log("Update:", updatedUserData)
+
+                        navigation.navigate("DressingScreen");
+                      })
+                      .catch((error) => {
+                        console.error("Erreur lors de la mise à jour de l'utilisateur :", error);
+                      });
+
                   })
                   .catch((error) => {
-                    // Gérer les erreurs de requête
-                    console.error(
-                      "Erreur lors de l'envoi de l'article:",
-                      error
-                    );
+                    console.error("Erreur lors de la création de l'article:", error);
                   });
+
               })
               .catch((error) => {
                 // Gérer les erreurs de requête pour la création de la marque

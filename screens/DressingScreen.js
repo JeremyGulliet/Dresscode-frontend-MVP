@@ -42,7 +42,7 @@ export default function DressingScreen({ navigation }) {
             (item) => item.description && item.description.category == "Haut"
           )
           .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        console.log("Data for tops:", hauts);
+        //console.log("Data for tops:", hauts);
         setTops(hauts); // Définir uniquement les hauts dans l'état
 
         // Filtrer les éléments pour ne conserver que les bas

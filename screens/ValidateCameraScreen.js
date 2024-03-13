@@ -351,7 +351,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                 })
                   .then((response) => response.json())
                   .then((articleData) => {
-                    //console.log("articles:", articleData);
+                    console.log("articles:", articleData);
 
                     const token = user.token;
                     fetch(`${API_URL}/users/${token}/${articleData.newArticle._id}`, {
@@ -359,7 +359,7 @@ export default function ValidateCameraScreen({ navigation, route }) {
                     })
                       .then((response) => response.json())
                       .then((updatedUserData) => {
-                        //console.log("Update:", updatedUserData)
+                        console.log("Update:", updatedUserData)
 
                         navigation.navigate("DressingScreen");
                       })
