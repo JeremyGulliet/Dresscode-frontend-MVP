@@ -11,7 +11,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
 import { API_URL } from "../constants/config";
-import * as Location from 'expo-location';
+import { WEATHER_API_KEY } from "../constants/config";
+import * as Location from "expo-location";
 import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
@@ -19,8 +20,6 @@ const HomeScreen = () => {
   const [topImage, setTopImage] = useState([]);
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
-
-  const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14";
   const user = useSelector(state => state.user.value);
 
   const [myLatitude, setMyLatitude] = useState(null);
@@ -30,7 +29,6 @@ const HomeScreen = () => {
   const [myTempMin, setMyTempMin] = useState(0);
   const [myTempMax, setMyTempMax] = useState(0);
   const [city, setCity] = useState(null);
-
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
@@ -75,7 +73,6 @@ const HomeScreen = () => {
     fetchWeather();
   }, [myLatitude, myLongitude]);
 
-
   //Choix de l'image à affiché selon la météo
 
   const getWeatherImagePath = (weather) => {
@@ -105,7 +102,7 @@ const HomeScreen = () => {
   }, [myWeather, myTempMin, myTempMax]); // Exécutez lorsque ces valeurs changent
 
   const fetchArticles = () => {
-    const categories = ['Haut', 'Bas'];
+    const categories = ["Haut", "Bas"];
 
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
@@ -115,14 +112,19 @@ const HomeScreen = () => {
         .then(data => {
           //console.log("Articles trouvés pour la catégorie", category, ":", data[0]);
 
-          if (category === 'Haut') {
+          if (category === "Haut") {
             setTopImage(data);
-          } else if (category === 'Bas') {
+          } else if (category === "Bas") {
             setBottomImage(data);
           }
         })
-        .catch(error => {
-          console.error('Erreur lors de la récupération des articles pour la catégorie', category, ':', error);
+        .catch((error) => {
+          console.error(
+            "Erreur lors de la récupération des articles pour la catégorie",
+            category,
+            ":",
+            error
+          );
         });
     });
   };
@@ -131,7 +133,7 @@ const HomeScreen = () => {
 
   const reloadOutfit = () => {
     fetchArticles();
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
