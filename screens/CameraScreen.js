@@ -7,6 +7,7 @@ import { useIsFocused } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function CameraScreen({ navigation }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 

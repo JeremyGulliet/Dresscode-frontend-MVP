@@ -22,10 +22,11 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { API_URL } from "../constants/config";
+
 
 export default function ValidateImportScreen({ navigation, route }) {
   const { uri, newImages } = route.params;
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const user = useSelector((state) => state.user.value);
   /* --- États dropdown "category" --- */
   const [category, setCategory] = useState(null);
@@ -218,31 +219,31 @@ export default function ValidateImportScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-        ? isSelectedType
-        : fieldName === "colors"
-        ? isSelectedColors
-        : fieldName === "weatherType"
-        ? isSelectedWeatherType
-        : fieldName === "event"
-        ? isSelectedEvent
-        : fieldName === "brand"
-        ? isSelectedBrand
-        : false;
+          ? isSelectedType
+          : fieldName === "colors"
+            ? isSelectedColors
+            : fieldName === "weatherType"
+              ? isSelectedWeatherType
+              : fieldName === "event"
+                ? isSelectedEvent
+                : fieldName === "brand"
+                  ? isSelectedBrand
+                  : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-        ? isFocusType
-        : fieldName === "colors"
-        ? isFocusColors
-        : fieldName === "weatherType"
-        ? isFocusWeatherType
-        : fieldName === "event"
-        ? isFocusEvent
-        : fieldName === "brand"
-        ? isFocusBrand
-        : false;
+          ? isFocusType
+          : fieldName === "colors"
+            ? isFocusColors
+            : fieldName === "weatherType"
+              ? isFocusWeatherType
+              : fieldName === "event"
+                ? isFocusEvent
+                : fieldName === "brand"
+                  ? isFocusBrand
+                  : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -446,24 +447,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -496,24 +497,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
               </View>

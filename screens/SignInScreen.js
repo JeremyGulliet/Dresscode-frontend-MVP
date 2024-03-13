@@ -9,13 +9,13 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
-import { API_URL } from "../constants/config";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
 import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
 
 const SignInScreen = () => {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [email, setEmail] = useState(""); // État local pour stocker l'email
   const [password, setPassword] = useState(""); // État local pour stocker le mot de passe
 

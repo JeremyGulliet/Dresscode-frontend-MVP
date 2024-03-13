@@ -8,10 +8,10 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { API_URL } from "../constants/config";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SearchScreen({ navigation }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [articles, setArticles] = useState([]); // État pour stocker les articles récupérés
   const [search, setSearch] = useState("");
 
@@ -37,95 +37,48 @@ export default function SearchScreen({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.headerText}>My Search Screen</Text>
       </View>
-      return (
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>My Search Screen</Text>
-        </View>
 
-        {/* Input et bouton de recherche */}
-        <View style={styles.searchContainer}>
-          <FontAwesome name="search" size={24} color="black" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search..."
-            placeholderTextColor="#ccc"
-            onChangeText={(value) => setSearch(value)}
-            value={search}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleSearch}>
-            <Text style={styles.buttonText}>Valider</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Input et bouton de recherche */}
-        <View style={styles.searchContainer}>
-          <FontAwesome name="search" size={24} color="black" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search..."
-            placeholderTextColor="#ccc"
-            onChangeText={(value) => setSearch(value)}
-            value={search}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleSearch}>
-            <Text style={styles.buttonText}>Valider</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Affichage des articles récupérés */}
-        <View style={styles.articlesContainer}>
-          {articles.map(
-            (article, i) => (
-              console.log(article.url_image),
-              (
-                <Image
-                  key={i}
-                  source={{ uri: article.url_image }}
-                  style={styles.articleImage}
-                />
-              )
-            )
-          )}
-        </View>
-        {/* Affichage des articles récupérés */}
-        <View style={styles.articlesContainer}>
-          {articles.map(
-            (article, i) => (
-              console.log(article.url_image),
-              (
-                <Image
-                  key={i}
-                  source={{ uri: article.url_image }}
-                  style={styles.articleImage}
-                />
-              )
-            )
-          )}
-        </View>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.goToDressingButton}
-            onPress={() => navigation.navigate("DressingScreen")}
-          >
-            <Text style={styles.goToDressingButtonText}>Go To Dressing</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Input et bouton de recherche */}
+      <View style={styles.searchContainer}>
+        <FontAwesome name="search" size={24} color="black" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search..."
+          placeholderTextColor="#ccc"
+          onChangeText={(value) => setSearch(value)}
+          value={search}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSearch}>
+          <Text style={styles.buttonText}>Valider</Text>
+        </TouchableOpacity>
       </View>
-      );
+      {/* Affichage des articles récupérés */}
+      <View style={styles.articlesContainer}>
+        {articles.map(
+          (article, i) => (
+            console.log(article.url_image),
+            (
+              <Image
+                key={i}
+                source={{ uri: article.url_image }}
+                style={styles.articleImage}
+              />
+            )
+          )
+        )}
+      </View>
+
       {/* Footer */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.goToDressingButton}
           onPress={() => navigation.navigate("DressingScreen")}
         >
-          <Text style={styles.goToDressingButtonText}>Go To Dressing</Text>
+          <Text style={styles.goToDressingButtonText}>Dressing</Text>
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../constants/config";
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,10 +19,11 @@ import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 export default function DressingScreen({ navigation }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
-  let focus = useIsFocused();
+
 
   const user = useSelector((state) => state.user.value);
 
@@ -194,7 +194,7 @@ export default function DressingScreen({ navigation }) {
                     onPress={() => handleTopPress(top)}
                     onLongPress={() =>
                       navigation.navigate("ArticleScreen", {
-                        url: top.url_image,
+                        url: top.url_image, ID: top._id
                       })
                     }
                   >
@@ -216,7 +216,7 @@ export default function DressingScreen({ navigation }) {
                     onPress={() => handleBottomPress(bottom)}
                     onLongPress={() =>
                       navigation.navigate("ArticleScreen", {
-                        url: bottom.url_image,
+                        url: bottom.url_image, ID: bottom._id
                       })
                     }
                   >

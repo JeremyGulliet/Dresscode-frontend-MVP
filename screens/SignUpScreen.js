@@ -12,13 +12,13 @@ import {
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import { API_URL } from "../constants/config";
 
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
 import { useSelector } from "react-redux";
 
 const SignUp = () => {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -76,7 +76,6 @@ const SignUp = () => {
         <View style={styles.logoContainer}>
           {/* Affichage du logo */}
           <Image
-            source={require("../assets/DressCodeLogo.png")}
             source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
           ></Image>

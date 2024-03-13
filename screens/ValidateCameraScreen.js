@@ -19,12 +19,12 @@ import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 // DropDownPicker.setListMode("SCROLLVIEW");
-import { API_URL } from "../constants/config.js";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ValidateCameraScreen({ navigation, route }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const { url } = route.params;
   const user = useSelector((state) => state.user.value);
   /* --- États dropdown "category" --- */
