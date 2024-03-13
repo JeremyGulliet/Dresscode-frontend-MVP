@@ -59,6 +59,14 @@ export default function DressingScreen({ navigation }) {
     setSelectedBottom(bottom);
   };
 
+  const handleResetTop = () => {
+    setSelectedTop(null);
+  };
+
+  const handleResetBottom = () => {
+    setSelectedBottom(null);
+  };
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.headerContainer}>
@@ -125,16 +133,32 @@ export default function DressingScreen({ navigation }) {
             <Text>Votre sélection</Text>
             <View style={styles.selectSubContainer}>
               {selectedTop && (
-                <Image
-                  source={{ uri: selectedTop.url_image }}
-                  style={styles.imageDressing}
-                />
+                <View style={styles.imageContainer}>
+                  <AntDesign
+                    onPress={handleResetTop}
+                    name="closecircle"
+                    size={24}
+                    color="black"
+                  />
+                  <Image
+                    source={{ uri: selectedTop.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </View>
               )}
               {selectedBottom && (
-                <Image
-                  source={{ uri: selectedBottom.url_image }}
-                  style={styles.imageDressing}
-                />
+                <View style={styles.imageContainer}>
+                  <AntDesign
+                    onPress={handleResetBottom}
+                    name="closecircle"
+                    size={24}
+                    color="black"
+                  />
+                  <Image
+                    source={{ uri: selectedBottom.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </View>
               )}
             </View>
           </View>
@@ -184,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-start",
     backgroundColor: "#fff",
     rowGap: 20,
   },
@@ -213,7 +237,7 @@ const styles = StyleSheet.create({
   selectContainer: {
     borderWidth: 1,
     borderRadius: 8,
-    height: "auto",
+    height: 250,
     padding: 20,
     alignItems: "center",
     gap: 10,
