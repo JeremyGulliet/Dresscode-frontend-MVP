@@ -23,7 +23,6 @@ export default function DressingScreen({ navigation }) {
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
-  let focus = useIsFocused();
 
   const user = useSelector((state) => state.user.value);
 
