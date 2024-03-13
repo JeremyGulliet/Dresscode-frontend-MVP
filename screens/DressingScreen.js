@@ -6,6 +6,9 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../constants/config";
@@ -122,11 +125,12 @@ export default function DressingScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.headerContainer}>
-        <HeaderCompo navigation={navigation} />
-      </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+    <SafeAreaView style={styles.safeAreaView}>
+      <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
+        <View style={styles.headerContainer}>
+          <HeaderCompo navigation={navigation} />
+        </View>
+        {/* <ScrollView contentContainerStyle={styles.scrollView}> */}
         <View style={styles.container}>
           {/* en tete */}
 
@@ -277,23 +281,35 @@ export default function DressingScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+        {/* </ScrollView> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 100,
+    flex: 1.3,
   },
-  safeArea: {
+  safeAreaView: {
     flex: 1,
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  scrollView: {
-    flexGrow: 1,
+  KeyboardAvoidingView: {
+    flex: 1,
+    width: "100%",
+    // borderColor: "red",
+    // borderWidth: 2,
   },
+  // scrollView: {
+  //   flexGrow: 1,
+  // },
   container: {
-    flex: 1,
+    flex: 12,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
     justifyContent: "space-between",

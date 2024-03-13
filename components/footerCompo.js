@@ -5,11 +5,11 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 function FooterCompo({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.backContainer}>
+      {/* <View style={styles.backContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesome name="arrow-circle-left" size={40} color="#ffffff" />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#0E0E66",
   },
 
-  backContainer: {
-    marginLeft: 40,
-  },
+  // backContainer: {
+  //   marginLeft: 40,
+  // },
 });
 
 export default FooterCompo;

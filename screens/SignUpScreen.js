@@ -18,84 +18,138 @@ import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
 import { useSelector } from "react-redux";
 
+// Établissement des expressions régulières
+
+// Username : au moins 3 caractères avec obligatoirement une lettre au début et possibilité d'utiliser des minuscule ou majusctules, des chiffres et seulement le caractère simple tiret ou un espace
+const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9 -]{2,}$/;
+
+const EMAIL_REGEX: RegExp =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// Mot de passe :  de 6 à 12 caractères, comprenant au moins une lettre, un chiffre et un caractère spécial
+const PASSWORD_REGEX: RegExp =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/;
+
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
   const handleRegister = () => {
+    // Réinitialisation des erreurs
+    setEmailError(false);
+    setPasswordError(false);
+    setUsernameError(false);
+
+    // Vérification du format de l'email
+    if (!EMAIL_REGEX.test(email)) {
+      console.log("- Format EMAIL non respecté -");
+      setEmailError(true);
+    }
+
+    // Vérification du format du mot de passe
+    if (!PASSWORD_REGEX.test(password)) {
+      console.log("- Format MOT DE PASSE non respecté -");
+      setPasswordError(true);
+    }
+
+    // Vérification du format du username
+    if (!USERNAME_REGEX.test(username)) {
+      console.log("- Format USERNAME non respecté -");
+      setUsernameError(true);
+    }
+
     // Envoi des données d'inscription au backend
 
-    fetch(`${API_URL}/users/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
-    })
-      .then((response) => {
-        // Vérification de la réponse du backend
-        if (!response.ok) {
-          throw new Error("Erreur lors de la requête");
-        }
-        return response.json();
+    if (
+      !emailError &&
+      !passwordError &&
+      !usernameError &&
+      EMAIL_REGEX.test(email) &&
+      PASSWORD_REGEX.test(password) &&
+      USERNAME_REGEX.test(username)
+    ) {
+      fetch(`${API_URL}/users/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+        }),
       })
-      .then((data) => {
-        // Gestion de la réponse du backend
-        console.log(data);
-        if (data.result) {
-          dispatch(login({ token: data.token, username, email }));
-          navigation.navigate("AddArticleScreen");
-          setEmail("");
-          setPassword("");
-          setUsername("");
-        } else {
-          console.error("Erreur lors de l'inscription: ", data.error);
-        }
-      })
-      .catch((error) => {
-        // Gestion des erreurs de requête
-        console.error("Erreur lors de l'inscription:", error.message);
-      });
+        .then((response) => {
+          // Vérification de la réponse du backend
+          if (!response.ok) {
+            throw new Error("Erreur lors de la requête");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Gestion de la réponse du backend
+          console.log(data);
+          if (data.result) {
+            dispatch(login({ token: data.token, username, email }));
+            navigation.navigate("AddArticleScreen");
+            setEmail("");
+            setPassword("");
+            setUsername("");
+          } else {
+            console.error("Erreur lors de l'inscription: ", data.error);
+          }
+        })
+        .catch((error) => {
+          // Gestion des erreurs de requête
+          console.error("Erreur lors de l'inscription:", error.message);
+        });
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.contentContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.logoContainer}>
           {/* Affichage du logo */}
           <Image
             source={require("../assets/DressCodeLogo.png")}
-            source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
-          ></Image>
+          />
         </View>
 
-        <View>
-          {/* Champs de saisie pour l'inscription */}
+        {/* Champs de saisie pour l'inscription */}
+        <View style={styles.userInterface}>
           <TextInput
             style={styles.input}
             placeholder="Username"
             value={username}
             onChangeText={(value) => setUsername(value)}
           />
+          {usernameError && (
+            <Text style={styles.error}>Champ vide ou format non valide</Text>
+          )}
           <TextInput
             style={styles.input}
             placeholder="Email"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
+          {emailError && (
+            <Text style={styles.error}>
+              Champ vide ou format adresse mail non valide (ex: mail@monmail.fr)
+            </Text>
+          )}
+
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -103,19 +157,30 @@ const SignUp = () => {
             onChangeText={(value) => setPassword(value)}
             secureTextEntry
           />
+          {passwordError && (
+            <Text style={styles.error}>
+              Champ vide ou format de mot de passe non valide
+            </Text>
+          )}
           {/* Bouton pour l'inscription */}
           <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
             <Text style={styles.btnText}>Register</Text>
           </TouchableOpacity>
           {/* Lien vers la page de connexion */}
-          <Text
-            style={styles.login}
+          <TouchableOpacity
+            style={styles.loginTextContainer}
             onPress={() => navigation.navigate("SignIn")}
           >
-            Déjà inscrit ? Connexion
-          </Text>
+            <View style={styles.normalText}>
+              <Text style={styles.login}>Déjà inscrit ? </Text>
+            </View>
+            <View style={styles.underlineTextView}>
+              <Text style={styles.underlineText}>Connexion</Text>
+            </View>
+          </TouchableOpacity>
+
           {/* Affichage des logos de connexion */}
-          <View style={styles.loginLogo}>
+          {/* <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
@@ -128,7 +193,7 @@ const SignUp = () => {
               source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
-          </View>
+          </View> */}
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -147,13 +212,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  scrollView: {
+  // scrollView: {
+  //   flex: 1,
+  // },
+  contentContainer: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
-
   logoContainer: {
+    flex: 1.5,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
@@ -165,10 +236,18 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: "green",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
+  userInterface: {
+    flex: 2,
+    flexDirection: "column",
+    justifyContent: "center",
+    // borderWidth: 2,
+    // borderColor: "green",
   },
+
+  // title: {
+  //   fontSize: 20,
+  //   fontWeight: "bold",
+  // },
   input: {
     // Style des champs de saisie
     height: 60,
@@ -194,24 +273,46 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
   },
+
+  // Style du lien vers la page de connexion
+  loginTextContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   login: {
-    // Style du lien vers la page de connexion
-    marginBottom: 30,
     color: "gray",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 16,
   },
-  loginLogo: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+  underlineTextView: {
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "gray",
+  },
+  underlineText: {
+    justifyContent: "center",
     alignItems: "center",
-    paddingBottom: 30,
-    resizeMode: "contain",
+    color: "gray",
+    fontSize: 16,
+  },
+  // loginLogo: {
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   paddingBottom: 30,
+  //   resizeMode: "contain",
+  // },
+  error: {
+    color: "red",
   },
 });

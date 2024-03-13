@@ -64,7 +64,7 @@ const SignInScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.contentContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.logoContainer}>
@@ -72,10 +72,10 @@ const SignInScreen = () => {
           <Image
             source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
-          ></Image>
+          />
         </View>
-
-        <View>
+        {/* Champs de saisie pour la connexion */}
+        <View style={styles.userInterface}>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -89,17 +89,26 @@ const SignInScreen = () => {
             onChangeText={(value) => setPassword(value)}
             secureTextEntry // Pour masquer le texte saisi
           />
+
           <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
             <Text style={styles.btnText}>Connexion</Text>
           </TouchableOpacity>
-          <Text
-            style={styles.register}
+
+          {/* Lien vers la page d'inscription */}
+          <TouchableOpacity
+            style={styles.loginTextContainer}
             onPress={() => navigation.navigate("SignUp")}
           >
-            Pas encore inscrit ? S'inscrire
-          </Text>
-          <View style={styles.loginLogo}>
-            {/* Images des logos de connexion */}
+            <View style={styles.normalText}>
+              <Text style={styles.login}>Pas encore inscrit ? </Text>
+            </View>
+            <View style={styles.underlineTextView}>
+              <Text style={styles.underlineText}>S'inscrire</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Images des logos de connexion */}
+          {/* <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
@@ -112,7 +121,7 @@ const SignInScreen = () => {
               source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
-          </View>
+          </View> */}
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -132,13 +141,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  scrollView: {
+  // scrollView: {
+  //   flex: 1,
+  // },
+  contentContainer: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 
   logoContainer: {
+    flex: 1.5,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
@@ -150,6 +166,14 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: "green",
   },
+  userInterface: {
+    flex: 2,
+    flexDirection: "column",
+    justifyContent: "center",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
+
   input: {
     height: 60,
     width: 350,
@@ -179,16 +203,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 16,
   },
-  loginLogo: {
-    display: "flex",
+  // Style du lien vers la page de connexion
+  loginTextContainer: {
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingBottom: 30,
-    resizeMode: "contain",
   },
+  login: {
+    color: "gray",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 16,
+  },
+  underlineTextView: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "gray",
+  },
+  underlineText: {
+    justifyContent: "center",
+    alignItems: "center",
+    color: "gray",
+    fontSize: 16,
+  },
+  // loginLogo: {
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   paddingBottom: 30,
+  //   resizeMode: "contain",
+  // },
 });
