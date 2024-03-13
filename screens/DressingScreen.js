@@ -8,27 +8,86 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { API_URL } from "../constants/config";
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
+import { Dropdown } from "react-native-element-dropdown";
+import { useIsFocused } from "@react-navigation/native";
+
 import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
-import { API_URL } from "../constants/config";
-import { useIsFocused } from '@react-navigation/native';
+
 import { useSelector } from "react-redux";
 
 export default function DressingScreen({ navigation }) {
+  const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
   let focus = useIsFocused();
 
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
 
   const [selectedTop, setSelectedTop] = useState(null);
   const [selectedBottom, setSelectedBottom] = useState(null);
 
+  const [placeholderText, setPlaceholderText] = useState(
+    "Filtrer par couleur..."
+  );
+
+  // On initialise la sélection par couleur
+  const [selectedColor, setSelectedColor] = useState("all");
+  const [isFocusColors, setIsFocusColors] = useState(false); // Pour gérer le placeholder
+
+  // On crée le filtre par catégorie et par couleur
+  const filterArticlesByCategoryAndColor = (articles, category, color) => {
+    return articles
+      .filter(
+        (item) => item.description && item.description.category === category
+      )
+      .filter(
+        (item) =>
+          color === "all" ||
+          (item.description && item.description.color === color) ||
+          color === "Filtrer par couleur..."
+      )
+      .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
+  };
+
+  /* --- initialisation des couleurs pour le dropdown --- */
+  const colorsItems = [
+    { label: "Réinitialiser", value: "Filtrer par couleur..." },
+    { label: "Abricot", value: "Abricot" },
+    { label: "Argenté", value: "Argenté" },
+    { label: "Beige", value: "Beige" },
+    { label: "Blanc", value: "Blanc" },
+    { label: "Bleu", value: "Bleu" },
+    { label: "Bleu clair", value: "Bleu clair" },
+    { label: "Bleu marine", value: "Bleu marine" },
+    { label: "Bordeaux", value: "Bordeaux" },
+    { label: "Corail", value: "Corail" },
+    { label: "Crème", value: "Crème" },
+    { label: "Doré", value: "Doré" },
+    { label: "Gris", value: "Gris" },
+    { label: "Jaune", value: "Jaune" },
+    { label: "Jaune moutarde", value: "Jaune moutarde" },
+    { label: "Kaki", value: "Kaki" },
+    { label: "Lila", value: "Lila" },
+    { label: "Marron", value: "Marron" },
+    { label: "Multicolore", value: "Multicolore" },
+    { label: "Noir", value: "Noir" },
+    { label: "Orange", value: "Orange" },
+    { label: "Rose", value: "Rose" },
+    { label: "Rouge", value: "Rouge" },
+    { label: "Turquoise", value: "Turquoise" },
+    { label: "Vert", value: "Vert" },
+    { label: "Vert foncé", value: "Vert foncé" },
+    { label: "Vert menthe", value: "Vert menthe" },
+    { label: "Violet", value: "Violet" },
+  ];
+
   useEffect(() => {
     fetchArticles();
-  }, [focus]);
+  }, [focus, selectedColor]);
 
   const fetchArticles = () => {
     fetch(`${API_URL}/articles/dressing/${user.token}`)
@@ -36,33 +95,30 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data
-          .filter(
-            (item) => item.description && item.description.category == "Haut"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        //console.log("Data for tops:", hauts);
-        setTops(hauts); // Définir uniquement les hauts dans l'état
+        const filteredTops = filterArticlesByCategoryAndColor(
+          data,
+          "Haut",
+          selectedColor
+        );
+        setTops(filteredTops);
 
-        // Filtrer les éléments pour ne conserver que les bas
-        const bas = data
-          .filter(
-            (item) => item.description && item.description.category == "Bas"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        //console.log("Data for bottoms:", bas);
-        setBottoms(bas); // Définir uniquement les bas dans l'état
-
+        const filteredBottoms = filterArticlesByCategoryAndColor(
+          data,
+          "Bas",
+          selectedColor
+        );
+        setBottoms(filteredBottoms);
       })
-      .catch((error) => console.error("Error fetching tops:", error));
+      .catch((error) => console.error("Error fetching articles:", error));
   };
 
   const handleTopPress = (top) => {
+    // console.log("handleTopPress");
     setSelectedTop(top);
   };
 
   const handleBottomPress = (bottom) => {
+    // console.log("handleBottomPress");
     setSelectedBottom(bottom);
   };
 
@@ -77,66 +133,116 @@ export default function DressingScreen({ navigation }) {
 
           {/* filter */}
           <View style={styles.filterContainer}>
-            <Text>Filter</Text>
+            <Dropdown
+              style={[
+                styles.dropdown,
+                //   isFocus && { borderColor: "#FF4B8C" },
+                // isSelectedColors && { borderColor: "#FF4B8C" },
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={colorsItems}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={
+                !isFocusColors && selectedColor === "all"
+                  ? "Filtrer par couleur..."
+                  : placeholderText
+              }
+              searchPlaceholder="Recherche..."
+              value={selectedColor}
+              onFocus={() => {
+                setIsFocusColors(true);
+                setPlaceholderText("...");
+              }}
+              onBlur={() => {
+                setIsFocusColors(false);
+                setPlaceholderText(
+                  selectedColor === "all" ? "Filtrer par couleur..." : "..."
+                );
+              }}
+              onChange={(selectedValue) => {
+                //   setValue(selectedValue);
+                // console.log("SelectedValue.label --->", selectedValue.label);
+                // console.log("SelectedValue.value --->", selectedValue.value);
+                if (selectedValue.label === "Réinitialiser") {
+                  setSelectedColor("all");
+                  setPlaceholderText("Filtrer par couleur...");
+                } else {
+                  setSelectedColor(selectedValue.value);
+                  // setPlaceholderText("...");
+                }
+                setIsFocusColors(false);
+              }}
+            />
             <TouchableOpacity
               onPress={() => navigation.navigate("SearchScreen")}
             >
               <FontAwesome6 name="magnifying-glass" size={30} color="#0E0E66" />
             </TouchableOpacity>
           </View>
+          <View style={styles.articlesContainer}>
+            {/* vetement haut */}
+            <View style={styles.topContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {tops.map((top, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleTopPress(top)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: top.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: top.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
 
-          {/* vetement haut */}
-          <View style={styles.topContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {tops.map((top, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleTopPress(top)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", { url: top.url_image })
-                  }
-                >
-                  <Image
-                    source={{ uri: top.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* vetement bas */}
-          <View style={styles.bottomContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {bottoms.map((bottom, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleBottomPress(bottom)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", {
-                      url: bottom.url_image,
-                    })
-                  }
-                >
-                  <Image
-                    source={{ uri: bottom.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {/* vetement bas */}
+            <View style={styles.bottomContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {bottoms.map((bottom, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleBottomPress(bottom)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: bottom.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: bottom.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
           </View>
 
           {/* section sélection */}
           <View style={styles.selectContainer}>
             <Text>Votre sélection</Text>
+            {/* {console.log("Affichage SELECTION")} */}
             <View style={styles.selectSubContainer}>
+              {/* {console.log("Affichage selectedTop")} */}
               {selectedTop && (
                 <Image
                   source={{ uri: selectedTop.url_image }}
                   style={styles.imageDressing}
                 />
               )}
+              {/* {console.log("Affichage selectedBottom")} */}
               {selectedBottom && (
                 <Image
                   source={{ uri: selectedBottom.url_image }}
@@ -191,7 +297,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     rowGap: 20,
   },
@@ -200,15 +306,54 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 15,
   },
+
+  dropdown: {
+    height: 35,
+    width: 200,
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+
+  placeholderStyle: {
+    fontSize: 16,
+  },
+
+  selectedTextStyle: {
+    fontSize: 16,
+    textAlign: "left",
+    marginLeft: 10,
+  },
+
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  articlesContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
   topContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: "whitesmoke",
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   bottomContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: "whitesmoke",
+
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   imageDressing: {
     height: 150,

@@ -9,6 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../constants/config";
@@ -28,6 +29,7 @@ const SignUp = () => {
 
   const handleRegister = () => {
     // Envoi des données d'inscription au backend
+
     fetch(`${API_URL}/users/signup`, {
       method: "POST",
       headers: {
@@ -71,9 +73,10 @@ const SignUp = () => {
         contentContainerStyle={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View>
+        <View style={styles.logoContainer}>
           {/* Affichage du logo */}
           <Image
+            source={require("../assets/DressCodeLogo.png")}
             source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
           ></Image>
@@ -148,8 +151,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  logoContainer: { justifyContent: "center", alignItems: "center" },
-  logo: { width: 250, height: 250, resizeMode: "contain" },
+  logoContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 2,
+    // borderColor: "red",
+  },
+  logo: {
+    width: "100%",
+    height: 250,
+    resizeMode: "contain",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

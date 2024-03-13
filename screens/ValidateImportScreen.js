@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
@@ -218,31 +218,31 @@ export default function ValidateImportScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-          ? isSelectedType
-          : fieldName === "colors"
-            ? isSelectedColors
-            : fieldName === "weatherType"
-              ? isSelectedWeatherType
-              : fieldName === "event"
-                ? isSelectedEvent
-                : fieldName === "brand"
-                  ? isSelectedBrand
-                  : false;
+        ? isSelectedType
+        : fieldName === "colors"
+        ? isSelectedColors
+        : fieldName === "weatherType"
+        ? isSelectedWeatherType
+        : fieldName === "event"
+        ? isSelectedEvent
+        : fieldName === "brand"
+        ? isSelectedBrand
+        : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-          ? isFocusType
-          : fieldName === "colors"
-            ? isFocusColors
-            : fieldName === "weatherType"
-              ? isFocusWeatherType
-              : fieldName === "event"
-                ? isFocusEvent
-                : fieldName === "brand"
-                  ? isFocusBrand
-                  : false;
+        ? isFocusType
+        : fieldName === "colors"
+        ? isFocusColors
+        : fieldName === "weatherType"
+        ? isFocusWeatherType
+        : fieldName === "event"
+        ? isFocusEvent
+        : fieldName === "brand"
+        ? isFocusBrand
+        : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -396,8 +396,10 @@ export default function ValidateImportScreen({ navigation, route }) {
   };
 
   return (
-
-    <KeyboardAvoidingView style={styles.SafeAreaView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={styles.SafeAreaView}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.headerContainer}>
         <HeaderCompo navigation={navigation} />
       </View>
@@ -444,24 +446,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                  // renderLeftIcon={() => (
-                  //   <Text
-                  //     style={[
-                  //       styles.labelNEW,
-                  //       isFocus && styles.focusedLabel,
-                  //     ]}
-                  //   >
-                  //     {value ? value.label : "Dropdown label"}
-                  //   </Text>
-                  // )}
-                  // renderLeftIcon={() => (
-                  //   <AntDesign
-                  //     style={styles.icon}
-                  //     color={isFocus ? "blue" : "black"}
-                  //     name="Safety"
-                  //     size={20}
-                  //   />
-                  // )}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -494,24 +496,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                  // renderLeftIcon={() => (
-                  //   <Text
-                  //     style={[
-                  //       styles.labelNEW,
-                  //       isFocus && styles.focusedLabel,
-                  //     ]}
-                  //   >
-                  //     {value ? value.label : "Dropdown label"}
-                  //   </Text>
-                  // )}
-                  // renderLeftIcon={() => (
-                  //   <AntDesign
-                  //     style={styles.icon}
-                  //     color={isFocus ? "blue" : "black"}
-                  //     name="Safety"
-                  //     size={20}
-                  //   />
-                  // )}
+                    // renderLeftIcon={() => (
+                    //   <Text
+                    //     style={[
+                    //       styles.labelNEW,
+                    //       isFocus && styles.focusedLabel,
+                    //     ]}
+                    //   >
+                    //     {value ? value.label : "Dropdown label"}
+                    //   </Text>
+                    // )}
+                    // renderLeftIcon={() => (
+                    //   <AntDesign
+                    //     style={styles.icon}
+                    //     color={isFocus ? "blue" : "black"}
+                    //     name="Safety"
+                    //     size={20}
+                    //   />
+                    // )}
                   />
                 </View>
               </View>
@@ -556,8 +558,10 @@ export default function ValidateImportScreen({ navigation, route }) {
                 />
               </View>
               {/* ------------------- @INPUT - SIZE  ------------------- */}
-              <KeyboardAvoidingView style={styles.inputContainerSize} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
+              <KeyboardAvoidingView
+                style={styles.inputContainerSize}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              >
                 <Text style={styles.sizeText}>Taille</Text>
                 <TextInput
                   style={[styles.input, styles.size]}
@@ -956,11 +960,10 @@ const styles = StyleSheet.create({
   },
 
   btnToImport: {
-    width: '48%', // Largeur du bouton
-
+    width: "48%", // Largeur du bouton
   },
   btnToDressing: {
-    width: '48%', // Largeur du bouton
+    width: "48%", // Largeur du bouton
   },
 
   image: {
