@@ -6,6 +6,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 
 import { useSelector } from "react-redux";
@@ -14,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function ArticleScreen({ navigation, route }) {
   const user = useSelector(state => state.user.value);
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const { item } = route.params ? route.params : { item: null }; // Vérification de route.params
   console.log({ item });
 
@@ -79,6 +80,15 @@ export default function ArticleScreen({ navigation, route }) {
             title="Go To Dressing"
             onPress={() => navigation.navigate("DressingScreen")}
           />
+          <View>
+            <TouchableOpacity><Ionicons
+              onPress={handleDelete}
+              name="trash"
+              size={50}
+              color="black"
+            /></TouchableOpacity>
+
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
