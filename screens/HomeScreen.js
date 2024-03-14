@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button1: {
-    backgroundColor: "#FCA311",
+    backgroundColor: "#EC9709",
     padding: 15,
     borderRadius: 8,
     width: "85%",

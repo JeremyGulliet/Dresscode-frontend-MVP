@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Platform,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -115,72 +116,82 @@ const SignUp = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.contentContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <ImageBackground
+        source={require("../assets/home/Dressing.jpg.webp")}
+        // imageStyle={{ opacity: 0.7 }}
+        style={styles.backgroundImage}
       >
-        <View style={styles.logoContainer}>
-          {/* Affichage du logo */}
-          <Image
-            source={require("../assets/DressCodeLogo.png")}
-            style={styles.logo}
-          />
-        </View>
-
-        {/* Champs de saisie pour l'inscription */}
-        <View style={styles.userInterface}>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={(value) => setUsername(value)}
-          />
-          {usernameError && (
-            <Text style={styles.error}>Champ vide ou format non valide</Text>
-          )}
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={(value) => setEmail(value)}
-          />
-          {emailError && (
-            <Text style={styles.error}>
-              Champ vide ou format adresse mail non valide (ex: mail@monmail.fr)
-            </Text>
-          )}
-
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-            secureTextEntry
-          />
-          {passwordError && (
-            <Text style={styles.error}>
-              Champ vide ou format de mot de passe non valide
-            </Text>
-          )}
-          {/* Bouton pour l'inscription */}
-          <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
-            <Text style={styles.btnText}>Register</Text>
-          </TouchableOpacity>
-          {/* Lien vers la page de connexion */}
-          <TouchableOpacity
-            style={styles.loginTextContainer}
-            onPress={() => navigation.navigate("SignIn")}
-          >
-            <View style={styles.normalText}>
-              <Text style={styles.login}>Déjà inscrit ? </Text>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.contentContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.logoContainer}>
+            {/* Affichage du logo */}
+            <View style={styles.logoBackground}>
+              <Image
+                source={require("../assets/DressCodeLogo.png")}
+                style={styles.logo}
+              />
             </View>
-            <View style={styles.underlineTextView}>
-              <Text style={styles.underlineText}>Connexion</Text>
-            </View>
-          </TouchableOpacity>
+          </View>
 
-          {/* Affichage des logos de connexion */}
-          {/* <View style={styles.loginLogo}>
+          {/* Champs de saisie pour l'inscription */}
+          <View style={styles.userInterface}>
+            <TextInput
+              style={styles.input}
+              placeholder="Username"
+              value={username}
+              onChangeText={(value) => setUsername(value)}
+            />
+            {usernameError && (
+              <Text style={styles.error}>Champ vide ou format non valide</Text>
+            )}
+            <TextInput
+              style={styles.input}
+              placeholder="Email ( mail@monmail.fr )"
+              value={email}
+              onChangeText={(value) => setEmail(value)}
+            />
+            {emailError && (
+              <Text style={styles.error}>
+                Champ vide ou format adresse mail non valide
+              </Text>
+            )}
+
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={(value) => setPassword(value)}
+              secureTextEntry
+            />
+            {passwordError && (
+              <Text style={styles.error}>
+                Champ vide ou format de mot de passe non valide
+              </Text>
+            )}
+            {/* Bouton pour l'inscription */}
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => handleRegister()}
+            >
+              <Text style={styles.btnText}>Register</Text>
+            </TouchableOpacity>
+            {/* Lien vers la page de connexion */}
+            <TouchableOpacity
+              style={styles.loginTextContainer}
+              onPress={() => navigation.navigate("SignIn")}
+            >
+              <View style={styles.normalText}>
+                <Text style={styles.login}>Déjà inscrit ? </Text>
+              </View>
+              <View style={styles.underlineTextView}>
+                <Text style={styles.underlineText}>Connexion</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Affichage des logos de connexion */}
+            {/* <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
@@ -194,8 +205,9 @@ const SignUp = () => {
               style={{ width: 50, height: 50 }}
             />
           </View> */}
-        </View>
-      </KeyboardAwareScrollView>
+          </View>
+        </KeyboardAwareScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -205,6 +217,7 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
@@ -215,19 +228,35 @@ const styles = StyleSheet.create({
   // scrollView: {
   //   flex: 1,
   // },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   contentContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
   },
+
   logoContainer: {
     flex: 1.5,
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
+  },
+  logoBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 160,
+    backgroundColor: "rgba(245, 245, 245, 0.9)",
+    borderRadius: 8,
   },
   logo: {
     width: "100%",
@@ -282,7 +311,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   login: {
-    color: "gray",
+    color: "white",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 16,
@@ -292,12 +321,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "gray",
+    borderColor: "white",
   },
   underlineText: {
     justifyContent: "center",
     alignItems: "center",
-    color: "gray",
+    color: "white",
     fontSize: 16,
   },
   // loginLogo: {
@@ -314,5 +343,8 @@ const styles = StyleSheet.create({
   // },
   error: {
     color: "red",
+    backgroundColor: "rgba(245, 245, 245, 0.85)",
+    borderRadius: 8,
+    textAlign: "center",
   },
 });

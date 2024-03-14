@@ -8,12 +8,15 @@ import {
   TouchableOpacity,
   Platform,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
 import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
+
+import backgroundImage from "../assets/home/Dressing.jpg.webp";
 
 const SignInScreen = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -66,17 +69,23 @@ const SignInScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ImageBackground
+      source={require("../assets/home/Dressing.jpg.webp")}
+      // imageStyle={{ opacity: 0.7 }}
+      style={styles.backgroundImage}
+    >
       <KeyboardAwareScrollView
         contentContainerStyle={styles.contentContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.logoContainer}>
           {/* Affichage du logo */}
-          <Image
-            source={require("../assets/DressCodeLogo.png")}
-            style={styles.logo}
-          />
+          <View style={styles.logoBackground}>
+            <Image
+              source={require("../assets/DressCodeLogo.png")}
+              style={styles.logo}
+            />
+          </View>
         </View>
         {/* Champs de saisie pour la connexion */}
         <View style={styles.userInterface}>
@@ -132,7 +141,7 @@ const SignInScreen = () => {
           </View> */}
         </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -142,30 +151,42 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "white",
-    justifyContent: "space-around",
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
     alignItems: "center",
   },
-  // scrollView: {
-  //   flex: 1,
-  // },
   contentContainer: {
     flex: 1,
-    flexDirection: "column",
+    marginTop: 50,
+    marginBottom: 50,
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: "space-evenly",
     alignItems: "center",
+    // backgroundColor: "rgba(245, 245, 245, 0.6)",
+    // borderRadius: 8,
   },
 
   logoContainer: {
     flex: 1.5,
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
+
     // borderWidth: 2,
     // borderColor: "red",
+  },
+
+  logoBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 160,
+    backgroundColor: "rgba(245, 245, 245, 0.9)",
+    borderRadius: 8,
   },
   logo: {
     width: "100%",
@@ -185,12 +206,13 @@ const styles = StyleSheet.create({
   input: {
     height: 60,
     width: 350,
-    backgroundColor: "#e5e6e6",
+    backgroundColor: "white",
     color: "black",
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
     fontSize: 16,
+    opacity: 1,
   },
   btn: {
     paddingVertical: 18,
@@ -219,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   login: {
-    color: "gray",
+    color: "white",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 16,
@@ -229,12 +251,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "gray",
+    borderColor: "white",
   },
   underlineText: {
     justifyContent: "center",
     alignItems: "center",
-    color: "gray",
+    color: "white",
     fontSize: 16,
   },
   // loginLogo: {
@@ -251,5 +273,8 @@ const styles = StyleSheet.create({
   // },
   error: {
     color: "red",
+    backgroundColor: "rgba(245, 245, 245, 0.85)",
+    borderRadius: 8,
+    textAlign: "center",
   },
 });
