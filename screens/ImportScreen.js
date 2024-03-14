@@ -19,6 +19,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 export default function ImportScreen({ route, navigation }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const { images } = route.params;
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [newImages, setNewImages] = useState(images);
 
   const pickImage = async () => {

@@ -121,6 +121,7 @@ const HomeScreen = () => {
         const tops = [];
         const bottoms = [];
         data.forEach((article) => {
+          //console.log("Description de l'article:", article)
           if (article.description.category === "Haut") {
             console.log("FETCH DATA RESULT : ", article);
             tops.push(article);
