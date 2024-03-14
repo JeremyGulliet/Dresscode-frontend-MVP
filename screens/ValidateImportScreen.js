@@ -26,6 +26,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default function ValidateImportScreen({ navigation, route }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const { uri, newImages } = route.params;
 
   const user = useSelector((state) => state.user.value);
@@ -220,31 +221,31 @@ export default function ValidateImportScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-        ? isSelectedType
-        : fieldName === "colors"
-        ? isSelectedColors
-        : fieldName === "weatherType"
-        ? isSelectedWeatherType
-        : fieldName === "event"
-        ? isSelectedEvent
-        : fieldName === "brand"
-        ? isSelectedBrand
-        : false;
+          ? isSelectedType
+          : fieldName === "colors"
+            ? isSelectedColors
+            : fieldName === "weatherType"
+              ? isSelectedWeatherType
+              : fieldName === "event"
+                ? isSelectedEvent
+                : fieldName === "brand"
+                  ? isSelectedBrand
+                  : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-        ? isFocusType
-        : fieldName === "colors"
-        ? isFocusColors
-        : fieldName === "weatherType"
-        ? isFocusWeatherType
-        : fieldName === "event"
-        ? isFocusEvent
-        : fieldName === "brand"
-        ? isFocusBrand
-        : false;
+          ? isFocusType
+          : fieldName === "colors"
+            ? isFocusColors
+            : fieldName === "weatherType"
+              ? isFocusWeatherType
+              : fieldName === "event"
+                ? isFocusEvent
+                : fieldName === "brand"
+                  ? isFocusBrand
+                  : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -474,24 +475,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -524,24 +525,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
               </View>

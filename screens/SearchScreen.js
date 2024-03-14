@@ -18,6 +18,7 @@ import HeaderCompo from "../components/headerCompo";
 
 export default function SearchScreen({ navigation }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const [articles, setArticles] = useState([]); // État pour stocker les articles récupérés
   const [search, setSearch] = useState("");
 

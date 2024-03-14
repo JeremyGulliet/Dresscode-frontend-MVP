@@ -17,6 +17,7 @@ import { EvilIcons } from "@expo/vector-icons";
 export default function ArticleScreen({ navigation, route }) {
   const user = useSelector((state) => state.user.value);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const { item } = route.params ? route.params : { item: null }; // Vérification de route.params
   console.log({ item });
 

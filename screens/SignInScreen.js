@@ -18,6 +18,7 @@ import { login } from "../reducers/user"; // Import de l'action login depuis le 
 const SignInScreen = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
+
   const [email, setEmail] = useState(""); // État local pour stocker l'email
   const [password, setPassword] = useState(""); // État local pour stocker le mot de passe
   const [userError, setUserError] = useState(false);
