@@ -98,23 +98,19 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data
-          .filter(
-            (item) => item.description && item.description.category == "Haut"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        // console.log("Data for tops:", hauts);
-        setTops(hauts); // Définir uniquement les hauts dans l'état
+        const filteredTops = filterArticlesByCategoryAndColor(
+          data,
+          "Haut",
+          selectedColor
+        );
+        setTops(filteredTops);
 
-        // Filtrer les éléments pour ne conserver que les bas
-        const bas = data
-          .filter(
-            (item) => item.description && item.description.category == "Bas"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        //console.log("Data for bottoms:", bas);
-        setBottoms(bas); // Définir uniquement les bas dans l'état
+        const filteredBottoms = filterArticlesByCategoryAndColor(
+          data,
+          "Bas",
+          selectedColor
+        );
+        setBottoms(filteredBottoms);
       })
       .catch((error) => console.error("Error fetching articles:", error));
   };
@@ -127,14 +123,6 @@ export default function DressingScreen({ navigation }) {
   const handleBottomPress = (bottom) => {
     // console.log("handleBottomPress");
     setSelectedBottom(bottom);
-  };
-
-  const handleResetTop = () => {
-    setSelectedTop(null);
-  };
-
-  const handleResetBottom = () => {
-    setSelectedBottom(null);
   };
 
   return (
@@ -200,47 +188,50 @@ export default function DressingScreen({ navigation }) {
               <FontAwesome6 name="magnifying-glass" size={30} color="#0E0E66" />
             </TouchableOpacity>
           </View>
+          <View style={styles.articlesContainer}>
+            {/* vetement haut */}
+            <View style={styles.topContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {tops.map((top, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleTopPress(top)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: top.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: top.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
 
-          {/* vetement haut */}
-          <View style={styles.topContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {tops.map((top, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleTopPress(top)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", { item: top })
-                  }
-                >
-                  <Image
-                    source={{ uri: top.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* vetement bas */}
-          <View style={styles.bottomContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {bottoms.map((bottom, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleBottomPress(bottom)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", {
-                      item: bottom,
-                    })
-                  }
-                >
-                  <Image
-                    source={{ uri: bottom.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {/* vetement bas */}
+            <View style={styles.bottomContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {bottoms.map((bottom, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleBottomPress(bottom)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: bottom.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: bottom.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
           </View>
 
           {/* section sélection */}
@@ -250,33 +241,17 @@ export default function DressingScreen({ navigation }) {
             <View style={styles.selectSubContainer}>
               {/* {console.log("Affichage selectedTop")} */}
               {selectedTop && (
-                <View style={styles.imageContainer}>
-                  <AntDesign
-                    onPress={handleResetTop}
-                    name="closecircle"
-                    size={24}
-                    color="black"
-                  />
-                  <Image
-                    source={{ uri: selectedTop.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </View>
+                <Image
+                  source={{ uri: selectedTop.url_image }}
+                  style={styles.imageDressing}
+                />
               )}
               {/* {console.log("Affichage selectedBottom")} */}
               {selectedBottom && (
-                <View style={styles.imageContainer}>
-                  <AntDesign
-                    onPress={handleResetBottom}
-                    name="closecircle"
-                    size={24}
-                    color="black"
-                  />
-                  <Image
-                    source={{ uri: selectedBottom.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </View>
+                <Image
+                  source={{ uri: selectedBottom.url_image }}
+                  style={styles.imageDressing}
+                />
               )}
             </View>
           </View>
@@ -341,8 +316,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
     rowGap: 20,
-    borderWidth: 2,
-    borderColor: "red",
   },
   filterContainer: {
     flexDirection: "row",
