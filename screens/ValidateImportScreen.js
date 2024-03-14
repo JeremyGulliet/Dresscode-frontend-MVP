@@ -26,7 +26,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function ValidateImportScreen({ navigation, route }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const { uri, newImages } = route.params;
-  const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const user = useSelector((state) => state.user.value);
   /* --- États dropdown "category" --- */
   const [category, setCategory] = useState(null);

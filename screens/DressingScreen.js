@@ -338,9 +338,11 @@ const styles = StyleSheet.create({
     flex: 12,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
-    // justifyContent: "flex-start",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     rowGap: 20,
+    borderWidth: 2,
+    borderColor: "red",
   },
   filterContainer: {
     flexDirection: "row",
@@ -406,7 +408,7 @@ const styles = StyleSheet.create({
   selectContainer: {
     borderWidth: 1,
     borderRadius: 8,
-    height: 250,
+    height: "auto",
     padding: 20,
     alignItems: "center",
     gap: 10,
