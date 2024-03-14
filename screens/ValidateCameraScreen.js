@@ -297,8 +297,8 @@ export default function ValidateCameraScreen({ navigation, route }) {
       event,
       brand
     );
+    // requête POST pour créer une entrée dans la collection "weathers"
     fetch(`${API_URL}/weathers`, {
-      // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -309,7 +309,11 @@ export default function ValidateCameraScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((weatherData) => {
-        //console.log("Mon ID:", weatherData.newWeather._id)
+        console.log("Mon weather:", weatherData)
+        const weatherId = weatherData.existingWeather
+          ? weatherData.existingWeather._id
+          : weatherData.newWeather._id;
+
         //requête POST pour créer une entrée dans la collection "descriptions"
         fetch(`${API_URL}/descriptions`, {
           method: "POST",
@@ -324,7 +328,11 @@ export default function ValidateCameraScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((descriptionData) => {
-            //console.log(descriptionData)
+            console.log('Ma description:', descriptionData)
+            const descriptionId = descriptionData.existingDescription
+              ? descriptionData.existingDescription._id
+              : descriptionData.newDescription._id;
+
             //requête POST pour créer une entrée dans la collection "brands"
             fetch(`${API_URL}/brands`, {
               method: "POST",
@@ -335,18 +343,22 @@ export default function ValidateCameraScreen({ navigation, route }) {
             })
               .then((response) => response.json())
               .then((brandData) => {
-                //console.log(brandData)
-                //requêtePOST pour créer le nouvel article dans la collection "articles"
+                console.log('Ma marque:', brandData)
+                const brandId = brandData.existingBrand
+                  ? brandData.existingBrand._id
+                  : brandData.newBrand._id;
+
+                //requête POST pour créer le nouvel article dans la collection "articles"
                 fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    weather: weatherData.newWeather._id,
+                    weather: weatherId,
                     useDate: new Date(),
-                    favorite: true,
+                    favorite: false,
                     url_image: url,
-                    description: descriptionData.newDescription._id,
-                    brand: brandData.newBrand._id,
+                    description: descriptionId,
+                    brand: brandId,
                   }),
                 })
                   .then((response) => response.json())
