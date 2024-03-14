@@ -22,9 +22,9 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { API_URL } from "../constants/config";
 
 export default function ValidateImportScreen({ navigation, route }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const { uri, newImages } = route.params;
   const user = useSelector((state) => state.user.value);
   /* --- États dropdown "category" --- */
@@ -354,9 +354,12 @@ export default function ValidateImportScreen({ navigation, route }) {
                     //console.log("articles:", articleData);
 
                     const token = user.token;
-                    fetch(`${API_URL}/users/${token}/${articleData.newArticle._id}`, {
-                      method: "PUT",
-                    })
+                    fetch(
+                      `${API_URL}/users/${token}/${articleData.newArticle._id}`,
+                      {
+                        method: "PUT",
+                      }
+                    )
                       .then((response) => response.json())
                       .then((updatedUserData) => {
                         //console.log("Update:", updatedUserData)
@@ -364,14 +367,18 @@ export default function ValidateImportScreen({ navigation, route }) {
                         navigation.navigate("DressingScreen");
                       })
                       .catch((error) => {
-                        console.error("Erreur lors de la mise à jour de l'utilisateur :", error);
+                        console.error(
+                          "Erreur lors de la mise à jour de l'utilisateur :",
+                          error
+                        );
                       });
-
                   })
                   .catch((error) => {
-                    console.error("Erreur lors de la création de l'article:", error);
+                    console.error(
+                      "Erreur lors de la création de l'article:",
+                      error
+                    );
                   });
-
               })
               .catch((error) => {
                 // Gérer les erreurs de requête pour la création de la marque

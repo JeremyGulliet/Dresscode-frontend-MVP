@@ -12,7 +12,6 @@ import {
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import { API_URL } from "../constants/config";
 
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
@@ -23,13 +22,14 @@ import { useSelector } from "react-redux";
 // Username : au moins 3 caractères avec obligatoirement une lettre au début et possibilité d'utiliser des minuscule ou majusctules, des chiffres et seulement le caractère simple tiret ou un espace
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9 -]{2,}$/;
 
-const EMAIL_REGEX: RegExp =
+const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 // Mot de passe :  de 6 à 12 caractères, comprenant au moins une lettre, un chiffre et un caractère spécial
-const PASSWORD_REGEX: RegExp =
+const PASSWORD_REGEX =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/;
 
 const SignUp = () => {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

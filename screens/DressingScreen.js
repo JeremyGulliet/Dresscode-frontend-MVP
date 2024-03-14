@@ -11,7 +11,7 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../constants/config";
+
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,6 +23,7 @@ import { faStepBackward } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 export default function DressingScreen({ navigation }) {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);

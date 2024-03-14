@@ -9,15 +9,17 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
-import { API_URL } from "../constants/config";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
 import { login } from "../reducers/user"; // Import de l'action login depuis le reducer user
 
 const SignInScreen = () => {
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const [email, setEmail] = useState(""); // État local pour stocker l'email
   const [password, setPassword] = useState(""); // État local pour stocker le mot de passe
+  const [userError, setUserError] = useState(false);
 
   const navigation = useNavigation(); // Initialisation du hook useNavigation
   const dispatch = useDispatch(); // Initialisation du hook useDispatch pour envoyer des actions Redux
@@ -25,7 +27,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-
+    setUserError(false);
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: {
@@ -53,6 +55,7 @@ const SignInScreen = () => {
           setEmail("");
           setPassword("");
         } else {
+          setUserError(true);
           console.error("Erreur lors de la connexion: ", data.error); // Affichage de l'erreur dans la console
         }
       })
@@ -89,7 +92,11 @@ const SignInScreen = () => {
             onChangeText={(value) => setPassword(value)}
             secureTextEntry // Pour masquer le texte saisi
           />
-
+          {userError && (
+            <Text style={styles.error}>
+              Utilisateur inconnu ou mot de passe incorrect
+            </Text>
+          )}
           <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
             <Text style={styles.btnText}>Connexion</Text>
           </TouchableOpacity>
@@ -241,4 +248,7 @@ const styles = StyleSheet.create({
   //   paddingBottom: 30,
   //   resizeMode: "contain",
   // },
+  error: {
+    color: "red",
+  },
 });

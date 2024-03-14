@@ -12,7 +12,7 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import { API_URL } from "../constants/config";
+
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HeaderCompo from "../components/headerCompo";
 
@@ -22,9 +22,38 @@ export default function SearchScreen({ navigation }) {
 
   // Fonction pour effectuer la recherche d'articles
   const handleSearch = async () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
+    // // Convertir la première lettre de la recherche en majuscule
+    // const formattedSearch =
+    //   search.charAt(0).toUpperCase() + search.toLowerCase().slice(1);
+
+    //   fetch(`${API_URL}/articles/search?query=${search}`)
+    //     .then((response) => {
+    //       if (!response.ok) {
+    //         throw new Error("Erreur lors de la récupération des articles");
+    //       }
+    //       return response.json();
+    //     })
+    //     .then((data) => {
+    //       const { articles } = data;
+    //       if (articles) {
+    //         console.log("Les articles en retour : ", articles);
+    //         setArticles(articles); // Mettre à jour l'état avec les articles filtrés
+    //       } else {
+    //         setArticles([]);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error("Erreur :", error);
+    //     });
+    // };
+
     try {
       console.log(search); // Afficher la valeur de search dans la console
-      const response = await fetch(`${API_URL}/articles/${search}`);
+      const response = await fetch(
+        `${API_URL}/articles/search?query=${search}`
+      );
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des articles");
       }
@@ -33,6 +62,24 @@ export default function SearchScreen({ navigation }) {
     } catch (error) {
       console.error("Erreur");
     }
+
+    //   const url = `${API_URL}/articles/search?query=${search}`;
+
+    //   fetch(url)
+    //     .then((response) => {
+    //       console.log("LOG DE LA RESPONSE ==>", response);
+    //       if (!response.ok) {
+    //         throw new Error("Erreur lors de la recherche des articles");
+    //       }
+    //       return response.json();
+    //     })
+    //     .then((data) => {
+    //       console.log("LOG DE LA DATA ==>", data);
+    //       // setArticles(data.articles);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Erreur lors de la recherche :", error);
+    //     });
   };
   console.log(articles);
 
@@ -41,7 +88,7 @@ export default function SearchScreen({ navigation }) {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <HeaderCompo />
+          <HeaderCompo navigation={navigation} />
           {/* <Text style={styles.headerText}>My Search Screen</Text> */}
         </View>
 

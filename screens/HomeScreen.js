@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
-import { API_URL } from "../constants/config";
+
 import * as Location from "expo-location";
 import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
@@ -25,7 +25,8 @@ const HomeScreen = () => {
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
   const user = useSelector((state) => state.user.value);
-  const WEATHER_API_KEY = "ce7418650c86eae6629dfcfdda141c14";
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const WEATHER_API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
 
   const [myLatitude, setMyLatitude] = useState(null);
   const [myLongitude, setMyLongitude] = useState(null);
