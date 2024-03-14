@@ -94,6 +94,20 @@ export default function AddArticleScreen({ navigation }) {
                 <Text style={styles.text}>Dressing</Text>
               </TouchableOpacity>
             </View>
+            <View style={styles.dressingContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("DressingScreen")}
+                style={styles.buttonContent}
+              >
+                <FontAwesome
+                  name="black-tie"
+                  size={70}
+                  color="#000000"
+                  style={styles.icon}
+                />
+                <Text style={styles.text}>Dressing</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
         </View>
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    textAlign: 'center',
+    textAlign: "center",
     // marginTop: 300,
   },
   buttonContainer: {
