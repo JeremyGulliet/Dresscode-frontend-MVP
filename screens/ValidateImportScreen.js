@@ -11,6 +11,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
+  Keyboard,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
@@ -221,31 +222,31 @@ export default function ValidateImportScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-        ? isSelectedType
-        : fieldName === "colors"
-        ? isSelectedColors
-        : fieldName === "weatherType"
-        ? isSelectedWeatherType
-        : fieldName === "event"
-        ? isSelectedEvent
-        : fieldName === "brand"
-        ? isSelectedBrand
-        : false;
+          ? isSelectedType
+          : fieldName === "colors"
+            ? isSelectedColors
+            : fieldName === "weatherType"
+              ? isSelectedWeatherType
+              : fieldName === "event"
+                ? isSelectedEvent
+                : fieldName === "brand"
+                  ? isSelectedBrand
+                  : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-        ? isFocusType
-        : fieldName === "colors"
-        ? isFocusColors
-        : fieldName === "weatherType"
-        ? isFocusWeatherType
-        : fieldName === "event"
-        ? isFocusEvent
-        : fieldName === "brand"
-        ? isFocusBrand
-        : false;
+          ? isFocusType
+          : fieldName === "colors"
+            ? isFocusColors
+            : fieldName === "weatherType"
+              ? isFocusWeatherType
+              : fieldName === "event"
+                ? isFocusEvent
+                : fieldName === "brand"
+                  ? isFocusBrand
+                  : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -312,7 +313,7 @@ export default function ValidateImportScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((weatherData) => {
-        console.log("Mon weather:", weatherData);
+        console.log("Mon weather:", weatherData)
         const weatherId = weatherData.existingWeather
           ? weatherData.existingWeather._id
           : weatherData.newWeather._id;
@@ -331,7 +332,7 @@ export default function ValidateImportScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((descriptionData) => {
-            console.log("Ma description:", descriptionData);
+            console.log('Ma description:', descriptionData)
             const descriptionId = descriptionData.existingDescription
               ? descriptionData.existingDescription._id
               : descriptionData.newDescription._id;
@@ -346,7 +347,7 @@ export default function ValidateImportScreen({ navigation, route }) {
             })
               .then((response) => response.json())
               .then((brandData) => {
-                console.log("Ma marque:", brandData);
+                console.log('Ma marque:', brandData)
                 const brandId = brandData.existingBrand
                   ? brandData.existingBrand._id
                   : brandData.newBrand._id;
@@ -377,7 +378,8 @@ export default function ValidateImportScreen({ navigation, route }) {
                     )
                       .then((response) => response.json())
                       .then((updatedUserData) => {
-                        console.log("Update:", updatedUserData);
+                        console.log("Update:", updatedUserData)
+
                       })
                       .catch((error) => {
                         console.error(
@@ -474,24 +476,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -524,24 +526,24 @@ export default function ValidateImportScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
               </View>
@@ -656,12 +658,14 @@ export default function ValidateImportScreen({ navigation, route }) {
                     style={[styles.input, styles.tempMax]}
                     keyboardType="numeric"
                     placeholder="20, 35, ..."
+
                     onChangeText={(text) =>
                       handleInputChange("tempMax", text, null)
                     }
                     value={tempMax}
                   />
                 </View>
+
               </View>
             </View>
             {/* §§§§§§§§§§§§§§§§§§§ BLOC EVENT & BRAND §§§§§§§§§§§§§§§§§§§ */}
@@ -747,9 +751,7 @@ export default function ValidateImportScreen({ navigation, route }) {
               navigateToImportScreen();
             }}
           >
-            <Text style={styles.btnText}>
-              Valider et choisir une nouvelle photo
-            </Text>
+            <Text style={styles.btnText}>Valider et choisir une nouvelle photo</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -997,20 +999,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     width: "100%",
+
   },
 
   btnToImport: {
     width: "48%", // Largeur du bouton
-    backgroundColor: "pink",
+    backgroundColor: 'pink',
     borderRadius: 5,
-    textAlign: "center",
+    textAlign: 'center',
     padding: 10,
   },
   btnToDressing: {
     width: "48%", // Largeur du bouton
-    backgroundColor: "pink",
+    backgroundColor: 'pink',
     borderRadius: 5,
-    textAlign: "center",
+    textAlign: 'center',
     padding: 10,
   },
 

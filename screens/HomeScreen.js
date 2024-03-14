@@ -26,6 +26,7 @@ const HomeScreen = () => {
   //const [firstLoad, setFirstLoad] = useState(true);
   const user = useSelector((state) => state.user.value);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const WEATHER_API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
 
   const [myLatitude, setMyLatitude] = useState(null);

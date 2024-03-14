@@ -17,6 +17,7 @@ import { EvilIcons } from "@expo/vector-icons";
 export default function ArticleScreen({ navigation, route }) {
   const user = useSelector((state) => state.user.value);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const { item } = route.params ? route.params : { item: null }; // Vérification de route.params
   console.log({ item });
 
@@ -78,51 +79,17 @@ export default function ArticleScreen({ navigation, route }) {
           </View>
 
           <View style={styles.textContainer}>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Catégorie : </Text>
-              <Text style={styles.description}>
-                {item?.description?.category}
-              </Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Type :</Text>
-              <Text style={styles.description}> {item?.description?.type}</Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Couleur :</Text>
-              <Text style={styles.description}>
-                {" "}
-                {item?.description?.color}
-              </Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Taille :</Text>
-              <Text style={styles.description}> {item?.description?.size}</Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Activité :</Text>
-              <Text style={styles.description}>
-                {" "}
-                {item?.description?.event}
-              </Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Marque :</Text>
-              <Text style={styles.description}> {item?.brand?.name}</Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Météo:</Text>
-              <Text style={styles.description}> {item?.weather?.type}</Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Température minimale:</Text>
-              <Text style={styles.description}> {item?.weather?.temp_min}</Text>
-            </Text>
-            <Text style={styles.text}>
-              <Text style={styles.title}>Température maximale:</Text>
-              <Text style={styles.description}> {item?.weather?.temp_max}</Text>
-            </Text>
+            <Text style={styles.text}><Text style={styles.title}>Catégorie : </Text><Text style={styles.description}>{item?.description?.category}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Type :</Text><Text style={styles.description}> {item?.description?.type}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Couleur :</Text><Text style={styles.description}> {item?.description?.color}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Taille :</Text><Text style={styles.description}> {item?.description?.size}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Activité :</Text><Text style={styles.description}> {item?.description?.event}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Marque :</Text><Text style={styles.description}> {item?.brand?.name}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Météo:</Text><Text style={styles.description}> {item?.weather?.type}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Température minimale:</Text><Text style={styles.description}> {item?.weather?.temp_min}</Text></Text>
+            <Text style={styles.text}><Text style={styles.title}>Température maximale:</Text><Text style={styles.description}> {item?.weather?.temp_max}</Text></Text>
           </View>
+
 
           <View style={styles.deleteIcon}>
             <TouchableOpacity>
@@ -178,9 +145,10 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
 
+
     width: "100%",
     height: "30%",
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   text: {
     flex: 1,
@@ -188,12 +156,14 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   description: {
     fontSize: 15,
   },
 
-  deleteIcon: {},
+  deleteIcon: {
+
+  }
 });

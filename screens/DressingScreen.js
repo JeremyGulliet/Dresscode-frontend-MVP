@@ -6,12 +6,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
@@ -98,6 +94,7 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
+        // Filtrer les éléments pour ne conserver que les hauts
         const filteredTops = filterArticlesByCategoryAndColor(
           data,
           "Haut",
@@ -105,6 +102,7 @@ export default function DressingScreen({ navigation }) {
         );
         setTops(filteredTops);
 
+        // Filtrer les éléments pour ne conserver que les bas
         const filteredBottoms = filterArticlesByCategoryAndColor(
           data,
           "Bas",
@@ -133,13 +131,20 @@ export default function DressingScreen({ navigation }) {
     setSelectedBottom(null);
   };
 
+  const handleResetTop = () => {
+    setSelectedTop(null);
+  };
+
+  const handleResetBottom = () => {
+    setSelectedBottom(null);
+  };
+
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
-        <View style={styles.headerContainer}>
-          <HeaderCompo navigation={navigation} />
-        </View>
-        {/* <ScrollView contentContainerStyle={styles.scrollView}> */}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.headerContainer}>
+        <HeaderCompo navigation={navigation} />
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
           {/* en tete */}
 
@@ -306,38 +311,26 @@ export default function DressingScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-        {/* </ScrollView> */}
-      </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 1.3,
+    height: 100,
   },
-  safeAreaView: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#0E0E66",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  KeyboardAvoidingView: {
-    flex: 1,
-    width: "100%",
-    // borderColor: "red",
-    // borderWidth: 2,
+  scrollView: {
+    flexGrow: 1,
   },
-  // scrollView: {
-  //   flexGrow: 1,
-  // },
   container: {
-    flex: 12,
+    flex: 1,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
-    justifyContent: "space-between",
+    // justifyContent: "flex-start",
     backgroundColor: "#fff",
     rowGap: 20,
   },
@@ -405,7 +398,7 @@ const styles = StyleSheet.create({
   selectContainer: {
     borderWidth: 1,
     borderRadius: 8,
-    height: "auto",
+    height: 250,
     padding: 20,
     alignItems: "center",
     gap: 10,

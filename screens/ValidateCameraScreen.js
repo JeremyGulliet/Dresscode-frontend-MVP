@@ -25,6 +25,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default function ValidateCameraScreen({ navigation, route }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const { url } = route.params;
   const user = useSelector((state) => state.user.value);
   /* --- États dropdown "category" --- */
@@ -218,31 +219,31 @@ export default function ValidateCameraScreen({ navigation, route }) {
       fieldName === "category"
         ? isSelectedCategory
         : fieldName === "type"
-        ? isSelectedType
-        : fieldName === "colors"
-        ? isSelectedColors
-        : fieldName === "weatherType"
-        ? isSelectedWeatherType
-        : fieldName === "event"
-        ? isSelectedEvent
-        : fieldName === "brand"
-        ? isSelectedBrand
-        : false;
+          ? isSelectedType
+          : fieldName === "colors"
+            ? isSelectedColors
+            : fieldName === "weatherType"
+              ? isSelectedWeatherType
+              : fieldName === "event"
+                ? isSelectedEvent
+                : fieldName === "brand"
+                  ? isSelectedBrand
+                  : false;
 
     const isFocusState =
       fieldName === "category"
         ? isFocusCategory
         : fieldName === "type"
-        ? isFocusType
-        : fieldName === "colors"
-        ? isFocusColors
-        : fieldName === "weatherType"
-        ? isFocusWeatherType
-        : fieldName === "event"
-        ? isFocusEvent
-        : fieldName === "brand"
-        ? isFocusBrand
-        : false;
+          ? isFocusType
+          : fieldName === "colors"
+            ? isFocusColors
+            : fieldName === "weatherType"
+              ? isFocusWeatherType
+              : fieldName === "event"
+                ? isFocusEvent
+                : fieldName === "brand"
+                  ? isFocusBrand
+                  : false;
 
     const label = getFieldLabel(fieldName);
 
@@ -297,8 +298,8 @@ export default function ValidateCameraScreen({ navigation, route }) {
       event,
       brand
     );
+    // requête POST pour créer une entrée dans la collection "weathers"
     fetch(`${API_URL}/weathers`, {
-      // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -309,7 +310,11 @@ export default function ValidateCameraScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((weatherData) => {
-        //console.log("Mon ID:", weatherData.newWeather._id)
+        console.log("Mon weather:", weatherData)
+        const weatherId = weatherData.existingWeather
+          ? weatherData.existingWeather._id
+          : weatherData.newWeather._id;
+
         //requête POST pour créer une entrée dans la collection "descriptions"
         fetch(`${API_URL}/descriptions`, {
           method: "POST",
@@ -324,7 +329,11 @@ export default function ValidateCameraScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((descriptionData) => {
-            //console.log(descriptionData)
+            console.log('Ma description:', descriptionData)
+            const descriptionId = descriptionData.existingDescription
+              ? descriptionData.existingDescription._id
+              : descriptionData.newDescription._id;
+
             //requête POST pour créer une entrée dans la collection "brands"
             fetch(`${API_URL}/brands`, {
               method: "POST",
@@ -335,18 +344,22 @@ export default function ValidateCameraScreen({ navigation, route }) {
             })
               .then((response) => response.json())
               .then((brandData) => {
-                //console.log(brandData)
-                //requêtePOST pour créer le nouvel article dans la collection "articles"
+                console.log('Ma marque:', brandData)
+                const brandId = brandData.existingBrand
+                  ? brandData.existingBrand._id
+                  : brandData.newBrand._id;
+
+                //requête POST pour créer le nouvel article dans la collection "articles"
                 fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    weather: weatherData.newWeather._id,
+                    weather: weatherId,
                     useDate: new Date(),
-                    favorite: true,
+                    favorite: false,
                     url_image: url,
-                    description: descriptionData.newDescription._id,
-                    brand: brandData.newBrand._id,
+                    description: descriptionId,
+                    brand: brandId,
                   }),
                 })
                   .then((response) => response.json())
@@ -453,24 +466,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusCategory(false);
                       setIsSelectedCategory(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
                 {/* ------------------- @DROPDOWN - TYPE  ------------------- */}
@@ -503,24 +516,24 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       setIsFocusType(false);
                       setIsSelectedType(true);
                     }}
-                    // renderLeftIcon={() => (
-                    //   <Text
-                    //     style={[
-                    //       styles.labelNEW,
-                    //       isFocus && styles.focusedLabel,
-                    //     ]}
-                    //   >
-                    //     {value ? value.label : "Dropdown label"}
-                    //   </Text>
-                    // )}
-                    // renderLeftIcon={() => (
-                    //   <AntDesign
-                    //     style={styles.icon}
-                    //     color={isFocus ? "blue" : "black"}
-                    //     name="Safety"
-                    //     size={20}
-                    //   />
-                    // )}
+                  // renderLeftIcon={() => (
+                  //   <Text
+                  //     style={[
+                  //       styles.labelNEW,
+                  //       isFocus && styles.focusedLabel,
+                  //     ]}
+                  //   >
+                  //     {value ? value.label : "Dropdown label"}
+                  //   </Text>
+                  // )}
+                  // renderLeftIcon={() => (
+                  //   <AntDesign
+                  //     style={styles.icon}
+                  //     color={isFocus ? "blue" : "black"}
+                  //     name="Safety"
+                  //     size={20}
+                  //   />
+                  // )}
                   />
                 </View>
               </View>
