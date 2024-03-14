@@ -10,14 +10,16 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import * as ImagePicker from "expo-image-picker";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ImportScreen({ route, navigation }) {
-  const { images } = route.params;
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const { images } = route.params;
+
   const [newImages, setNewImages] = useState(images);
 
   const pickImage = async () => {

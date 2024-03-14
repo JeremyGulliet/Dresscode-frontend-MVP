@@ -6,8 +6,12 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+
 import { FontAwesome6 } from "@expo/vector-icons";
 import HeaderCompo from "../components/headerCompo";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,7 +27,6 @@ export default function DressingScreen({ navigation }) {
   const focus = useIsFocused();
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
-
 
   const user = useSelector((state) => state.user.value);
 
@@ -95,23 +98,19 @@ export default function DressingScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        // Filtrer les éléments pour ne conserver que les hauts
-        const hauts = data
-          .filter(
-            (item) => item.description && item.description.category == "Haut"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        // console.log("Data for tops:", hauts);
-        setTops(hauts); // Définir uniquement les hauts dans l'état
+        const filteredTops = filterArticlesByCategoryAndColor(
+          data,
+          "Haut",
+          selectedColor
+        );
+        setTops(filteredTops);
 
-        // Filtrer les éléments pour ne conserver que les bas
-        const bas = data
-          .filter(
-            (item) => item.description && item.description.category == "Bas"
-          )
-          .sort((a, b) => new Date(b.useDate) - new Date(a.useDate));
-        //console.log("Data for bottoms:", bas);
-        setBottoms(bas); // Définir uniquement les bas dans l'état
+        const filteredBottoms = filterArticlesByCategoryAndColor(
+          data,
+          "Bas",
+          selectedColor
+        );
+        setBottoms(filteredBottoms);
       })
       .catch((error) => console.error("Error fetching articles:", error));
   };
@@ -126,20 +125,13 @@ export default function DressingScreen({ navigation }) {
     setSelectedBottom(bottom);
   };
 
-  const handleResetTop = () => {
-    setSelectedTop(null);
-  };
-
-  const handleResetBottom = () => {
-    setSelectedBottom(null);
-  };
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.headerContainer}>
-        <HeaderCompo navigation={navigation} />
-      </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+    <SafeAreaView style={styles.safeAreaView}>
+      <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
+        <View style={styles.headerContainer}>
+          <HeaderCompo navigation={navigation} />
+        </View>
+        {/* <ScrollView contentContainerStyle={styles.scrollView}> */}
         <View style={styles.container}>
           {/* en tete */}
 
@@ -196,47 +188,50 @@ export default function DressingScreen({ navigation }) {
               <FontAwesome6 name="magnifying-glass" size={30} color="#0E0E66" />
             </TouchableOpacity>
           </View>
+          <View style={styles.articlesContainer}>
+            {/* vetement haut */}
+            <View style={styles.topContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {tops.map((top, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleTopPress(top)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: top.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: top.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
 
-          {/* vetement haut */}
-          <View style={styles.topContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {tops.map((top, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleTopPress(top)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", { item: top })
-                  }
-                >
-                  <Image
-                    source={{ uri: top.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* vetement bas */}
-          <View style={styles.bottomContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {bottoms.map((bottom, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleBottomPress(bottom)}
-                  onLongPress={() =>
-                    navigation.navigate("ArticleScreen", {
-                      item: bottom,
-                    })
-                  }
-                >
-                  <Image
-                    source={{ uri: bottom.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {/* vetement bas */}
+            <View style={styles.bottomContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {bottoms.map((bottom, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleBottomPress(bottom)}
+                    onLongPress={() =>
+                      navigation.navigate("ArticleScreen", {
+                        url: bottom.url_image,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: bottom.url_image }}
+                      style={styles.imageDressing}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
           </View>
 
           {/* section sélection */}
@@ -246,33 +241,17 @@ export default function DressingScreen({ navigation }) {
             <View style={styles.selectSubContainer}>
               {/* {console.log("Affichage selectedTop")} */}
               {selectedTop && (
-                <View style={styles.imageContainer}>
-                  <AntDesign
-                    onPress={handleResetTop}
-                    name="closecircle"
-                    size={24}
-                    color="black"
-                  />
-                  <Image
-                    source={{ uri: selectedTop.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </View>
+                <Image
+                  source={{ uri: selectedTop.url_image }}
+                  style={styles.imageDressing}
+                />
               )}
               {/* {console.log("Affichage selectedBottom")} */}
               {selectedBottom && (
-                <View style={styles.imageContainer}>
-                  <AntDesign
-                    onPress={handleResetBottom}
-                    name="closecircle"
-                    size={24}
-                    color="black"
-                  />
-                  <Image
-                    source={{ uri: selectedBottom.url_image }}
-                    style={styles.imageDressing}
-                  />
-                </View>
+                <Image
+                  source={{ uri: selectedBottom.url_image }}
+                  style={styles.imageDressing}
+                />
               )}
             </View>
           </View>
@@ -303,26 +282,38 @@ export default function DressingScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+        {/* </ScrollView> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 100,
+    flex: 1.3,
   },
-  safeArea: {
+  safeAreaView: {
     flex: 1,
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  scrollView: {
-    flexGrow: 1,
+  KeyboardAvoidingView: {
+    flex: 1,
+    width: "100%",
+    // borderColor: "red",
+    // borderWidth: 2,
   },
+  // scrollView: {
+  //   flexGrow: 1,
+  // },
   container: {
-    flex: 1,
+    flex: 12,
     paddingHorizontal: "5%",
     paddingVertical: "10%",
-    // justifyContent: "flex-start",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     rowGap: 20,
   },
@@ -390,7 +381,7 @@ const styles = StyleSheet.create({
   selectContainer: {
     borderWidth: 1,
     borderRadius: 8,
-    height: 250,
+    height: "auto",
     padding: 20,
     alignItems: "center",
     gap: 10,

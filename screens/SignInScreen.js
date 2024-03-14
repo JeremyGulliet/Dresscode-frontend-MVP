@@ -9,6 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native"; // Import du hook useNavigation pour la navigation
 import { useDispatch } from "react-redux"; // Import de useDispatch pour envoyer des actions Redux
@@ -16,8 +17,10 @@ import { login } from "../reducers/user"; // Import de l'action login depuis le 
 
 const SignInScreen = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const [email, setEmail] = useState(""); // État local pour stocker l'email
   const [password, setPassword] = useState(""); // État local pour stocker le mot de passe
+  const [userError, setUserError] = useState(false);
 
   const navigation = useNavigation(); // Initialisation du hook useNavigation
   const dispatch = useDispatch(); // Initialisation du hook useDispatch pour envoyer des actions Redux
@@ -25,7 +28,7 @@ const SignInScreen = () => {
   const handleSignIn = () => {
     // Fonction pour gérer la connexion
     // Envoi des données de connexion au backend
-
+    setUserError(false);
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: {
@@ -53,6 +56,7 @@ const SignInScreen = () => {
           setEmail("");
           setPassword("");
         } else {
+          setUserError(true);
           console.error("Erreur lors de la connexion: ", data.error); // Affichage de l'erreur dans la console
         }
       })
@@ -64,7 +68,7 @@ const SignInScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.contentContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.logoContainer}>
@@ -72,10 +76,10 @@ const SignInScreen = () => {
           <Image
             source={require("../assets/DressCodeLogo.png")}
             style={styles.logo}
-          ></Image>
+          />
         </View>
-
-        <View>
+        {/* Champs de saisie pour la connexion */}
+        <View style={styles.userInterface}>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -89,17 +93,30 @@ const SignInScreen = () => {
             onChangeText={(value) => setPassword(value)}
             secureTextEntry // Pour masquer le texte saisi
           />
+          {userError && (
+            <Text style={styles.error}>
+              Utilisateur inconnu ou mot de passe incorrect
+            </Text>
+          )}
           <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
             <Text style={styles.btnText}>Connexion</Text>
           </TouchableOpacity>
-          <Text
-            style={styles.register}
+
+          {/* Lien vers la page d'inscription */}
+          <TouchableOpacity
+            style={styles.loginTextContainer}
             onPress={() => navigation.navigate("SignUp")}
           >
-            Pas encore inscrit ? S'inscrire
-          </Text>
-          <View style={styles.loginLogo}>
-            {/* Images des logos de connexion */}
+            <View style={styles.normalText}>
+              <Text style={styles.login}>Pas encore inscrit ? </Text>
+            </View>
+            <View style={styles.underlineTextView}>
+              <Text style={styles.underlineText}>S'inscrire</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Images des logos de connexion */}
+          {/* <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
@@ -112,7 +129,7 @@ const SignInScreen = () => {
               source={require("../assets/loginApple.png")}
               style={{ width: 50, height: 50 }}
             />
-          </View>
+          </View> */}
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
@@ -132,13 +149,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  scrollView: {
+  // scrollView: {
+  //   flex: 1,
+  // },
+  contentContainer: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 
   logoContainer: {
+    flex: 1.5,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
@@ -150,6 +174,14 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: "green",
   },
+  userInterface: {
+    flex: 2,
+    flexDirection: "column",
+    justifyContent: "center",
+    // borderWidth: 2,
+    // borderColor: "green",
+  },
+
   input: {
     height: 60,
     width: 350,
@@ -179,16 +211,45 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 16,
   },
-  loginLogo: {
-    display: "flex",
+  // Style du lien vers la page de connexion
+  loginTextContainer: {
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+  },
+  login: {
+    color: "gray",
+    justifyContent: "center",
     alignItems: "center",
-    paddingBottom: 30,
-    resizeMode: "contain",
+    fontSize: 16,
+  },
+  underlineTextView: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "gray",
+  },
+  underlineText: {
+    justifyContent: "center",
+    alignItems: "center",
+    color: "gray",
+    fontSize: 16,
+  },
+  // loginLogo: {
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   paddingBottom: 30,
+  //   resizeMode: "contain",
+  // },
+  error: {
+    color: "red",
   },
 });

@@ -7,19 +7,24 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  KeyboardAvoidingView,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HeaderCompo from "../components/headerCompo";
+
 import * as Location from "expo-location";
 import { useSelector } from "react-redux";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
+import FooterCompo from "../components/footerCompo";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [topImage, setTopImage] = useState([]);
   const [bottomImage, setBottomImage] = useState([]);
   //const [firstLoad, setFirstLoad] = useState(true);
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const WEATHER_API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
 
@@ -35,7 +40,6 @@ const HomeScreen = () => {
 
   // useEffect pour la géolocalisation et récupération de la LAT et LON pour l'API
   useEffect(() => {
-
     const fetchData = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       //console.log("Status received")
@@ -50,7 +54,6 @@ const HomeScreen = () => {
 
   // fonction pour afficher la météo locale selon LAT et LON
   useEffect(() => {
-
     const fetchWeather = async () => {
       if (myLatitude !== null && myLongitude !== null) {
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&appid=${WEATHER_API_KEY}&units=metric`;
@@ -100,7 +103,6 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-
     // Assurez-vous que myWeather, myTempMin et myTempMax ont des valeurs avant d'appeler fetchArticles
     if (myWeather !== null && myTempMin !== 0 && myTempMax !== 0) {
       fetchArticles();
@@ -108,27 +110,30 @@ const HomeScreen = () => {
   }, [myWeather, myTempMin, myTempMax]); // Exécutez lorsque ces valeurs changent
 
   const fetchArticles = () => {
-
     const queryString = `type=${myWeather}&temp_Min=${myTempMin}&temp_Max=${myTempMax}`;
 
-    fetch(`${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}`)
-      .then(response => response.json())
-      .then(data => {
-        //console.log("Articles trouvés:", data);
+    fetch(
+      `${API_URL}/articles/dressing/homeArticle/${user.token}?${queryString}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Articles trouvés:");
         const tops = [];
         const bottoms = [];
-        data.forEach(article => {
+        data.forEach((article) => {
           //console.log("Description de l'article:", article)
           if (article.description.category === "Haut") {
+            console.log("FETCH DATA RESULT : ", article);
             tops.push(article);
           } else if (article.description.category === "Bas") {
             bottoms.push(article);
           }
         });
+
         setTopImage(tops);
         setBottomImage(bottoms);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Erreur lors de la récupération des articles:", error);
       });
   };
@@ -140,65 +145,70 @@ const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+    <SafeAreaView style={styles.safeAreaView}>
+      <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
         <View style={styles.headerContainer}>
           {/* ici le header */}
           <HeaderCompo navigation={navigation} />
         </View>
-        {myWeather && (
-          <View style={styles.weatherContainer}>
-            <Image
-              style={styles.weatherImage}
-              source={weatherImagePath}
-            ></Image>
-            <Text style={styles.temperatureText}>
-              {city} - {Math.round(myTemp)}°C
-            </Text>
-          </View>
-        )}
-        <View style={styles.clothingContainer}>
-          {topImage.length > 0 && (
-            <Image
-              source={{
-                uri: topImage[Math.floor(Math.random() * topImage.length)]
-                  .url_image,
-              }}
-              style={styles.clothingImage}
-            />
+
+        <View style={styles.contentContainer}>
+          {myWeather && (
+            <View style={styles.weatherContainer}>
+              <Image
+                style={styles.weatherImage}
+                source={weatherImagePath}
+              ></Image>
+              <Text style={styles.temperatureText}>
+                {city} {Math.round(myTemp)}°C
+              </Text>
+            </View>
           )}
-          {bottomImage.length > 0 && (
-            <Image
-              source={{
-                uri: bottomImage[Math.floor(Math.random() * bottomImage.length)]
-                  .url_image,
-              }}
-              style={styles.clothingImage}
-            />
-          )}
-          {/* <Image
+          <View style={styles.clothingContainer}>
+            {topImage.length > 0 && (
+              <Image
+                source={{
+                  uri: topImage[Math.floor(Math.random() * topImage.length)]
+                    .url_image,
+                }}
+                style={styles.clothingImage}
+              />
+            )}
+            {bottomImage.length > 0 && (
+              <Image
+                source={{
+                  uri: bottomImage[
+                    Math.floor(Math.random() * bottomImage.length)
+                  ].url_image,
+                }}
+                style={styles.clothingImage}
+              />
+            )}
+            {/* <Image
             source={require('../assets/home/vet-chauss.png')}
             style={styles.clothingImage}
           /> */}
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={reloadOutfit}>
-            <Image
-              style={styles.reload}
-              source={require("../assets/home/chargement.png")}
-            ></Image>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button1}
-            onPress={() => navigation.navigate("DressingScreen")}
-          >
-            <Text style={styles.buttonText}>Dressing</Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.button2}>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={reloadOutfit}>
+              <Image
+                style={styles.reload}
+                source={require("../assets/home/chargement.png")}
+              ></Image>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button1}
+              onPress={() => navigation.navigate("DressingScreen")}
+            >
+              <Text style={styles.buttonText}>Dressing</Text>
+            </TouchableOpacity>
+            {/* <TouchableOpacity style={styles.button2}>
             <Text style={styles.buttonText}>Valider proposition</Text>
           </TouchableOpacity> */}
+          </View>
         </View>
-      </ScrollView>
+        <FooterCompo navigation={navigation} />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -206,29 +216,53 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaView: {
     flex: 1,
-    backgroundColor: "white",
-    justifyContent: "space-around",
-  },
-  scrollView: {
-    flex: 1,
-  },
-  header: {
-    padding: 20,
-    backgroundColor: "#0000ff",
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
     alignItems: "center",
-    height: 25,
+    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
+  KeyboardAvoidingView: {
+    flex: 1,
+    width: "100%",
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
+  headerContainer: {
+    flex: 1.3,
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
+  // header: {
+  //   padding: 20,
+  //   backgroundColor: "#0000ff",
+  //   alignItems: "center",
+  //   height: 25,
+  // },
   headerText: {
     color: "white",
     fontSize: 24,
   },
+
+  contentContainer: {
+    flex: 12,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
   weatherContainer: {
     alignItems: "center",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: "whitesmoke",
     justifyContent: "space-around",
+    // borderColor: "blue",
+    // borderWidth: 2,
   },
   weatherImage: {
     height: 100,
@@ -283,8 +317,5 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "600",
     fontSize: 16,
-  },
-  headerContainer: {
-    height: 100,
   },
 });

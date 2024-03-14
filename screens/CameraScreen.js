@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { API_URL } from "../constants/config";
 import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Camera, CameraType, FlashMode, AutoFocus } from "expo-camera";
 import { useDispatch } from "react-redux";

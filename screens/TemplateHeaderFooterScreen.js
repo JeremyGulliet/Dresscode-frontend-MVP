@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   // },
 
   headerContainer: {
-    flex: 1,
+    flex: 1.3,
     // marginTop: 40,
   },
 
