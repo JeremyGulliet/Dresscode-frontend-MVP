@@ -10,6 +10,7 @@ import {
   Platform,
   Image,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
@@ -25,6 +26,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default function ValidateImportScreen({ navigation, route }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const { uri, newImages } = route.params;
 
   const user = useSelector((state) => state.user.value);
@@ -298,8 +300,8 @@ export default function ValidateImportScreen({ navigation, route }) {
       event,
       brand
     );
+    // requête POST pour créer une entrée dans la collection "weathers"
     fetch(`${API_URL}/weathers`, {
-      // requête POST pour créer une entrée dans la collection "weathers"
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -310,7 +312,11 @@ export default function ValidateImportScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((weatherData) => {
-        //console.log("Mon ID:", weatherData.newWeather._id)
+        console.log("Mon weather:", weatherData);
+        const weatherId = weatherData.existingWeather
+          ? weatherData.existingWeather._id
+          : weatherData.newWeather._id;
+
         //requête POST pour créer une entrée dans la collection "descriptions"
         fetch(`${API_URL}/descriptions`, {
           method: "POST",
@@ -325,7 +331,11 @@ export default function ValidateImportScreen({ navigation, route }) {
         })
           .then((response) => response.json())
           .then((descriptionData) => {
-            //console.log(descriptionData)
+            console.log("Ma description:", descriptionData);
+            const descriptionId = descriptionData.existingDescription
+              ? descriptionData.existingDescription._id
+              : descriptionData.newDescription._id;
+
             //requête POST pour créer une entrée dans la collection "brands"
             fetch(`${API_URL}/brands`, {
               method: "POST",
@@ -336,23 +346,27 @@ export default function ValidateImportScreen({ navigation, route }) {
             })
               .then((response) => response.json())
               .then((brandData) => {
-                //console.log(brandData)
-                //requêtePOST pour créer le nouvel article dans la collection "articles"
+                console.log("Ma marque:", brandData);
+                const brandId = brandData.existingBrand
+                  ? brandData.existingBrand._id
+                  : brandData.newBrand._id;
+
+                //requête POST pour créer le nouvel article dans la collection "articles"
                 fetch(`${API_URL}/articles`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    weather: weatherData.newWeather._id,
+                    weather: weatherId,
                     useDate: new Date(),
-                    favorite: true,
+                    favorite: false,
                     url_image: uri,
-                    description: descriptionData.newDescription._id,
-                    brand: brandData.newBrand._id,
+                    description: descriptionId,
+                    brand: brandId,
                   }),
                 })
                   .then((response) => response.json())
                   .then((articleData) => {
-                    //console.log("articles:", articleData);
+                    console.log("articles:", articleData);
 
                     const token = user.token;
                     fetch(
@@ -363,9 +377,7 @@ export default function ValidateImportScreen({ navigation, route }) {
                     )
                       .then((response) => response.json())
                       .then((updatedUserData) => {
-                        //console.log("Update:", updatedUserData)
-
-                        navigation.navigate("DressingScreen");
+                        console.log("Update:", updatedUserData);
                       })
                       .catch((error) => {
                         console.error(
@@ -401,6 +413,14 @@ export default function ValidateImportScreen({ navigation, route }) {
         // Gérer les erreurs de requête pour la création de la météo
         console.error("Erreur lors de la création de la météo:", error);
       });
+  };
+
+  const navigateToDressingScreen = () => {
+    navigation.navigate("DressingScreen");
+  };
+
+  const navigateToImportScreen = () => {
+    navigation.navigate("ImportScreen", newImages);
   };
 
   return (
@@ -629,6 +649,7 @@ export default function ValidateImportScreen({ navigation, route }) {
                   />
                 </View>
                 {/* ------------------- @INPUT - TEMPMAX  ------------------- */}
+
                 <View style={styles.tempMaxContainer}>
                   <Text style={styles.tempText}>TempMax</Text>
                   <TextInput
@@ -719,17 +740,27 @@ export default function ValidateImportScreen({ navigation, route }) {
 
         {/* -------- @BUTTONS -------- */}
         <View style={styles.buttons}>
-          <Button
+          <TouchableOpacity
             style={styles.btnToImport}
-            title="Valider et choisir une nouvelle photo"
-            onPress={() => navigation.navigate("ImportScreen", newImages)}
-          />
+            onPress={() => {
+              handleSubmit();
+              navigateToImportScreen();
+            }}
+          >
+            <Text style={styles.btnText}>
+              Valider et choisir une nouvelle photo
+            </Text>
+          </TouchableOpacity>
 
-          <Button
+          <TouchableOpacity
             style={styles.btnToDressing}
-            title="Valider et aller au dressing"
-            onPress={() => handleSubmit()}
-          />
+            onPress={() => {
+              handleSubmit();
+              navigateToDressingScreen();
+            }}
+          >
+            <Text style={styles.btnText}>Valider et aller au dressing</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -769,13 +800,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
+    padding: 10,
     // borderWidth: 2,
     // borderColor: "green",
   },
   separation: {
     width: "100%",
-    height: 1,
-    backgroundColor: "gray",
+    height: 2,
+    backgroundColor: "pink",
   },
   descriptionContainer: {
     width: "100%",
@@ -969,9 +1001,17 @@ const styles = StyleSheet.create({
 
   btnToImport: {
     width: "48%", // Largeur du bouton
+    backgroundColor: "pink",
+    borderRadius: 5,
+    textAlign: "center",
+    padding: 10,
   },
   btnToDressing: {
     width: "48%", // Largeur du bouton
+    backgroundColor: "pink",
+    borderRadius: 5,
+    textAlign: "center",
+    padding: 10,
   },
 
   image: {

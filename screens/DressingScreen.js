@@ -125,6 +125,14 @@ export default function DressingScreen({ navigation }) {
     setSelectedBottom(bottom);
   };
 
+  const handleResetTop = () => {
+    setSelectedTop(null);
+  };
+
+  const handleResetBottom = () => {
+    setSelectedBottom(null);
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
@@ -198,7 +206,7 @@ export default function DressingScreen({ navigation }) {
                     onPress={() => handleTopPress(top)}
                     onLongPress={() =>
                       navigation.navigate("ArticleScreen", {
-                        url: top.url_image,
+                        item: top,
                       })
                     }
                   >
@@ -220,7 +228,7 @@ export default function DressingScreen({ navigation }) {
                     onPress={() => handleBottomPress(bottom)}
                     onLongPress={() =>
                       navigation.navigate("ArticleScreen", {
-                        url: bottom.url_image,
+                        item: bottom,
                       })
                     }
                   >
@@ -241,17 +249,33 @@ export default function DressingScreen({ navigation }) {
             <View style={styles.selectSubContainer}>
               {/* {console.log("Affichage selectedTop")} */}
               {selectedTop && (
-                <Image
-                  source={{ uri: selectedTop.url_image }}
-                  style={styles.imageDressing}
-                />
+                <View style={styles.imageContainer}>
+                  <AntDesign
+                    onPress={handleResetTop}
+                    name="closecircle"
+                    size={24}
+                    color="black"
+                  />
+                  <Image
+                    source={{ uri: selectedTop.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </View>
               )}
               {/* {console.log("Affichage selectedBottom")} */}
               {selectedBottom && (
-                <Image
-                  source={{ uri: selectedBottom.url_image }}
-                  style={styles.imageDressing}
-                />
+                <View style={styles.imageContainer}>
+                  <AntDesign
+                    onPress={handleResetBottom}
+                    name="closecircle"
+                    size={24}
+                    color="black"
+                  />
+                  <Image
+                    source={{ uri: selectedBottom.url_image }}
+                    style={styles.imageDressing}
+                  />
+                </View>
               )}
             </View>
           </View>

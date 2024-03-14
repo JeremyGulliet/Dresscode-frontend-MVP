@@ -48,7 +48,7 @@ export default function AddArticleScreen({ navigation }) {
 
       <View style={styles.contentContainer}>
         <View style={styles.container}>
-          <Text style={styles.title}>Choisissez la manière de remplir votre dressing</Text>
+          <Text style={styles.title}>Que souhaitez-vous faire?</Text>
           <View style={styles.buttonContainer}>
             <View style={styles.cameraContainer}>
               <TouchableOpacity
@@ -77,6 +77,20 @@ export default function AddArticleScreen({ navigation }) {
                   style={styles.icon}
                 />
                 <Text style={styles.text}>Importer</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.dressingContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("DressingScreen")}
+                style={styles.buttonContent}
+              >
+                <FontAwesome
+                  name="black-tie"
+                  size={70}
+                  color="#000000"
+                  style={styles.icon}
+                />
+                <Text style={styles.text}>Dressing</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -124,12 +138,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: "60%",
+    marginBottom: 100,
     // borderColor: "red",
     // borderWidth: 2,
   },
   title: {
     fontSize: 25,
-    textAlign: 'center',
+    textAlign: "center",
     // marginTop: 300,
   },
   buttonContainer: {
@@ -153,6 +168,17 @@ const styles = StyleSheet.create({
 
   importContainer: {
     marginVertical: 10,
+    padding: 10,
+    backgroundColor: "lightblue",
+    borderRadius: 5,
+    textAlign: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    width: 300,
+  },
+
+  dressingContainer: {
+    marginVertical: 50,
     padding: 10,
     backgroundColor: "lightblue",
     borderRadius: 5,
