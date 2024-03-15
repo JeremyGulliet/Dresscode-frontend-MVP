@@ -377,7 +377,6 @@ export default function ValidateCameraScreen({ navigation, route }) {
                       .then((updatedUserData) => {
                         console.log("Update:", updatedUserData);
 
-                        navigation.navigate("DressingScreen");
                       })
                       .catch((error) => {
                         console.error(
@@ -731,17 +730,25 @@ export default function ValidateCameraScreen({ navigation, route }) {
 
         {/* -------- @BUTTONS -------- */}
         <View style={styles.buttons}>
-          <Button
+          <TouchableOpacity
             style={styles.btnToCamera}
-            title="Go To Camera"
-            onPress={() => navigation.navigate("CameraScreen")}
-          />
+            onPress={() => { handleSubmit(); navigation.navigate("CameraScreen"); }}
+          >
+            <View style={styles.buttonTextView}>
+              <Text style={styles.buttonTextTop}>Valider</Text>
+              <Text style={styles.buttonTextBottom}>nouvelle photo</Text>
+            </View>
+          </TouchableOpacity>
 
-          <Button
+          <TouchableOpacity
             style={styles.btnToDressing}
-            title="Go To Dressing"
-            onPress={() => handleSubmit()}
-          />
+            onPress={() => { handleSubmit(); navigation.navigate("DressingScreen"); }}
+          >
+            <View style={styles.buttonTextView}>
+              <Text style={styles.buttonTextTop}>Valider</Text>
+              <Text style={styles.buttonTextBottom}>Dressing de {user.username}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -802,13 +809,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
+    padding: 10,
     // borderWidth: 2,
     // borderColor: "green",
   },
   separation: {
     width: "100%",
     height: 1,
-    backgroundColor: "gray",
+    backgroundColor: "pink",
   },
   descriptionContainer: {
     width: "100%",
@@ -993,11 +1001,41 @@ const styles = StyleSheet.create({
   },
 
   buttons: {
-    flex: 2,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  btnToCamera: {
+    backgroundColor: '#FCA311',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginRight: 40,
+    width: 150,
+  },
+  btnToDressing: {
+    backgroundColor: '#FCA311',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    width: 180
+  },
+  buttonTextView: {
+    alignItems: 'center',
+  },
+  buttonTextTop: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  buttonTextBottom: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   image: {

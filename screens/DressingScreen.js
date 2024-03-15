@@ -302,7 +302,7 @@ export default function DressingScreen({ navigation }) {
               style={styles.buttonRight}
               onPress={() => navigation.navigate("Home")}
             >
-              <Text style={styles.buttonText}>Générer</Text>
+              <Text style={styles.buttonText}>Accueil</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -435,4 +435,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  buttonText: {
+    color: "#0E0E66",
+    fontWeight: "bold"
+  }
 });

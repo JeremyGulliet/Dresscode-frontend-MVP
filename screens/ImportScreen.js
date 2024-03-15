@@ -9,12 +9,17 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  ImageBackground,
+  backgroundImage
 } from "react-native";
 
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";
 import * as ImagePicker from "expo-image-picker";
+import { useSelector } from "react-redux";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faTshirt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function ImportScreen({ route, navigation }) {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -22,6 +27,8 @@ export default function ImportScreen({ route, navigation }) {
   const { images } = route.params;
 
   const [newImages, setNewImages] = useState(images);
+
+  const user = useSelector((state) => state.user.value);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -86,11 +93,13 @@ export default function ImportScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+
       <View style={styles.headerContainer}>
         <HeaderCompo navigation={navigation} />
       </View>
 
       <View style={styles.contentContainer}>
+
         <TouchableOpacity onPress={pickImage} style={styles.addButton}>
           <FontAwesome name="plus" size={40} color="white" />
           <FontAwesome name="photo" size={40} color="white" />
@@ -110,7 +119,31 @@ export default function ImportScreen({ route, navigation }) {
         ))}
       </View>
 
-      <FooterCompo navigation={navigation} />
+
+      <View style={styles.footer}>
+        {/* Bouton "Go to DRESSING SCREEN" avec l'icône de vêtement */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DressingScreen")}
+        >
+          <View style={styles.button}>
+            <FontAwesomeIcon
+              icon={faTshirt}
+              size={20}
+              style={[styles.icon, styles.whiteText]}
+            />
+            <Text
+              style={[
+                styles.buttonText,
+                styles.buttonTextWhite,
+                styles.boldText,
+              ]}
+            >
+              Dressing de {user.username}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
     </SafeAreaView>
   );
 }
@@ -183,5 +216,46 @@ const styles = StyleSheet.create({
     backgroundColor: "#0E0E66",
     margin: 1,
     borderRadius: 10,
+  },
+
+  footer: {
+    flex: 1.3,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0E0F62",
+  },
+  footerText: {
+    fontSize: 12,
+  },
+  icon: {
+    marginRight: 10,
+    color: "#fff",
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    padding: 10,
+    backgroundColor: "#D17D01",
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+  },
+  buttonTextWhite: {
+    color: "#fff",
+  },
+
+  whiteText: {
+    color: "#fff",
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+  textOutline: {
+    // Style du contour
+    textShadowColor: "#000",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
   },
 });

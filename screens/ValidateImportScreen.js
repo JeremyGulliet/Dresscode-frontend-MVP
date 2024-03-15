@@ -750,7 +750,10 @@ export default function ValidateImportScreen({ navigation, route }) {
               navigateToImportScreen();
             }}
           >
-            <Text style={styles.btnText}>Valider et choisir une nouvelle photo</Text>
+            <View style={styles.buttonTextView}>
+              <Text style={styles.buttonTextTop}>Valider</Text>
+              <Text style={styles.buttonTextBottom}>photo suivante</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -760,7 +763,10 @@ export default function ValidateImportScreen({ navigation, route }) {
               navigateToDressingScreen();
             }}
           >
-            <Text style={styles.btnText}>Valider et aller au dressing</Text>
+            <View style={styles.buttonTextView}>
+              <Text style={styles.buttonTextTop}>Valider</Text>
+              <Text style={styles.buttonTextBottom}>Dressing de {user.username}</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -993,27 +999,41 @@ const styles = StyleSheet.create({
   },
 
   buttons: {
-    flex: 2,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    width: "100%",
-
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
-
   btnToImport: {
-    width: "48%", // Largeur du bouton
-    backgroundColor: 'pink',
+    backgroundColor: '#FCA311',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    textAlign: 'center',
-    padding: 10,
+    marginRight: 40,
+    width: 150,
   },
   btnToDressing: {
-    width: "48%", // Largeur du bouton
-    backgroundColor: 'pink',
+    backgroundColor: '#FCA311',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
+    width: 180
+  },
+  buttonTextView: {
+    alignItems: 'center',
+  },
+  buttonTextTop: {
+    color: 'white',
+    fontWeight: 'bold',
     textAlign: 'center',
-    padding: 10,
+  },
+  buttonTextBottom: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   image: {

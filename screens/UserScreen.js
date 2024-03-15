@@ -73,7 +73,7 @@ export default function UserScreen({ navigation }) {
                   styles.boldText,
                 ]}
               >
-                {user.username}'s Dressing
+                Dressing de {user.username}
               </Text>
             </View>
           </TouchableOpacity>
