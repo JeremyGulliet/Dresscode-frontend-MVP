@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Platform, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import HeaderCompo from "../components/headerCompo.js";
@@ -11,7 +18,8 @@ export default function AddArticleScreen({ navigation }) {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
           alert("Permission to access media library is required!");
         }
@@ -47,15 +55,31 @@ export default function AddArticleScreen({ navigation }) {
           <View style={styles.container}>
             <View style={styles.buttonContainer}>
               <View style={styles.cameraContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate("CameraScreen")} style={styles.buttonContent}>
-                  <FontAwesome5 name="camera-retro" size={70} color="#000000" style={styles.icon} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("CameraScreen")}
+                  style={styles.buttonContent}
+                >
+                  <FontAwesome5
+                    name="camera-retro"
+                    size={70}
+                    color="#000000"
+                    style={styles.icon}
+                  />
                   <Text style={styles.text}>Appareil Photo</Text>
                 </TouchableOpacity>
               </View>
 
               <View style={styles.importContainer}>
-                <TouchableOpacity onPress={handleImport} style={styles.buttonContent}>
-                  <FontAwesome5 name="upload" size={70} color="#000000" style={styles.icon} />
+                <TouchableOpacity
+                  onPress={handleImport}
+                  style={styles.buttonContent}
+                >
+                  <FontAwesome5
+                    name="upload"
+                    size={70}
+                    color="#000000"
+                    style={styles.icon}
+                  />
                   <Text style={styles.text}>Importer</Text>
                 </TouchableOpacity>
               </View>
@@ -65,8 +89,16 @@ export default function AddArticleScreen({ navigation }) {
 
         {/* Footer */}
         <View style={styles.footerContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("DressingScreen")} style={styles.dressingButton}>
-            <FontAwesome5 name="tshirt" size={20} color="white" style={styles.icon2} />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("DressingScreen")}
+            style={styles.dressingButton}
+          >
+            <FontAwesome5
+              name="tshirt"
+              size={20}
+              color="white"
+              style={styles.icon2}
+            />
             <Text style={styles.footerText}>Dressing</Text>
           </TouchableOpacity>
         </View>
@@ -80,7 +112,6 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-
   },
   mainContainer: {
     flex: 1,
@@ -100,7 +131,6 @@ const styles = StyleSheet.create({
     marginTop: 20, // Réduit la marge supérieure
     alignItems: "center",
     justifyContent: "center",
-
   },
   contentContainer: {
     flex: 12,
@@ -123,16 +153,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   boldText: {
-    fontWeight: 'bold', // Mettre le texte en gras
+    fontWeight: "bold", // Mettre le texte en gras
   },
   buttonContainer: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    justifyContent: "flex-start",
-    marginTop: 10, // Réduit la marge supérieure
+    // marginTop: 10, // Réduit la marge supérieure
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   cameraContainer: {
-    marginVertical: 35,
+    // marginVertical: 35,
     padding: 10,
     backgroundColor: "#D17D01",
     borderRadius: 5,
@@ -141,9 +174,11 @@ const styles = StyleSheet.create({
     justifyContent: "center", // Centrer verticalement
     width: 120, // Réduire la largeur
     height: 120, // Réduire la hauteur
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   importContainer: {
-    marginVertical: 5,
+    // marginVertical: 5,
     padding: 10,
     backgroundColor: "#D17D01",
     borderRadius: 5,
@@ -152,11 +187,13 @@ const styles = StyleSheet.create({
     justifyContent: "center", // Centrer verticalement
     width: 120, // Réduire la largeur
     height: 120, // Réduire la hauteur
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   text: {
     marginTop: 5, // Réduire l'espacement au-dessus du texte
     fontSize: 14, // Réduire la taille de la police
-    color: "#212155"
+    color: "#212155",
   },
   icon: {
     marginBottom: 5, // Réduire l'espacement en dessous de l'icône
@@ -165,7 +202,6 @@ const styles = StyleSheet.create({
   },
 
   icon2: {
-
     marginBottom: 5, // Réduire l'espacement en dessous de l'icône
     alignSelf: "center", // Centrer horizontalement
     color: "white",

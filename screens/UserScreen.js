@@ -12,7 +12,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/user";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTshirt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTshirt,
+  faSignOutAlt,
+  faHouse,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Importez votre image
 import backgroundImage from "../assets/home/Dressing.jpg.webp";
@@ -33,14 +37,26 @@ export default function UserScreen({ navigation }) {
       <ImageBackground source={backgroundImage} style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.headerText, styles.whiteText]}>DressCode</Text>
+          <View style={styles.manageLeftContainer}>
+            <TouchableOpacity
+              style={styles.backHomeContainer}
+              onPress={() => navigation.navigate("Home")}
+            >
+              <Text style={[styles.headerText, styles.whiteText]}>
+                DressCode
+              </Text>
+              <FontAwesomeIcon icon={faHouse} size={25} color="#ffffff" />
+            </TouchableOpacity>
+          </View>
           {/* Logo cliquable pour la déconnexion */}
-          <TouchableOpacity onPress={handleLogout}>
+          <TouchableOpacity style={styles.logoutView} onPress={handleLogout}>
+            {/* <View style={styles.logoutView}> */}
             <FontAwesomeIcon
               icon={faSignOutAlt}
               size={20}
               style={styles.logoutIcon}
             />
+            {/* </View> */}
           </TouchableOpacity>
         </View>
 
@@ -73,7 +89,7 @@ export default function UserScreen({ navigation }) {
                   styles.boldText,
                 ]}
               >
-                Dressing de {user.username}
+                {user.username}'s Dressing
               </Text>
             </View>
           </TouchableOpacity>
@@ -114,6 +130,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
+  },
+  manageLeftContainer: {
+    flex: 5,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    // borderColor: "white",
+    // borderWidth: 2,
+  },
+  backHomeContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: "100%",
+    // borderColor: "white",
+    // borderWidth: 2,
   },
   headerText: {
     fontSize: 20,
@@ -167,6 +200,16 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+  },
+  logoutView: {
+    flex: 1,
+    width: "75%",
+    height: "75%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   logoutIcon: {
     color: "#fff",

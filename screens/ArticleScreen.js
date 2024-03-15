@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Platform,
+  StatusBar,
 } from "react-native";
 
 import { useSelector } from "react-redux";
@@ -17,6 +19,7 @@ import { EvilIcons } from "@expo/vector-icons";
 export default function ArticleScreen({ navigation, route }) {
   const user = useSelector((state) => state.user.value);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  console.log("test");
 
   const { item } = route.params ? route.params : { item: null }; // Vérification de route.params
   console.log({ item });
@@ -46,76 +49,195 @@ export default function ArticleScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.container}>
-          {/* header */}
-          <View style={styles.headerContainer}>
-            <HeaderCompo navigation={navigation} />
-          </View>
+    <SafeAreaView style={styles.safeAreaView}>
+      <View style={styles.headerContainer}>
+        <HeaderCompo navigation={navigation} />
+      </View>
 
-          {/* image en détail */}
-          <View style={styles.imgContainer}>
-            <View style={styles.iconContainer}>
-              <Ionicons
-                onPress={handleBackPress}
-                name="arrow-back"
-                size={30}
-                color="black"
-              />
-            </View>
-            {/* Afficher l'image */}
-            {item && item.url_image ? (
-              <Image
-                source={{ uri: item.url_image }}
-                style={styles.imageDressing}
-              />
-            ) : (
-              <Image
-                source={require("../assets/dressing/top-04.png")}
-                style={styles.imageDressing}
-              />
-            )}
-          </View>
-
+      <View style={styles.contentContainer}>
+        {/* image en détail */}
+        <View style={styles.imgContainer}>
+          <TouchableOpacity style={styles.iconContainer}>
+            <Ionicons
+              onPress={handleBackPress}
+              name="arrow-back"
+              size={30}
+              color="#0E0E66"
+            />
+          </TouchableOpacity>
+          {/* Afficher l'image */}
+          {item && item.url_image ? (
+            <Image
+              source={{ uri: item.url_image }}
+              style={styles.imageDressing}
+            />
+          ) : (
+            <Image
+              source={require("../assets/dressing/top-04.png")}
+              style={styles.imageDressing}
+            />
+          )}
+        </View>
+        <View style={styles.globalContentContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.text}><Text style={styles.title}>Catégorie : </Text><Text style={styles.description}>{item?.description?.category}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Type :</Text><Text style={styles.description}> {item?.description?.type}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Couleur :</Text><Text style={styles.description}> {item?.description?.color}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Taille :</Text><Text style={styles.description}> {item?.description?.size}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Activité :</Text><Text style={styles.description}> {item?.description?.event}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Marque :</Text><Text style={styles.description}> {item?.brand?.name}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Météo:</Text><Text style={styles.description}> {item?.weather?.type}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Température minimale:</Text><Text style={styles.description}> {item?.weather?.temp_min}</Text></Text>
-            <Text style={styles.text}><Text style={styles.title}>Température maximale:</Text><Text style={styles.description}> {item?.weather?.temp_max}</Text></Text>
-          </View>
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Catégorie : </Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {item?.description?.category}
+                </Text>
+              </View>
+            </View>
 
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Type :</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.description?.type}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Couleur :</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.description?.color}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Taille :</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.description?.size}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Activité :</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.description?.event}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Marque :</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}> {item?.brand?.name}</Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Météo:</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}> {item?.weather?.type}</Text>
+              </View>
+            </View>
+
+            <View style={styles.text}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Température minimale:</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.weather?.temp_min}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.textLastElement}>
+              <View style={styles.titleView}>
+                <Text style={styles.title}>Température maximale:</Text>
+              </View>
+              <View style={styles.descriptionView}>
+                <Text style={styles.description}>
+                  {" "}
+                  {item?.weather?.temp_max}
+                </Text>
+              </View>
+            </View>
+          </View>
 
           <View style={styles.deleteIcon}>
-            <TouchableOpacity>
-              <Ionicons
-                onPress={handleDelete}
-                name="trash"
-                size={50}
-                color="black"
-              />
-            </TouchableOpacity>
+            <View style={styles.trashText}>
+              <TouchableOpacity style={styles.trashContainer}>
+                <Ionicons
+                  onPress={handleDelete}
+                  name="trash"
+                  size={35}
+                  color="#0E0E66"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    height: 100,
-  },
-  container: {
+  safeAreaView: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#0E0E66",
+    flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "center",
+    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  // notifBar: {
+  //   flex: 2,
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "flex-end",
+  //   backgroundColor: "#0E0E6661",
+  //   // marginTop: 40,
+  // },
+
+  headerContainer: {
+    flex: 1.3,
+    // marginTop: 40,
+  },
+
+  contentContainer: {
+    flex: 12,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+  },
+  mainContent: {
+    flex: 12,
+    paddingHorizontal: "5%",
+    paddingVertical: "10%",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    rowGap: 20,
   },
   imgContainer: {
     backgroundColor: "grey",
@@ -129,9 +251,11 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    top: 10,
+    left: 10,
     padding: 10,
+    backgroundColor: "whitesmoke",
+    borderRadius: 20,
   },
 
   imageDressing: {
@@ -142,28 +266,89 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 
-  textContainer: {
+  globalContentContainer: {
     flex: 1,
-
-
     width: "100%",
-    height: "30%",
-    justifyContent: 'space-between',
+    height: "100%",
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  textContainer: {
+    flex: 1.2,
+    height: "90%",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   text: {
     flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomColor: "lightgray",
+    borderBottomWidth: 1,
   },
-
+  textLastElement: {
+    flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 0,
+  },
+  titleView: {
+    flex: 1.4,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#0E0E66",
+  },
+  descriptionView: {
+    flex: 0.75,
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginLeft: 15,
+    // borderColor: "black",
+    // borderWidth: 2,
   },
 
   description: {
-    fontSize: 15,
+    fontSize: 16,
+    color: "#0E0E66",
+    // marginLeft: 50,
   },
 
   deleteIcon: {
-
-  }
+    flex: 0.3,
+    justifyContent: "flex-start",
+    alignItem: "center",
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
+  trashContainer: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderColor: "green",
+    // borderWidth: 2,
+  },
+  trashText: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
 });

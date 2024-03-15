@@ -6,11 +6,15 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 function UserCompo({ navigation }) {
   const user = useSelector((state) => state.user.value);
   return (
-    <View style={styles.userPicContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
-        <FontAwesome name="user-circle" size={30} color="#ffffff" /></TouchableOpacity>
+    // <View style={styles.userPicContainer}>
+    <TouchableOpacity
+      style={styles.userPicContainer}
+      onPress={() => navigation.navigate("UserScreen")}
+    >
+      <FontAwesome name="user-circle" size={30} color="#ffffff" />
       <Text style={styles.userNameText}>{user.username}</Text>
-    </View>
+    </TouchableOpacity>
+    // </View>
   );
 }
 
