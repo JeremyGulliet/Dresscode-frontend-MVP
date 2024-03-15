@@ -18,8 +18,6 @@ import * as Location from "expo-location";
 import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import FooterCompo from "../components/footerCompo";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTshirt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -158,11 +156,13 @@ const HomeScreen = () => {
         <View style={styles.contentContainer}>
           {myWeather && (
             <View style={styles.weatherContainer}>
+              <Text style={styles.temperatureText}>
+                Bonjour {user.username} !
+              </Text>
               <Image
                 style={styles.weatherImage}
                 source={weatherImagePath}
               ></Image>
-              <Text style={styles.temperatureText}>Bonjour {user.username} !</Text>
               <Text style={styles.temperatureText}>
                 {city} {Math.round(myTemp)}°C
               </Text>
@@ -204,12 +204,7 @@ const HomeScreen = () => {
               style={styles.button1}
               onPress={() => navigation.navigate("DressingScreen")}
             >
-              <FontAwesomeIcon
-                icon={faTshirt}
-                size={20}
-                style={[styles.icon, styles.whiteText]}
-              />
-              <Text style={styles.buttonText}>Dressing de {user.username}</Text>
+              <Text style={styles.buttonText}>Dressing</Text>
             </TouchableOpacity>
             {/* <TouchableOpacity style={styles.button2}>
             <Text style={styles.buttonText}>Valider proposition</Text>
@@ -306,10 +301,10 @@ const styles = StyleSheet.create({
   },
   button1: {
     backgroundColor: "#FCA311",
-    flexDirection: "row",
-    width: 200,
-    height: 50,
+    padding: 15,
     borderRadius: 8,
+    width: "85%",
+    height: 55,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -323,15 +318,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: "black",
+    fontWeight: "600",
     fontSize: 16,
-  },
-
-  whiteText: {
-    color: "#fff",
-  },
-  icon: {
-    marginRight: 10,
   },
 });

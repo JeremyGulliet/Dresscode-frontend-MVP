@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   userNameText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "gray",
+    color: "lightgray",
   },
 });
 
