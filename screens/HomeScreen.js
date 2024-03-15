@@ -160,6 +160,7 @@ const HomeScreen = () => {
                 style={styles.weatherImage}
                 source={weatherImagePath}
               ></Image>
+              <Text style={styles.temperatureText}>Bonjour {user.username} !</Text>
               <Text style={styles.temperatureText}>
                 {city} {Math.round(myTemp)}°C
               </Text>
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
   },
   weatherContainer: {
     alignItems: "center",
-    padding: 20,
+    padding: 10,
     backgroundColor: "whitesmoke",
     justifyContent: "space-around",
     // borderColor: "blue",
@@ -269,11 +270,11 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     resizeMode: "contain",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   temperatureText: {
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     color: "black",
   },
   clothingContainer: {

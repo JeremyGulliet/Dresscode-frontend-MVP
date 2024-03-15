@@ -94,20 +94,7 @@ export default function AddArticleScreen({ navigation }) {
                 <Text style={styles.text}>Dressing</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.dressingContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("DressingScreen")}
-                style={styles.buttonContent}
-              >
-                <FontAwesome
-                  name="black-tie"
-                  size={70}
-                  color="#000000"
-                  style={styles.icon}
-                />
-                <Text style={styles.text}>Dressing</Text>
-              </TouchableOpacity>
-            </View>
+
           </View>
 
         </View>

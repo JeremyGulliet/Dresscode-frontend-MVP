@@ -11,7 +11,6 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
-  Keyboard,
 } from "react-native";
 import HeaderCompo from "../components/headerCompo.js";
 import FooterCompo from "../components/footerCompo.js";

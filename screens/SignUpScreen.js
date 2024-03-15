@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Platform,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -30,6 +31,7 @@ const PASSWORD_REGEX =
 
 const SignUp = () => {
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -114,17 +116,24 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+
+    <ImageBackground
+      source={require("../assets/home/Dressing.jpg.webp")}
+      // imageStyle={{ opacity: 0.7 }}
+      style={styles.backgroundImage}
+    >
       <KeyboardAwareScrollView
         contentContainerStyle={styles.contentContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.logoContainer}>
           {/* Affichage du logo */}
-          <Image
-            source={require("../assets/DressCodeLogo.png")}
-            style={styles.logo}
-          />
+          <View style={styles.logoBackground}>
+            <Image
+              source={require("../assets/DressCodeLogo.png")}
+              style={styles.logo}
+            />
+          </View>
         </View>
 
         {/* Champs de saisie pour l'inscription */}
@@ -140,13 +149,13 @@ const SignUp = () => {
           )}
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="Email ( mail@monmail.fr )"
             value={email}
             onChangeText={(value) => setEmail(value)}
           />
           {emailError && (
             <Text style={styles.error}>
-              Champ vide ou format adresse mail non valide (ex: mail@monmail.fr)
+              Champ vide ou format adresse mail non valide
             </Text>
           )}
 
@@ -163,7 +172,10 @@ const SignUp = () => {
             </Text>
           )}
           {/* Bouton pour l'inscription */}
-          <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => handleRegister()}
+          >
             <Text style={styles.btnText}>Register</Text>
           </TouchableOpacity>
           {/* Lien vers la page de connexion */}
@@ -196,38 +208,47 @@ const SignUp = () => {
           </View> */}
         </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </ImageBackground>
+
   );
 };
 
 export default SignUp;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   // scrollView: {
   //   flex: 1,
   // },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   contentContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
   },
+
   logoContainer: {
     flex: 1.5,
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "red",
+  },
+  logoBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 160,
+    backgroundColor: "rgba(245, 245, 245, 0.9)",
+    borderRadius: 8,
   },
   logo: {
     width: "100%",
@@ -282,7 +303,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   login: {
-    color: "gray",
+    color: "white",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 16,
@@ -292,12 +313,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "gray",
+    borderColor: "white",
   },
   underlineText: {
     justifyContent: "center",
     alignItems: "center",
-    color: "gray",
+    color: "white",
     fontSize: 16,
   },
   // loginLogo: {
@@ -314,5 +335,8 @@ const styles = StyleSheet.create({
   // },
   error: {
     color: "red",
+    backgroundColor: "rgba(245, 245, 245, 0.85)",
+    borderRadius: 8,
+    textAlign: "center",
   },
 });
