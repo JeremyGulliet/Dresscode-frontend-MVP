@@ -116,83 +116,83 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require("../assets/home/Dressing.jpg.webp")}
-        // imageStyle={{ opacity: 0.7 }}
-        style={styles.backgroundImage}
+
+    <ImageBackground
+      source={require("../assets/home/Dressing.jpg.webp")}
+      // imageStyle={{ opacity: 0.7 }}
+      style={styles.backgroundImage}
+    >
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.contentContainer}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.contentContainer}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <View style={styles.logoContainer}>
-            {/* Affichage du logo */}
-            <View style={styles.logoBackground}>
-              <Image
-                source={require("../assets/DressCodeLogo.png")}
-                style={styles.logo}
-              />
-            </View>
+        <View style={styles.logoContainer}>
+          {/* Affichage du logo */}
+          <View style={styles.logoBackground}>
+            <Image
+              source={require("../assets/DressCodeLogo.png")}
+              style={styles.logo}
+            />
           </View>
+        </View>
 
-          {/* Champs de saisie pour l'inscription */}
-          <View style={styles.userInterface}>
-            <TextInput
-              style={styles.input}
-              placeholder="Username"
-              value={username}
-              onChangeText={(value) => setUsername(value)}
-            />
-            {usernameError && (
-              <Text style={styles.error}>Champ vide ou format non valide</Text>
-            )}
-            <TextInput
-              style={styles.input}
-              placeholder="Email ( mail@monmail.fr )"
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-            />
-            {emailError && (
-              <Text style={styles.error}>
-                Champ vide ou format adresse mail non valide
-              </Text>
-            )}
+        {/* Champs de saisie pour l'inscription */}
+        <View style={styles.userInterface}>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={(value) => setUsername(value)}
+          />
+          {usernameError && (
+            <Text style={styles.error}>Champ vide ou format non valide</Text>
+          )}
+          <TextInput
+            style={styles.input}
+            placeholder="Email ( mail@monmail.fr )"
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          {emailError && (
+            <Text style={styles.error}>
+              Champ vide ou format adresse mail non valide
+            </Text>
+          )}
 
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              secureTextEntry
-            />
-            {passwordError && (
-              <Text style={styles.error}>
-                Champ vide ou format de mot de passe non valide
-              </Text>
-            )}
-            {/* Bouton pour l'inscription */}
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => handleRegister()}
-            >
-              <Text style={styles.btnText}>Register</Text>
-            </TouchableOpacity>
-            {/* Lien vers la page de connexion */}
-            <TouchableOpacity
-              style={styles.loginTextContainer}
-              onPress={() => navigation.navigate("SignIn")}
-            >
-              <View style={styles.normalText}>
-                <Text style={styles.login}>Déjà inscrit ? </Text>
-              </View>
-              <View style={styles.underlineTextView}>
-                <Text style={styles.underlineText}>Connexion</Text>
-              </View>
-            </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry
+          />
+          {passwordError && (
+            <Text style={styles.error}>
+              Champ vide ou format de mot de passe non valide
+            </Text>
+          )}
+          {/* Bouton pour l'inscription */}
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => handleRegister()}
+          >
+            <Text style={styles.btnText}>Register</Text>
+          </TouchableOpacity>
+          {/* Lien vers la page de connexion */}
+          <TouchableOpacity
+            style={styles.loginTextContainer}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            <View style={styles.normalText}>
+              <Text style={styles.login}>Déjà inscrit ? </Text>
+            </View>
+            <View style={styles.underlineTextView}>
+              <Text style={styles.underlineText}>Connexion</Text>
+            </View>
+          </TouchableOpacity>
 
-            {/* Affichage des logos de connexion */}
-            {/* <View style={styles.loginLogo}>
+          {/* Affichage des logos de connexion */}
+          {/* <View style={styles.loginLogo}>
             <Image
               source={require("../assets/loginMicrosoft.png")}
               style={{ width: 50, height: 50 }}
@@ -206,21 +206,17 @@ const SignUp = () => {
               style={{ width: 50, height: 50 }}
             />
           </View> */}
-          </View>
-        </KeyboardAwareScrollView>
-      </ImageBackground>
-    </SafeAreaView>
+        </View>
+      </KeyboardAwareScrollView>
+    </ImageBackground>
+
   );
 };
 
 export default SignUp;
 
 const styles = StyleSheet.create({
-
-  // scrollView: {
-  //   flex: 1,
-  // },
-  backgroundImage: {
+  container: {
     flex: 1,
 
     backgroundColor: "white",
