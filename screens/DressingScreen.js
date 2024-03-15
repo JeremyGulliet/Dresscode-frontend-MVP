@@ -396,9 +396,9 @@ const styles = StyleSheet.create({
     // borderColor: "red",
   },
   imageDressing: {
-    height: 150,
+    height: 130,
     width: 150,
-    resizeMode: "contain",
+    //resizeMode: "contain",
     borderRadius: 8,
     marginHorizontal: 10,
   },
